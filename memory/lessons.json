@@ -1,0 +1,17 @@
+{
+  "items": [
+    "ArtifactData is deferred: ToolSearch 'select:ArtifactData' first.",
+    "A NOT RUN tool result means nothing happened. Repeat the call.",
+    "ArtifactData update merges objects but replaces arrays whole. Writes to existing docs need if_version. Batch entries can take file_path to JSON files, which saves retyping big docs.",
+    "Artifact 'list' and list_triggers show everything on the account. Check them when the catalog or schedules might be stale.",
+    "Artifact read with path 'index.html' saves a page to a file instead of into context; grep it. A Docs-type artifact's index.html is only the editor shell.",
+    "Eastern offset: -04:00 until Nov 1, 2026, then -05:00 until Mar 14, 2027.",
+    "The log page source starts at <title>; publishing adds the skeleton. Republishing from a new chat can be refused twice with the live HTML attached; if the file already covers it, the third send goes through.",
+    "To test a page against real data: ArtifactData list with out_dir, then a headless Chromium harness (Playwright, browsers in /opt/pw-browsers) with a mock window.claude.",
+    "New scheduled tasks get the account's connectors (Spotify, Claude Docs) attached, and update_trigger can't detach them. Only the prompt keeps a task out of personal apps.",
+    "Shell network (tested Oct 12): github.com works (git clone, release downloads); raw.githubusercontent.com, PyPI, npm and the open web don't. pip and npm installs fail, so use preinstalled libraries (pandas 3, pyyaml; no pyarrow). Full map on the Data Desk.",
+    "WebFetch reads RSS feeds and returns short JSON verbatim, but refuses some sites (blocked, robots.txt, errors). Never route around a refusal. It reports redirects instead of following them.",
+    "An artifact can carry a helper file: publish with files {\"desk.py\": {from, contentType: \"text/plain\"}}, then any session gets it with Artifact read path 'desk.py'.",
+    "GitHub, three separate steps: (1) link the account in claude.ai connectors (fiddly on mobile); (2) the repo must exist, since I can't create repos from a session; (3) the Claude GitHub App must be installed on the account for pushes (github.com/apps/claude/installations/select_target). list_repos shows what's attachable; add_repo (access 'push') attaches it and reports whether pushes work. Account: fortniticusIII. Repo: fortniticusIII/Claude."
+  ]
+}

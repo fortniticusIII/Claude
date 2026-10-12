@@ -1,0 +1,322 @@
+<title>The Band Skill Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#EDEEEA; --surface:#F8F8F5; --ink:#18181B; --ink2:#3D3F45; --muted:#686B72; --line:#D4D5CF;
+  --accent:#7A3E8C; --accent-soft:#EBDDEF; --bar:#B3B3B8; --warn:#8E5A10;
+  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121214; --surface:#1B1B1F; --ink:#EAEAE6; --ink2:#C6C6C9; --muted:#9698A0; --line:#2D2D33;
+    --accent:#C99BD8; --accent-soft:#34253B; --bar:#4E4F56; --warn:#E2A95E; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121214; --surface:#1B1B1F; --ink:#EAEAE6; --ink2:#C6C6C9; --muted:#9698A0; --line:#2D2D33;
+  --accent:#C99BD8; --accent-soft:#34253B; --bar:#4E4F56; --warn:#E2A95E; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font:15px/1.6 var(--sans); padding-inline:16px; padding-block:0 48px}
+.wrap{max-width:960px; margin:0 auto; display:flex; flex-direction:column; gap:56px}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; letter-spacing:-0.01em}
+h2{font-size:clamp(1.5rem,3.4vw,2rem); font-weight:700; line-height:1.15}
+h3{font-size:1.05rem; font-weight:700}
+p{margin:0; max-width:66ch}
+.eyebrow{font:500 12px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+section{display:flex; flex-direction:column; gap:18px}
+.lede{color:var(--ink2)}
+.hero{padding-top:40px; display:flex; flex-direction:column; gap:18px}
+.staff{display:grid; gap:7px; margin-bottom:6px}
+.staff i{display:block; height:1px; background:var(--line)}
+.hero h1{font-size:clamp(2.8rem,9vw,5.6rem); font-weight:800; line-height:.95; letter-spacing:-0.03em}
+.hero h1 span{color:var(--accent)}
+.hero .q{font:500 1.05rem/1.4 var(--sans); color:var(--ink2)}
+.lineup{font:400 13px/1.5 var(--mono); color:var(--muted)}
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+.stat{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:4px}
+.stat b{font:700 1.9rem/1 var(--display); font-variant-numeric:tabular-nums}
+.stat span{font-size:13px; color:var(--muted); line-height:1.4}
+.runner{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); gap:24px; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:20px}
+@media (max-width:720px){ .runner{grid-template-columns:1fr} }
+.runner h2{font-size:clamp(1.8rem,5vw,2.6rem); font-weight:800}
+.callout{border-left:3px solid var(--warn); padding:4px 0 4px 16px; display:flex; flex-direction:column; gap:8px}
+.callout h3{color:var(--warn)}
+.dimt td:first-child{font:700 1rem var(--display); color:var(--accent); width:36px}
+.dimt td{font-size:13.5px; color:var(--ink2); vertical-align:top}
+.dimt td b{color:var(--ink); font-weight:600}
+ol.steps{list-style:none; margin:0; padding:0; counter-reset:s}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:40px 1fr; gap:4px 12px; padding-block:14px; border-top:1px solid var(--line)}
+ol.steps li::before{content:counter(s); grid-row:span 2; font:700 1.1rem/1.4 var(--mono); color:var(--muted)}
+ol.steps p{font-size:14px; color:var(--ink2)}
+.scroll{overflow-x:auto; border:1px solid var(--line); border-radius:6px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14px}
+th{font:500 11px/1.3 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); text-align:left; padding:10px; border-bottom:1px solid var(--line); white-space:nowrap}
+td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.rank{font:500 13px var(--mono); color:var(--muted); width:28px}
+.who b{font-weight:600}
+.who small{display:block; color:var(--muted); font-size:12px}
+.barcell{min-width:150px}
+.bar{display:flex; align-items:center; gap:8px}
+.bar .track{flex:1; height:8px; position:relative}
+.bar .fill{position:absolute; left:0; top:0; bottom:0; background:var(--bar); border-radius:0 4px 4px 0; min-width:2px}
+.bar .fill.hi{background:var(--accent)}
+.bar .v{font:400 12px var(--mono); color:var(--ink2); width:40px; text-align:right}
+tr.row{cursor:pointer}
+tr.row:hover td, tr.row:focus-visible td{background:var(--accent-soft)}
+tr.row:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+tr.detail td{background:var(--bg); padding:12px 14px}
+.dwrap{position:sticky; left:14px; max-width:calc(100vw - 62px)}
+.seats{display:flex; flex-direction:column; gap:6px}
+.seat{display:grid; grid-template-columns:minmax(0,1.4fr) repeat(7, 30px) 44px; gap:6px; align-items:center; font-size:12.5px}
+.seat.h{font:500 10px var(--mono); color:var(--muted); letter-spacing:.05em}
+.seat span.c{font:400 12px var(--mono); text-align:center; border-radius:3px; padding:2px 0}
+.seat .tot{font:600 12px var(--mono); text-align:right}
+.seat small{color:var(--muted)}
+.chiprow{display:flex; flex-wrap:wrap; gap:6px}
+.chiprow button{font:500 12px/1 var(--sans); padding:8px 11px; border-radius:99px; border:1px solid var(--line); background:var(--bg); color:var(--ink); cursor:pointer}
+.chiprow button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--surface)}
+.chiprow button:focus-visible, input[type=range]:focus-visible, select:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.note{font-size:13px; color:var(--muted)}
+.lab{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:20px}
+@media (max-width:720px){ .lab{grid-template-columns:1fr} }
+.ctrl{display:flex; flex-direction:column; gap:14px}
+.ctrl label.lbl{font:500 11px var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+select{font:14px var(--sans); padding:8px 10px; border-radius:6px; border:1px solid var(--line); background:var(--bg); color:var(--ink); max-width:100%}
+.sl{display:grid; grid-template-columns:150px 1fr 40px; gap:10px; align-items:center; font-size:13px}
+.sl output{font:400 12px var(--mono); color:var(--muted); text-align:right}
+input[type=range]{width:100%; accent-color:var(--accent)}
+.live{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.live li{display:grid; grid-template-columns:22px minmax(0,1.3fr) minmax(0,1fr) 36px; gap:10px; align-items:center; font-size:13px}
+.live .rk{font:500 12px var(--mono); color:var(--muted)}
+.live .t{height:8px; position:relative}
+.live .t i{position:absolute; inset:0 auto 0 0; background:var(--bar); border-radius:0 4px 4px 0}
+.live li:first-child .t i{background:var(--accent)}
+.live li:first-child .nm{font-weight:600}
+.live .sc{font:400 12px var(--mono); color:var(--ink2); text-align:right}
+ul.lim{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:10px; max-width:70ch; color:var(--ink2)}
+footer{font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:16px}
+footer a{color:var(--accent)}
+.aggt td, .aggt th{font-size:13px}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="staff" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="eyebrow">44 bands · 199 seats · 7 dimensions · 120,000 simulated weightings</div>
+    <p class="q">Which band had the most skilled lineup, scored player by player?</p>
+    <h1><span>Weather</span> Report</h1>
+    <p class="lineup">1978–80 · Joe Zawinul, Wayne Shorter, Jaco Pastorius, Peter Erskine</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="runner">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="eyebrow">Rock, prog, metal &amp; alt only</div>
+      <h2>Led Zeppelin</h2>
+      <p class="lineup">Plant, Page, Jones, Bonham</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <p class="lede" id="rockLine"></p>
+      <p class="note">Led Zeppelin's lead rests on John Paul Jones (bass, keys, arranging) and John Bonham. No seat in the band is weak.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>Why jazz sweeps the top nine</h3>
+    <p>Averaging individual skill rewards bands where every seat is a virtuoso who improvises over hard harmony. That describes jazz and fusion groups almost by definition. Most rock bands have one or two elite players and a steady supporting seat, which pulls the average down. The index measures the players in a lineup. It does not measure songs, sound, or how well the band played together.</p>
+  </div>
+
+  <section>
+    <div class="eyebrow">Step 1 · Scoring a musician</div>
+    <h2>One scale for every instrument</h2>
+    <p class="lede">You can't compare a drummer's notes per second with a singer's. So each seat is scored 0–10 against the ceiling of its own instrument: 10 means among the best ever on that instrument, on that dimension. That lets a bassist, a saxophonist and a singer sit on one scale.</p>
+    <p class="lede">A <b>seat</b> is one member's main instrument. A principal lead singer gets a second seat for the voice, so Geddy Lee counts as Rush's bassist and as Rush's singer. Band score = the average of its seats.</p>
+    <div class="scroll"><table class="dimt">
+      <thead><tr><th></th><th>Dimension</th><th>Instrumentalist</th><th>Singer</th></tr></thead>
+      <tbody>
+        <tr><td>F</td><td><b>Facility</b></td><td>Speed and difficulty ceiling</td><td>Agility: runs, melisma, fast articulation</td></tr>
+        <tr><td>P</td><td><b>Precision</b></td><td>Timing and intonation accuracy</td><td>Pitch accuracy in cents, live consistency</td></tr>
+        <tr><td>V</td><td><b>Vocabulary</b></td><td>Harmonic vocabulary (drums: rhythmic and orchestration vocabulary)</td><td>Range in octaves, plus control across registers</td></tr>
+        <tr><td>R</td><td><b>Rhythmic complexity</b></td><td>Odd meters, polyrhythm, syncopation</td><td>Rhythmic phrasing</td></tr>
+        <tr><td>M</td><td><b>Improvisation</b></td><td>Real-time invention</td><td>Ad-lib, scat, melodic invention</td></tr>
+        <tr><td>G</td><td><b>Versatility</b></td><td>Genres played at professional level</td><td>Genres sung at professional level</td></tr>
+        <tr><td>E</td><td><b>Expression</b></td><td>Dynamics, tone, touch</td><td>Dynamics, timbre, breath control</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Step 2 · The math</div>
+    <h2>Same approach as the guitarist index</h2>
+    <ol class="steps">
+      <li><h3>Score every seat</h3><p>Each of 199 seats gets seven 0–10 scores from recorded evidence, each relative to its instrument's ceiling. The band's classic lineup is used.</p></li>
+      <li><h3>Average the seats</h3><p>A seat's score is the weighted mean of its seven dimensions. The band's score is the plain average of its seats.</p></li>
+      <li><h3>Try every weighting</h3><p>100,000 weight vectors drawn uniformly across all ways of balancing the seven dimensions. I record how often each band is #1 and its average rank.</p></li>
+      <li><h3>Add measurement error</h3><p>20,000 more draws, each adding independent noise (±0.75 points, one standard deviation) to every score of every seat.</p></li>
+      <li><h3>Swap the averaging rule</h3><p>Five other ways to combine members: average per person instead of per seat, each person's best role only, the median seat, the weakest seat, and the geometric mean.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="eyebrow">Step 3 · Results</div>
+    <h2>The ranking</h2>
+    <div class="chiprow" id="catF" role="group" aria-label="Filter by style"></div>
+    <div class="scroll">
+      <table id="rankT">
+        <thead><tr><th>#</th><th>Band</th><th>Avg seat</th><th class="r">Chance of #1</th><th class="r">With error</th><th class="r">Avg rank</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" id="rankNote">Chance of #1 is the share of random weightings where the band tops the list shown. Tap a band to see every seat's scores.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Try it</div>
+    <h2>Set your own weights</h2>
+    <p class="lede">Choose what matters and how to combine the members. Try "Weakest seat" to rank by the band's least skilled member.</p>
+    <div class="lab">
+      <div class="ctrl">
+        <div class="chiprow" id="labCat" role="group" aria-label="Style"></div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label class="lbl" for="aggSel">Combine members by</label>
+          <select id="aggSel">
+            <option value="mean">Mean of seats</option><option value="person">Mean of people</option>
+            <option value="best_role">Best role per person</option><option value="median">Median seat</option>
+            <option value="min">Weakest seat</option><option value="geo">Geometric mean</option>
+          </select>
+        </div>
+        <div id="sliders" style="display:flex;flex-direction:column;gap:10px"></div>
+        <div class="chiprow"><button type="button" id="reset">Reset weights</button></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:10px">Top 10</h3>
+        <ol class="live" id="live"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Step 4 · Trying to break it</div>
+    <h2>Does the averaging rule matter?</h2>
+    <div class="scroll"><table class="aggt" id="aggT"><thead><tr><th>Combine members by</th><th>#1 overall</th><th>#1 rock / prog / metal / alt</th></tr></thead><tbody></tbody></table></div>
+    <p class="lede" id="sizeLine"></p>
+  </section>
+
+  <section>
+    <div class="eyebrow">What this can't tell you</div>
+    <h2>Limits of the model</h2>
+    <ul class="lim">
+      <li><b>The inputs are estimates.</b> Nobody has measured these 199 seats on one standard. Scores come from recordings and documented work. The noise test shows how much that uncertainty moves things; the top two stay stable, and the rock race shifts.</li>
+      <li><b>No ensemble score.</b> You asked for individual skill averaged across members, so tightness, arrangement, songwriting and chemistry are left out. A band could rank low here and still be the better band.</li>
+      <li><b>"Relative to the instrument's ceiling" is a judgment.</b> It decides how a great drummer compares with a great singer. There's no neutral way to do that; this rule at least treats every instrument the same.</li>
+      <li><b>Lineup choice matters.</b> Each band is scored at one classic lineup. Dream Theater with Mike Mangini or Yes with Trevor Rabin would score differently.</li>
+      <li><b>The pool decides who can win.</b> 44 bands across jazz, fusion, rock, prog, metal and alt. Funk, soul and big bands (Tower of Power, Earth, Wind &amp; Fire) aren't in it yet.</li>
+    </ul>
+  </section>
+
+  <footer>Method: per-instrument 0–10 seat scores, seat-mean aggregation, Dirichlet Monte Carlo over 7 dimension weights (seed 7), Gaussian seat-level noise, five alternative aggregators. Companion to The Guitar Skill Index.</footer>
+</div>
+
+<script>
+const D = {"dims": [{"key": "F", "name": "Facility"}, {"key": "P", "name": "Precision"}, {"key": "V", "name": "Vocabulary"}, {"key": "R", "name": "Rhythmic complexity"}, {"key": "M", "name": "Improvisation"}, {"key": "G", "name": "Versatility"}, {"key": "E", "name": "Expression"}], "N": 100000, "N2": 20000, "corr_size": 0.055, "bands": [{"name": "Weather Report", "cat": "Fusion", "lineup": "1978–80", "seats": [{"who": "Joe Zawinul", "role": "keys", "s": [8, 9, 9.5, 9.5, 9.5, 9, 9.5], "score": 9.14}, {"who": "Wayne Shorter", "role": "sax", "s": [8, 9, 10, 9, 10, 8, 9.5], "score": 9.07}, {"who": "Jaco Pastorius", "role": "bass", "s": [10, 9.5, 9.5, 9.5, 10, 9, 10], "score": 9.64}, {"who": "Peter Erskine", "role": "drums", "s": [8.5, 9.5, 9, 9, 9, 10, 9], "score": 9.14}], "score": 9.25, "p1": 0.7612, "mean_rank": 1.3, "p1_noise": 0.5962, "mean_rank_noise": 1.74, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 9.25, "Mean of people": 9.25, "Best role per person": 9.25, "Median seat": 9.143, "Weakest seat": 9.071, "Geometric mean": 9.247}, "agg_ranks": {"Mean of seats": 1, "Mean of people": 1, "Best role per person": 1, "Median seat": 1, "Weakest seat": 1, "Geometric mean": 1}}, {"name": "Miles Davis Quintet", "cat": "Jazz", "lineup": "1965–68", "seats": [{"who": "Miles Davis", "role": "trumpet", "s": [7, 7.5, 10, 9, 10, 7, 10], "score": 8.64}, {"who": "Wayne Shorter", "role": "sax", "s": [8, 9, 10, 9, 10, 8, 9.5], "score": 9.07}, {"who": "Herbie Hancock", "role": "piano", "s": [9, 9, 10, 9.5, 10, 10, 9.5], "score": 9.57}, {"who": "Ron Carter", "role": "bass", "s": [8, 9.5, 9.5, 9, 9, 9, 8.5], "score": 8.93}, {"who": "Tony Williams", "role": "drums", "s": [10, 9, 10, 10, 10, 8, 9.5], "score": 9.5}], "score": 9.143, "p1": 0.1762, "mean_rank": 2.24, "p1_noise": 0.2313, "mean_rank_noise": 2.57, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 9.143, "Mean of people": 9.143, "Best role per person": 9.143, "Median seat": 9.071, "Weakest seat": 8.643, "Geometric mean": 9.136}, "agg_ranks": {"Mean of seats": 2, "Mean of people": 2, "Best role per person": 2, "Median seat": 2, "Weakest seat": 2, "Geometric mean": 2}}, {"name": "Chick Corea Elektric Band", "cat": "Fusion", "lineup": "1986–91", "seats": [{"who": "Chick Corea", "role": "keys", "s": [9.5, 9.5, 10, 9.5, 10, 10, 9], "score": 9.64}, {"who": "Frank Gambale", "role": "guitar", "s": [9.5, 9, 8.5, 8.5, 8, 6, 7.5], "score": 8.14}, {"who": "John Patitucci", "role": "bass", "s": [9.5, 9.5, 9.5, 9, 9.5, 9, 9], "score": 9.29}, {"who": "Dave Weckl", "role": "drums", "s": [9.5, 10, 9, 9.5, 8.5, 8, 8.5], "score": 9.0}, {"who": "Eric Marienthal", "role": "sax", "s": [8.5, 9, 8, 8.5, 8.5, 7, 8.5], "score": 8.29}], "score": 8.871, "p1": 0.0228, "mean_rank": 3.86, "p1_noise": 0.0478, "mean_rank_noise": 4.19, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.871, "Mean of people": 8.871, "Best role per person": 8.871, "Median seat": 9.0, "Weakest seat": 8.143, "Geometric mean": 8.853}, "agg_ranks": {"Mean of seats": 3, "Mean of people": 3, "Best role per person": 3, "Median seat": 3, "Weakest seat": 4, "Geometric mean": 3}}, {"name": "Return to Forever", "cat": "Fusion", "lineup": "1976", "seats": [{"who": "Chick Corea", "role": "keys", "s": [9.5, 9.5, 10, 9.5, 10, 10, 9], "score": 9.64}, {"who": "Al Di Meola", "role": "guitar", "s": [9.5, 9, 7.5, 9, 7, 7, 7.5], "score": 8.07}, {"who": "Stanley Clarke", "role": "bass", "s": [9.5, 9, 8.5, 9, 9, 8, 9], "score": 8.86}, {"who": "Lenny White", "role": "drums", "s": [9, 9, 8.5, 9, 9, 8, 8.5], "score": 8.71}], "score": 8.821, "p1": 0.0167, "mean_rank": 4.71, "p1_noise": 0.0508, "mean_rank_noise": 4.66, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.821, "Mean of people": 8.821, "Best role per person": 8.821, "Median seat": 8.786, "Weakest seat": 8.071, "Geometric mean": 8.804}, "agg_ranks": {"Mean of seats": 4, "Mean of people": 4, "Best role per person": 4, "Median seat": 7, "Weakest seat": 6, "Geometric mean": 4}}, {"name": "Oscar Peterson Trio", "cat": "Jazz", "lineup": "1959–65", "seats": [{"who": "Oscar Peterson", "role": "piano", "s": [10, 10, 9.5, 9, 10, 7, 9], "score": 9.21}, {"who": "Ray Brown", "role": "bass", "s": [9, 10, 9, 8.5, 9, 8, 9], "score": 8.93}, {"who": "Ed Thigpen", "role": "drums", "s": [7.5, 9.5, 8, 8, 8, 7, 9], "score": 8.14}], "score": 8.762, "p1": 0.0159, "mean_rank": 5.14, "p1_noise": 0.0306, "mean_rank_noise": 5.32, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.762, "Mean of people": 8.762, "Best role per person": 8.762, "Median seat": 8.929, "Weakest seat": 8.143, "Geometric mean": 8.75}, "agg_ranks": {"Mean of seats": 5, "Mean of people": 5, "Best role per person": 5, "Median seat": 4, "Weakest seat": 5, "Geometric mean": 5}}, {"name": "John Coltrane Quartet", "cat": "Jazz", "lineup": "1962–65", "seats": [{"who": "John Coltrane", "role": "sax", "s": [10, 9, 10, 9.5, 10, 6, 10], "score": 9.21}, {"who": "McCoy Tyner", "role": "piano", "s": [9.5, 9, 9.5, 9, 9.5, 6, 9], "score": 8.79}, {"who": "Jimmy Garrison", "role": "bass", "s": [7.5, 8.5, 8.5, 8.5, 8.5, 5, 8], "score": 7.79}, {"who": "Elvin Jones", "role": "drums", "s": [9, 8.5, 10, 10, 10, 6, 9.5], "score": 9.0}], "score": 8.696, "p1": 0.0063, "mean_rank": 5.47, "p1_noise": 0.0267, "mean_rank_noise": 6.03, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.696, "Mean of people": 8.696, "Best role per person": 8.696, "Median seat": 8.893, "Weakest seat": 7.786, "Geometric mean": 8.679}, "agg_ranks": {"Mean of seats": 6, "Mean of people": 6, "Best role per person": 6, "Median seat": 5, "Weakest seat": 8, "Geometric mean": 6}}, {"name": "Bill Evans Trio", "cat": "Jazz", "lineup": "1959–61", "seats": [{"who": "Bill Evans", "role": "piano", "s": [8, 9.5, 10, 9, 9.5, 6, 10], "score": 8.86}, {"who": "Scott LaFaro", "role": "bass", "s": [10, 9, 9.5, 9, 10, 5, 9], "score": 8.79}, {"who": "Paul Motian", "role": "drums", "s": [6.5, 8.5, 8.5, 8, 9, 6, 9.5], "score": 8.0}], "score": 8.548, "p1": 0.0, "mean_rank": 7.38, "p1_noise": 0.0118, "mean_rank_noise": 7.57, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.548, "Mean of people": 8.548, "Best role per person": 8.548, "Median seat": 8.786, "Weakest seat": 8.0, "Geometric mean": 8.539}, "agg_ranks": {"Mean of seats": 7, "Mean of people": 7, "Best role per person": 7, "Median seat": 6, "Weakest seat": 7, "Geometric mean": 7}}, {"name": "Mahavishnu Orchestra", "cat": "Fusion", "lineup": "1971–73", "seats": [{"who": "John McLaughlin", "role": "guitar", "s": [9.5, 8.5, 9.5, 10, 9.5, 9, 8.5], "score": 9.21}, {"who": "Jerry Goodman", "role": "violin", "s": [8.5, 8, 8, 9, 8, 7, 8], "score": 8.07}, {"who": "Jan Hammer", "role": "keys", "s": [9, 8.5, 8.5, 9.5, 9, 8, 8.5], "score": 8.71}, {"who": "Rick Laird", "role": "bass", "s": [7, 8.5, 7.5, 8.5, 7, 6, 7.5], "score": 7.43}, {"who": "Billy Cobham", "role": "drums", "s": [10, 9, 9, 10, 9, 8, 8.5], "score": 9.07}], "score": 8.5, "p1": 0.0, "mean_rank": 7.8, "p1_noise": 0.0008, "mean_rank_noise": 7.64, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.5, "Mean of people": 8.5, "Best role per person": 8.5, "Median seat": 8.714, "Weakest seat": 7.429, "Geometric mean": 8.473}, "agg_ranks": {"Mean of seats": 8, "Mean of people": 8, "Best role per person": 8, "Median seat": 8, "Weakest seat": 10, "Geometric mean": 8}}, {"name": "Tribal Tech", "cat": "Fusion", "lineup": "1991–2000", "seats": [{"who": "Scott Henderson", "role": "guitar", "s": [9, 8.5, 8.5, 9, 9, 7, 9], "score": 8.57}, {"who": "Gary Willis", "role": "bass", "s": [9, 9.5, 9, 9, 9, 6, 8.5], "score": 8.57}, {"who": "Scott Kinsey", "role": "keys", "s": [8, 8.5, 9, 9, 8.5, 7, 8.5], "score": 8.36}, {"who": "Kirk Covington", "role": "drums", "s": [8.5, 8.5, 8.5, 9, 8.5, 7, 8.5], "score": 8.36}], "score": 8.464, "p1": 0.0, "mean_rank": 8.27, "p1_noise": 0.001, "mean_rank_noise": 7.7, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 8.464, "Mean of people": 8.464, "Best role per person": 8.464, "Median seat": 8.464, "Weakest seat": 8.357, "Geometric mean": 8.464}, "agg_ranks": {"Mean of seats": 9, "Mean of people": 9, "Best role per person": 9, "Median seat": 9, "Weakest seat": 3, "Geometric mean": 9}}, {"name": "Led Zeppelin", "cat": "Rock", "lineup": "1968–80", "seats": [{"who": "Robert Plant", "role": "vocals", "s": [7.5, 7, 8.5, 7.5, 7.5, 7, 9], "score": 7.71}, {"who": "Jimmy Page", "role": "guitar", "s": [7.5, 6, 7.5, 8, 8, 8, 9], "score": 7.71}, {"who": "John Paul Jones", "role": "bass", "s": [8, 9, 8.5, 8.5, 7.5, 9, 8.5], "score": 8.43}, {"who": "John Bonham", "role": "drums", "s": [9, 9, 8.5, 8.5, 8.5, 6, 10], "score": 8.5}], "score": 8.089, "p1": 0.0, "mean_rank": 11.09, "p1_noise": 0.0001, "mean_rank_noise": 11.39, "p1_rock": 0.4662, "p1_rock_noise": 0.4073, "aggs": {"Mean of seats": 8.089, "Mean of people": 8.089, "Best role per person": 8.089, "Median seat": 8.071, "Weakest seat": 7.714, "Geometric mean": 8.081}, "agg_ranks": {"Mean of seats": 10, "Mean of people": 10, "Best role per person": 10, "Median seat": 11, "Weakest seat": 9, "Geometric mean": 10}}, {"name": "Yes", "cat": "Prog", "lineup": "1971–72", "seats": [{"who": "Jon Anderson", "role": "vocals", "s": [7, 8.5, 8, 8.5, 4, 5, 8.5], "score": 7.07}, {"who": "Steve Howe", "role": "guitar", "s": [8.5, 8, 8.5, 8.5, 7.5, 9, 8.5], "score": 8.36}, {"who": "Chris Squire", "role": "bass", "s": [8, 8.5, 7.5, 8.5, 6, 4, 8.5], "score": 7.29}, {"who": "Rick Wakeman", "role": "keys", "s": [9.5, 8.5, 8.5, 8, 8, 7, 8], "score": 8.21}, {"who": "Bill Bruford", "role": "drums", "s": [8.5, 9, 9, 9.5, 8.5, 8, 8.5], "score": 8.71}], "score": 7.929, "p1": 0.0, "mean_rank": 12.08, "p1_noise": 0.0, "mean_rank_noise": 12.55, "p1_rock": 0.0025, "p1_rock_noise": 0.0843, "aggs": {"Mean of seats": 7.929, "Mean of people": 7.929, "Best role per person": 7.929, "Median seat": 8.214, "Weakest seat": 7.071, "Geometric mean": 7.903}, "agg_ranks": {"Mean of seats": 11, "Mean of people": 11, "Best role per person": 11, "Median seat": 10, "Weakest seat": 13, "Geometric mean": 11}}, {"name": "Toto", "cat": "Rock", "lineup": "1982", "seats": [{"who": "Bobby Kimball", "role": "vocals", "s": [7, 7, 8, 7, 5, 5, 8], "score": 6.71}, {"who": "Steve Lukather", "role": "guitar", "s": [9, 9.5, 8.5, 8.5, 9, 9, 9], "score": 8.93}, {"who": "David Paich", "role": "keys", "s": [8, 9, 8.5, 8, 8, 9, 8.5], "score": 8.43}, {"who": "Steve Porcaro", "role": "synth", "s": [6, 8.5, 7, 6.5, 5, 7, 7.5], "score": 6.79}, {"who": "David Hungate", "role": "bass", "s": [7, 9.5, 7, 7.5, 6, 9, 7.5], "score": 7.64}, {"who": "Jeff Porcaro", "role": "drums", "s": [8.5, 10, 8.5, 9, 7.5, 10, 9.5], "score": 9.0}], "score": 7.917, "p1": 0.0, "mean_rank": 12.72, "p1_noise": 0.0, "mean_rank_noise": 13.42, "p1_rock": 0.1578, "p1_rock_noise": 0.1437, "aggs": {"Mean of seats": 7.917, "Mean of people": 7.917, "Best role per person": 7.917, "Median seat": 8.036, "Weakest seat": 6.714, "Geometric mean": 7.86}, "agg_ranks": {"Mean of seats": 12, "Mean of people": 12, "Best role per person": 12, "Median seat": 12, "Weakest seat": 17, "Geometric mean": 13}}, {"name": "Animals as Leaders", "cat": "Metal", "lineup": "2010–", "seats": [{"who": "Tosin Abasi", "role": "guitar", "s": [9.5, 9, 8, 9, 6, 3, 7.5], "score": 7.43}, {"who": "Javier Reyes", "role": "guitar", "s": [9, 9, 7.5, 9, 5.5, 4, 7.5], "score": 7.36}, {"who": "Matt Garstka", "role": "drums", "s": [10, 9.5, 9.5, 10, 8.5, 6, 9], "score": 8.93}], "score": 7.905, "p1": 0.0007, "mean_rank": 13.41, "p1_noise": 0.0028, "mean_rank_noise": 14.21, "p1_rock": 0.3721, "p1_rock_noise": 0.2938, "aggs": {"Mean of seats": 7.905, "Mean of people": 7.905, "Best role per person": 7.905, "Median seat": 7.429, "Weakest seat": 7.357, "Geometric mean": 7.873}, "agg_ranks": {"Mean of seats": 13, "Mean of people": 13, "Best role per person": 13, "Median seat": 23, "Weakest seat": 11, "Geometric mean": 12}}, {"name": "The Police", "cat": "Rock", "lineup": "1978–83", "seats": [{"who": "Sting", "role": "vocals", "s": [6, 8, 8, 8, 6, 7, 8.5], "score": 7.36}, {"who": "Sting", "role": "bass", "s": [6.5, 8.5, 7, 8, 5, 7, 7.5], "score": 7.07}, {"who": "Andy Summers", "role": "guitar", "s": [7, 8.5, 8.5, 8, 7.5, 8, 8], "score": 7.93}, {"who": "Stewart Copeland", "role": "drums", "s": [8.5, 8, 9, 9.5, 7.5, 7, 8.5], "score": 8.29}], "score": 7.661, "p1": 0.0, "mean_rank": 16.67, "p1_noise": 0.0, "mean_rank_noise": 17.26, "p1_rock": 0.0, "p1_rock_noise": 0.0134, "aggs": {"Mean of seats": 7.661, "Mean of people": 7.81, "Best role per person": 7.857, "Median seat": 7.643, "Weakest seat": 7.071, "Geometric mean": 7.646}, "agg_ranks": {"Mean of seats": 14, "Mean of people": 15, "Best role per person": 15, "Median seat": 17, "Weakest seat": 14, "Geometric mean": 14}}, {"name": "Cream", "cat": "Rock", "lineup": "1966–68", "seats": [{"who": "Jack Bruce", "role": "vocals", "s": [6, 7.5, 7.5, 7.5, 6.5, 6, 8.5], "score": 7.07}, {"who": "Jack Bruce", "role": "bass", "s": [8, 8, 8.5, 8, 8.5, 7, 8.5], "score": 8.07}, {"who": "Eric Clapton", "role": "guitar", "s": [7, 8, 6, 7, 8.5, 5, 9], "score": 7.21}, {"who": "Ginger Baker", "role": "drums", "s": [8.5, 8, 8.5, 9, 8.5, 7, 8], "score": 8.21}], "score": 7.643, "p1": 0.0, "mean_rank": 17.32, "p1_noise": 0.0, "mean_rank_noise": 17.78, "p1_rock": 0.0003, "p1_rock_noise": 0.0226, "aggs": {"Mean of seats": 7.643, "Mean of people": 7.667, "Best role per person": 7.833, "Median seat": 7.643, "Weakest seat": 7.071, "Geometric mean": 7.626}, "agg_ranks": {"Mean of seats": 15, "Mean of people": 17, "Best role per person": 18, "Median seat": 18, "Weakest seat": 12, "Geometric mean": 15}}, {"name": "Queen", "cat": "Rock", "lineup": "1974–86", "seats": [{"who": "Freddie Mercury", "role": "vocals", "s": [8.5, 8.5, 9.5, 8, 7, 9, 10], "score": 8.64}, {"who": "Brian May", "role": "guitar", "s": [8, 9, 8, 7.5, 6.5, 7, 9.5], "score": 7.93}, {"who": "John Deacon", "role": "bass", "s": [6.5, 9, 6.5, 7, 4, 7, 7.5], "score": 6.79}, {"who": "Roger Taylor", "role": "drums", "s": [7.5, 8.5, 7, 7, 5, 6, 8], "score": 7.0}], "score": 7.589, "p1": 0.0, "mean_rank": 18.44, "p1_noise": 0.0, "mean_rank_noise": 19.06, "p1_rock": 0.0002, "p1_rock_noise": 0.0118, "aggs": {"Mean of seats": 7.589, "Mean of people": 7.589, "Best role per person": 7.589, "Median seat": 7.464, "Weakest seat": 6.786, "Geometric mean": 7.553}, "agg_ranks": {"Mean of seats": 16, "Mean of people": 19, "Best role per person": 19, "Median seat": 21, "Weakest seat": 16, "Geometric mean": 16}}, {"name": "Dream Theater", "cat": "Metal", "lineup": "1992–99", "seats": [{"who": "James LaBrie", "role": "vocals", "s": [6.5, 6.5, 8, 7, 4, 4, 7.5], "score": 6.21}, {"who": "John Petrucci", "role": "guitar", "s": [9.5, 9.5, 7, 9, 6.5, 5, 8.5], "score": 7.86}, {"who": "John Myung", "role": "bass", "s": [9, 9, 7, 9, 6, 4, 7], "score": 7.29}, {"who": "Jordan Rudess", "role": "keys", "s": [10, 9.5, 8.5, 9, 8, 7, 7.5], "score": 8.5}, {"who": "Mike Portnoy", "role": "drums", "s": [9, 8.5, 8, 9.5, 7, 5, 8], "score": 7.86}], "score": 7.543, "p1": 0.0, "mean_rank": 19.4, "p1_noise": 0.0, "mean_rank_noise": 19.89, "p1_rock": 0.0, "p1_rock_noise": 0.0035, "aggs": {"Mean of seats": 7.543, "Mean of people": 7.543, "Best role per person": 7.543, "Median seat": 7.857, "Weakest seat": 6.214, "Geometric mean": 7.502}, "agg_ranks": {"Mean of seats": 17, "Mean of people": 20, "Best role per person": 20, "Median seat": 13, "Weakest seat": 27, "Geometric mean": 18}}, {"name": "King Crimson", "cat": "Prog", "lineup": "1973–74", "seats": [{"who": "John Wetton", "role": "vocals", "s": [5.5, 7.5, 6.5, 7, 4, 4, 8], "score": 6.07}, {"who": "John Wetton", "role": "bass", "s": [7.5, 8, 7, 8, 7, 5, 8], "score": 7.21}, {"who": "Robert Fripp", "role": "guitar", "s": [9, 9.5, 9, 9.5, 8.5, 6, 8], "score": 8.5}, {"who": "David Cross", "role": "violin", "s": [7, 7.5, 7.5, 7.5, 8, 5, 7.5], "score": 7.14}, {"who": "Bill Bruford", "role": "drums", "s": [8.5, 9, 9, 9.5, 8.5, 8, 8.5], "score": 8.71}], "score": 7.529, "p1": 0.0, "mean_rank": 19.44, "p1_noise": 0.0, "mean_rank_noise": 19.84, "p1_rock": 0.0, "p1_rock_noise": 0.0011, "aggs": {"Mean of seats": 7.529, "Mean of people": 7.75, "Best role per person": 7.893, "Median seat": 7.214, "Weakest seat": 6.071, "Geometric mean": 7.465}, "agg_ranks": {"Mean of seats": 18, "Mean of people": 16, "Best role per person": 14, "Median seat": 27, "Weakest seat": 32, "Geometric mean": 19}}, {"name": "The Mars Volta", "cat": "Alt", "lineup": "2003–08", "seats": [{"who": "Cedric Bixler-Zavala", "role": "vocals", "s": [7, 6.5, 8, 8, 7, 6, 9], "score": 7.36}, {"who": "Omar Rodríguez-López", "role": "guitar", "s": [8, 7, 7.5, 8.5, 8.5, 6, 8], "score": 7.64}, {"who": "Juan Alderete", "role": "bass", "s": [7, 8.5, 6.5, 8, 6, 5, 7], "score": 6.86}, {"who": "Isaiah Owens", "role": "keys", "s": [7, 8, 8, 8, 7.5, 6, 7.5], "score": 7.43}, {"who": "Jon Theodore", "role": "drums", "s": [9, 8.5, 8.5, 9.5, 8.5, 6, 8.5], "score": 8.36}], "score": 7.529, "p1": 0.0, "mean_rank": 19.75, "p1_noise": 0.0, "mean_rank_noise": 19.93, "p1_rock": 0.0, "p1_rock_noise": 0.0024, "aggs": {"Mean of seats": 7.529, "Mean of people": 7.529, "Best role per person": 7.529, "Median seat": 7.429, "Weakest seat": 6.857, "Geometric mean": 7.513}, "agg_ranks": {"Mean of seats": 19, "Mean of people": 21, "Best role per person": 21, "Median seat": 22, "Weakest seat": 15, "Geometric mean": 17}}, {"name": "Emerson, Lake & Palmer", "cat": "Prog", "lineup": "1970–74", "seats": [{"who": "Greg Lake", "role": "vocals", "s": [5.5, 8.5, 7, 7, 4, 5, 8.5], "score": 6.5}, {"who": "Greg Lake", "role": "bass", "s": [6.5, 8, 6.5, 7.5, 5, 5, 7], "score": 6.5}, {"who": "Keith Emerson", "role": "keys", "s": [9.5, 8.5, 9, 9, 9, 8, 8.5], "score": 8.79}, {"who": "Carl Palmer", "role": "drums", "s": [9.5, 8.5, 8.5, 9, 7.5, 7, 8], "score": 8.29}], "score": 7.518, "p1": 0.0, "mean_rank": 19.37, "p1_noise": 0.0, "mean_rank_noise": 20.09, "p1_rock": 0.0, "p1_rock_noise": 0.0008, "aggs": {"Mean of seats": 7.518, "Mean of people": 7.857, "Best role per person": 7.857, "Median seat": 7.393, "Weakest seat": 6.5, "Geometric mean": 7.447}, "agg_ranks": {"Mean of seats": 20, "Mean of people": 14, "Best role per person": 16, "Median seat": 25, "Weakest seat": 20, "Geometric mean": 21}}, {"name": "Rush", "cat": "Prog", "lineup": "1980s", "seats": [{"who": "Geddy Lee", "role": "vocals", "s": [6.5, 8, 8, 8, 3, 4, 7], "score": 6.36}, {"who": "Geddy Lee", "role": "bass", "s": [8.5, 9, 7.5, 9, 6.5, 5, 8], "score": 7.64}, {"who": "Alex Lifeson", "role": "guitar", "s": [7.5, 8.5, 7.5, 8.5, 7, 6, 8.5], "score": 7.64}, {"who": "Neil Peart", "role": "drums", "s": [9, 10, 9, 9.5, 6, 6, 8.5], "score": 8.29}], "score": 7.482, "p1": 0.0, "mean_rank": 20.16, "p1_noise": 0.0, "mean_rank_noise": 20.85, "p1_rock": 0.0, "p1_rock_noise": 0.0046, "aggs": {"Mean of seats": 7.482, "Mean of people": 7.643, "Best role per person": 7.857, "Median seat": 7.643, "Weakest seat": 6.357, "Geometric mean": 7.448}, "agg_ranks": {"Mean of seats": 21, "Mean of people": 18, "Best role per person": 17, "Median seat": 16, "Weakest seat": 23, "Geometric mean": 20}}, {"name": "Gentle Giant", "cat": "Prog", "lineup": "1972–75", "seats": [{"who": "Derek Shulman", "role": "vocals", "s": [5.5, 7.5, 6.5, 8, 4, 5, 8], "score": 6.36}, {"who": "Kerry Minnear", "role": "keys", "s": [8, 9, 9.5, 9.5, 6, 8, 8.5], "score": 8.36}, {"who": "Gary Green", "role": "guitar", "s": [7.5, 8.5, 7.5, 9, 7, 5, 7.5], "score": 7.43}, {"who": "Ray Shulman", "role": "bass", "s": [8, 8.5, 8, 9, 6, 8, 7.5], "score": 7.86}, {"who": "John Weathers", "role": "drums", "s": [7.5, 9, 7.5, 9, 6, 5, 7.5], "score": 7.36}], "score": 7.471, "p1": 0.0, "mean_rank": 20.88, "p1_noise": 0.0, "mean_rank_noise": 20.93, "p1_rock": 0.0, "p1_rock_noise": 0.0024, "aggs": {"Mean of seats": 7.471, "Mean of people": 7.471, "Best role per person": 7.471, "Median seat": 7.429, "Weakest seat": 6.357, "Geometric mean": 7.441}, "agg_ranks": {"Mean of seats": 22, "Mean of people": 22, "Best role per person": 23, "Median seat": 24, "Weakest seat": 22, "Geometric mean": 22}}, {"name": "Genesis", "cat": "Prog", "lineup": "1973–75", "seats": [{"who": "Peter Gabriel", "role": "vocals", "s": [5, 7, 6.5, 7, 4, 6, 9], "score": 6.36}, {"who": "Steve Hackett", "role": "guitar", "s": [7.5, 8.5, 8, 8, 7, 7, 8.5], "score": 7.79}, {"who": "Tony Banks", "role": "keys", "s": [8, 8.5, 9, 8.5, 6, 5, 8], "score": 7.57}, {"who": "Mike Rutherford", "role": "bass", "s": [6.5, 8.5, 7, 8, 5, 5, 7.5], "score": 6.79}, {"who": "Phil Collins", "role": "drums", "s": [8.5, 9.5, 8.5, 9.5, 7.5, 8, 9], "score": 8.64}], "score": 7.429, "p1": 0.0, "mean_rank": 22.06, "p1_noise": 0.0, "mean_rank_noise": 21.96, "p1_rock": 0.0, "p1_rock_noise": 0.0004, "aggs": {"Mean of seats": 7.429, "Mean of people": 7.429, "Best role per person": 7.429, "Median seat": 7.571, "Weakest seat": 6.357, "Geometric mean": 7.386}, "agg_ranks": {"Mean of seats": 23, "Mean of people": 23, "Best role per person": 24, "Median seat": 19, "Weakest seat": 24, "Geometric mean": 23}}, {"name": "Journey", "cat": "Rock", "lineup": "1981–83", "seats": [{"who": "Steve Perry", "role": "vocals", "s": [8, 9, 9, 7.5, 6, 6, 9.5], "score": 7.86}, {"who": "Neal Schon", "role": "guitar", "s": [8.5, 8.5, 7, 7.5, 8, 6, 8.5], "score": 7.71}, {"who": "Jonathan Cain", "role": "keys", "s": [6.5, 8.5, 7, 6.5, 5, 5, 7], "score": 6.5}, {"who": "Ross Valory", "role": "bass", "s": [6, 8.5, 5.5, 6.5, 4, 4, 6.5], "score": 5.86}, {"who": "Steve Smith", "role": "drums", "s": [9, 9.5, 9, 9.5, 9, 9, 8.5], "score": 9.07}], "score": 7.4, "p1": 0.0, "mean_rank": 22.9, "p1_noise": 0.0, "mean_rank_noise": 22.85, "p1_rock": 0.0, "p1_rock_noise": 0.0004, "aggs": {"Mean of seats": 7.4, "Mean of people": 7.4, "Best role per person": 7.4, "Median seat": 7.714, "Weakest seat": 5.857, "Geometric mean": 7.314}, "agg_ranks": {"Mean of seats": 24, "Mean of people": 24, "Best role per person": 25, "Median seat": 15, "Weakest seat": 33, "Geometric mean": 24}}, {"name": "Deep Purple", "cat": "Rock", "lineup": "1969–73", "seats": [{"who": "Ian Gillan", "role": "vocals", "s": [6.5, 6.5, 7.5, 7, 6, 5, 8.5], "score": 6.71}, {"who": "Ritchie Blackmore", "role": "guitar", "s": [8.5, 8, 7, 7.5, 8, 5, 8.5], "score": 7.5}, {"who": "Jon Lord", "role": "keys", "s": [8.5, 8.5, 8.5, 7.5, 8.5, 7, 8.5], "score": 8.14}, {"who": "Roger Glover", "role": "bass", "s": [6, 8.5, 6, 6.5, 4, 5, 7], "score": 6.14}, {"who": "Ian Paice", "role": "drums", "s": [9, 9, 8, 8, 7.5, 6, 8.5], "score": 8.0}], "score": 7.3, "p1": 0.0, "mean_rank": 25.67, "p1_noise": 0.0, "mean_rank_noise": 24.99, "p1_rock": 0.0, "p1_rock_noise": 0.0001, "aggs": {"Mean of seats": 7.3, "Mean of people": 7.3, "Best role per person": 7.3, "Median seat": 7.5, "Weakest seat": 6.143, "Geometric mean": 7.259}, "agg_ranks": {"Mean of seats": 25, "Mean of people": 26, "Best role per person": 27, "Median seat": 20, "Weakest seat": 29, "Geometric mean": 25}}, {"name": "Allman Brothers Band", "cat": "Rock", "lineup": "1970–71", "seats": [{"who": "Gregg Allman", "role": "vocals", "s": [5, 7.5, 6, 7, 6, 6, 9], "score": 6.64}, {"who": "Duane Allman", "role": "guitar", "s": [7.5, 8, 7.5, 7.5, 9.5, 6, 10], "score": 8.0}, {"who": "Dickey Betts", "role": "guitar", "s": [7.5, 8, 7.5, 7, 9, 6, 8.5], "score": 7.64}, {"who": "Gregg Allman", "role": "organ", "s": [6, 7.5, 7, 7, 7, 6, 8], "score": 6.93}, {"who": "Berry Oakley", "role": "bass", "s": [6.5, 8, 7, 7.5, 8, 5, 7.5], "score": 7.07}, {"who": "Butch Trucks", "role": "drums", "s": [6.5, 8, 7, 7.5, 7, 5, 7.5], "score": 6.93}, {"who": "Jaimoe", "role": "drums", "s": [7, 8.5, 8, 8, 7.5, 6, 8], "score": 7.57}], "score": 7.255, "p1": 0.0, "mean_rank": 26.57, "p1_noise": 0.0, "mean_rank_noise": 26.25, "p1_rock": 0.0, "p1_rock_noise": 0.0004, "aggs": {"Mean of seats": 7.255, "Mean of people": 7.333, "Best role per person": 7.357, "Median seat": 7.071, "Weakest seat": 6.643, "Geometric mean": 7.241}, "agg_ranks": {"Mean of seats": 26, "Mean of people": 25, "Best role per person": 26, "Median seat": 28, "Weakest seat": 18, "Geometric mean": 26}}, {"name": "Tool", "cat": "Metal", "lineup": "2001–06", "seats": [{"who": "Maynard James Keenan", "role": "vocals", "s": [6, 8.5, 7, 8.5, 4, 6, 9], "score": 7.0}, {"who": "Adam Jones", "role": "guitar", "s": [6, 9, 6.5, 9, 4, 3, 8], "score": 6.5}, {"who": "Justin Chancellor", "role": "bass", "s": [7, 9, 7, 9, 5, 3, 8], "score": 6.86}, {"who": "Danny Carey", "role": "drums", "s": [9.5, 9.5, 9.5, 10, 7, 6, 9], "score": 8.64}], "score": 7.25, "p1": 0.0, "mean_rank": 25.45, "p1_noise": 0.0001, "mean_rank_noise": 25.71, "p1_rock": 0.0004, "p1_rock_noise": 0.006, "aggs": {"Mean of seats": 7.25, "Mean of people": 7.25, "Best role per person": 7.25, "Median seat": 6.929, "Weakest seat": 6.5, "Geometric mean": 7.206}, "agg_ranks": {"Mean of seats": 27, "Mean of people": 28, "Best role per person": 29, "Median seat": 31, "Weakest seat": 21, "Geometric mean": 27}}, {"name": "Red Hot Chili Peppers", "cat": "Rock", "lineup": "1989–2006", "seats": [{"who": "Anthony Kiedis", "role": "vocals", "s": [5, 5.5, 5, 7.5, 4, 4, 7], "score": 5.43}, {"who": "John Frusciante", "role": "guitar", "s": [6.5, 8, 7.5, 8, 8, 6, 9], "score": 7.57}, {"who": "Flea", "role": "bass", "s": [8.5, 9, 7, 9, 7.5, 7, 8.5], "score": 8.07}, {"who": "Chad Smith", "role": "drums", "s": [8.5, 9.5, 7.5, 8.5, 7, 6, 8.5], "score": 7.93}], "score": 7.25, "p1": 0.0, "mean_rank": 26.82, "p1_noise": 0.0, "mean_rank_noise": 26.07, "p1_rock": 0.0, "p1_rock_noise": 0.0002, "aggs": {"Mean of seats": 7.25, "Mean of people": 7.25, "Best role per person": 7.25, "Median seat": 7.75, "Weakest seat": 5.429, "Geometric mean": 7.161}, "agg_ranks": {"Mean of seats": 28, "Mean of people": 27, "Best role per person": 28, "Median seat": 14, "Weakest seat": 37, "Geometric mean": 28}}, {"name": "Soundgarden", "cat": "Alt", "lineup": "1991–97", "seats": [{"who": "Chris Cornell", "role": "vocals", "s": [7.5, 8, 9, 8, 5, 5, 9.5], "score": 7.43}, {"who": "Kim Thayil", "role": "guitar", "s": [6.5, 7.5, 7, 9, 6.5, 3, 7.5], "score": 6.71}, {"who": "Ben Shepherd", "role": "bass", "s": [6, 8, 6.5, 8.5, 4, 4, 7], "score": 6.29}, {"who": "Matt Cameron", "role": "drums", "s": [8.5, 9, 8, 9.5, 7, 7, 8.5], "score": 8.21}], "score": 7.161, "p1": 0.0, "mean_rank": 28.5, "p1_noise": 0.0, "mean_rank_noise": 27.76, "p1_rock": 0.0, "p1_rock_noise": 0.0001, "aggs": {"Mean of seats": 7.161, "Mean of people": 7.161, "Best role per person": 7.161, "Median seat": 7.071, "Weakest seat": 6.286, "Geometric mean": 7.124}, "agg_ranks": {"Mean of seats": 29, "Mean of people": 29, "Best role per person": 30, "Median seat": 29, "Weakest seat": 25, "Geometric mean": 29}}, {"name": "The Beatles", "cat": "Rock", "lineup": "1962–70", "seats": [{"who": "John Lennon", "role": "vocals", "s": [5, 7.5, 6.5, 7, 5, 6, 9.5], "score": 6.64}, {"who": "Paul McCartney", "role": "vocals", "s": [7, 8.5, 8.5, 7.5, 6.5, 9, 9.5], "score": 8.07}, {"who": "John Lennon", "role": "guitar", "s": [5, 7.5, 6, 7, 4, 6, 7.5], "score": 6.14}, {"who": "George Harrison", "role": "guitar", "s": [6, 8, 7, 7, 5, 7, 8.5], "score": 6.93}, {"who": "Paul McCartney", "role": "bass", "s": [7, 9, 8.5, 7.5, 6.5, 8, 8.5], "score": 7.86}, {"who": "Ringo Starr", "role": "drums", "s": [6, 9, 7, 7.5, 4, 6, 8.5], "score": 6.86}], "score": 7.083, "p1": 0.0, "mean_rank": 29.79, "p1_noise": 0.0, "mean_rank_noise": 29.39, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 7.083, "Mean of people": 7.036, "Best role per person": 7.125, "Median seat": 6.893, "Weakest seat": 6.143, "Geometric mean": 7.052}, "agg_ranks": {"Mean of seats": 30, "Mean of people": 31, "Best role per person": 31, "Median seat": 33, "Weakest seat": 30, "Geometric mean": 30}}, {"name": "Radiohead", "cat": "Alt", "lineup": "1995–2011", "seats": [{"who": "Thom Yorke", "role": "vocals", "s": [7, 8.5, 8, 8.5, 5, 6, 9.5], "score": 7.5}, {"who": "Jonny Greenwood", "role": "guitar", "s": [7, 8.5, 9, 9, 7, 8, 8.5], "score": 8.14}, {"who": "Ed O'Brien", "role": "guitar", "s": [5, 8, 6, 7, 5, 5, 7.5], "score": 6.21}, {"who": "Colin Greenwood", "role": "bass", "s": [6, 8.5, 7, 8, 5, 5, 7], "score": 6.64}, {"who": "Phil Selway", "role": "drums", "s": [6.5, 9, 7, 8.5, 4.5, 5, 7.5], "score": 6.86}], "score": 7.071, "p1": 0.0, "mean_rank": 30.47, "p1_noise": 0.0, "mean_rank_noise": 29.77, "p1_rock": 0.0, "p1_rock_noise": 0.0001, "aggs": {"Mean of seats": 7.071, "Mean of people": 7.071, "Best role per person": 7.071, "Median seat": 6.857, "Weakest seat": 6.214, "Geometric mean": 7.04}, "agg_ranks": {"Mean of seats": 31, "Mean of people": 30, "Best role per person": 32, "Median seat": 34, "Weakest seat": 26, "Geometric mean": 31}}, {"name": "Faith No More", "cat": "Alt", "lineup": "1992", "seats": [{"who": "Mike Patton", "role": "vocals", "s": [9, 9, 10, 8.5, 8.5, 10, 9.5], "score": 9.21}, {"who": "Jim Martin", "role": "guitar", "s": [6, 7.5, 5.5, 7, 4, 3, 6.5], "score": 5.64}, {"who": "Billy Gould", "role": "bass", "s": [7.5, 8.5, 6.5, 8, 5, 6, 7.5], "score": 7.0}, {"who": "Roddy Bottum", "role": "keys", "s": [5.5, 7.5, 6.5, 7, 4, 5, 7], "score": 6.07}, {"who": "Mike Bordin", "role": "drums", "s": [7.5, 8.5, 7, 8, 5, 5, 7.5], "score": 6.93}], "score": 6.971, "p1": 0.0, "mean_rank": 32.44, "p1_noise": 0.0, "mean_rank_noise": 32.14, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.971, "Mean of people": 6.971, "Best role per person": 6.971, "Median seat": 6.929, "Weakest seat": 5.643, "Geometric mean": 6.871}, "agg_ranks": {"Mean of seats": 32, "Mean of people": 33, "Best role per person": 34, "Median seat": 32, "Weakest seat": 34, "Geometric mean": 33}}, {"name": "The Who", "cat": "Rock", "lineup": "1969–78", "seats": [{"who": "Roger Daltrey", "role": "vocals", "s": [5.5, 7, 7, 6.5, 4, 4, 9], "score": 6.14}, {"who": "Pete Townshend", "role": "guitar", "s": [6, 6.5, 7, 7.5, 6.5, 5, 8.5], "score": 6.71}, {"who": "John Entwistle", "role": "bass", "s": [9, 8.5, 7.5, 8, 7.5, 5, 8.5], "score": 7.71}, {"who": "Keith Moon", "role": "drums", "s": [8.5, 6, 8, 8, 8, 4, 8.5], "score": 7.29}], "score": 6.964, "p1": 0.0, "mean_rank": 31.87, "p1_noise": 0.0, "mean_rank_noise": 31.28, "p1_rock": 0.0, "p1_rock_noise": 0.0001, "aggs": {"Mean of seats": 6.964, "Mean of people": 6.964, "Best role per person": 6.964, "Median seat": 7.0, "Weakest seat": 6.143, "Geometric mean": 6.939}, "agg_ranks": {"Mean of seats": 33, "Mean of people": 34, "Best role per person": 35, "Median seat": 30, "Weakest seat": 28, "Geometric mean": 32}}, {"name": "Primus", "cat": "Alt", "lineup": "1989–96", "seats": [{"who": "Les Claypool", "role": "vocals", "s": [3, 6, 4, 7, 5, 3, 6.5], "score": 4.93}, {"who": "Les Claypool", "role": "bass", "s": [9, 9, 7, 9, 8, 5, 8], "score": 7.86}, {"who": "Larry LaLonde", "role": "guitar", "s": [7, 7.5, 6.5, 8, 7.5, 4, 7], "score": 6.79}, {"who": "Tim Alexander", "role": "drums", "s": [8.5, 9, 8, 9.5, 7.5, 5, 8], "score": 7.93}], "score": 6.875, "p1": 0.0, "mean_rank": 33.29, "p1_noise": 0.0, "mean_rank_noise": 32.88, "p1_rock": 0.0, "p1_rock_noise": 0.0001, "aggs": {"Mean of seats": 6.875, "Mean of people": 7.036, "Best role per person": 7.524, "Median seat": 7.321, "Weakest seat": 4.929, "Geometric mean": 6.756}, "agg_ranks": {"Mean of seats": 34, "Mean of people": 32, "Best role per person": 22, "Median seat": 26, "Weakest seat": 41, "Geometric mean": 34}}, {"name": "Muse", "cat": "Alt", "lineup": "2001–09", "seats": [{"who": "Matt Bellamy", "role": "vocals", "s": [7.5, 7.5, 8.5, 7.5, 5, 6, 8.5], "score": 7.21}, {"who": "Matt Bellamy", "role": "guitar", "s": [8, 7.5, 7, 7.5, 7, 6, 8], "score": 7.29}, {"who": "Chris Wolstenholme", "role": "bass", "s": [6.5, 8.5, 5.5, 7, 4, 4, 7], "score": 6.07}, {"who": "Dominic Howard", "role": "drums", "s": [7.5, 8.5, 6.5, 7.5, 4.5, 4, 7], "score": 6.5}], "score": 6.768, "p1": 0.0, "mean_rank": 35.46, "p1_noise": 0.0, "mean_rank_noise": 34.78, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.768, "Mean of people": 6.607, "Best role per person": 6.619, "Median seat": 6.857, "Weakest seat": 6.071, "Geometric mean": 6.749}, "agg_ranks": {"Mean of seats": 35, "Mean of people": 38, "Best role per person": 38, "Median seat": 35, "Weakest seat": 31, "Geometric mean": 35}}, {"name": "Meshuggah", "cat": "Metal", "lineup": "1998–2008", "seats": [{"who": "Jens Kidman", "role": "vocals", "s": [4, 7, 4, 8.5, 2, 1, 6.5], "score": 4.71}, {"who": "Fredrik Thordendal", "role": "guitar", "s": [8.5, 9.5, 8.5, 10, 8.5, 4, 8], "score": 8.14}, {"who": "Mårten Hagström", "role": "guitar", "s": [7.5, 10, 6, 10, 4, 2, 7], "score": 6.64}, {"who": "Dick Lövgren", "role": "bass", "s": [7, 9.5, 5.5, 10, 3, 2, 6.5], "score": 6.21}, {"who": "Tomas Haake", "role": "drums", "s": [9.5, 10, 8.5, 10, 6, 4, 8.5], "score": 8.07}], "score": 6.757, "p1": 0.0, "mean_rank": 33.7, "p1_noise": 0.0, "mean_rank_noise": 34.26, "p1_rock": 0.0003, "p1_rock_noise": 0.0005, "aggs": {"Mean of seats": 6.757, "Mean of people": 6.757, "Best role per person": 6.757, "Median seat": 6.643, "Weakest seat": 4.714, "Geometric mean": 6.628}, "agg_ranks": {"Mean of seats": 36, "Mean of people": 35, "Best role per person": 36, "Median seat": 39, "Weakest seat": 44, "Geometric mean": 37}}, {"name": "Iron Maiden", "cat": "Metal", "lineup": "1983–88", "seats": [{"who": "Bruce Dickinson", "role": "vocals", "s": [7, 8, 8.5, 7.5, 4, 4, 9], "score": 6.86}, {"who": "Dave Murray", "role": "guitar", "s": [8, 8, 6, 7, 6.5, 3, 7.5], "score": 6.57}, {"who": "Adrian Smith", "role": "guitar", "s": [7.5, 8.5, 6.5, 7, 6.5, 4, 8], "score": 6.86}, {"who": "Steve Harris", "role": "bass", "s": [8.5, 9, 6.5, 8, 4, 3, 7], "score": 6.57}, {"who": "Nicko McBrain", "role": "drums", "s": [8.5, 9, 7, 7.5, 5, 3, 7.5], "score": 6.79}], "score": 6.729, "p1": 0.0, "mean_rank": 35.07, "p1_noise": 0.0, "mean_rank_noise": 34.66, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.729, "Mean of people": 6.729, "Best role per person": 6.729, "Median seat": 6.786, "Weakest seat": 6.571, "Geometric mean": 6.727}, "agg_ranks": {"Mean of seats": 37, "Mean of people": 36, "Best role per person": 37, "Median seat": 36, "Weakest seat": 19, "Geometric mean": 36}}, {"name": "Jimi Hendrix Experience", "cat": "Rock", "lineup": "1966–69", "seats": [{"who": "Jimi Hendrix", "role": "vocals", "s": [4, 6.5, 5.5, 7, 6, 4, 7.5], "score": 5.79}, {"who": "Jimi Hendrix", "role": "guitar", "s": [7, 6.5, 7.5, 8, 9, 5, 10], "score": 7.57}, {"who": "Noel Redding", "role": "bass", "s": [5.5, 7, 5, 6.5, 4, 3, 6.5], "score": 5.36}, {"who": "Mitch Mitchell", "role": "drums", "s": [8.5, 8, 8.5, 8.5, 9, 6, 8.5], "score": 8.14}], "score": 6.714, "p1": 0.0, "mean_rank": 35.74, "p1_noise": 0.0, "mean_rank_noise": 35.42, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.714, "Mean of people": 6.726, "Best role per person": 7.024, "Median seat": 6.679, "Weakest seat": 5.357, "Geometric mean": 6.612}, "agg_ranks": {"Mean of seats": 38, "Mean of people": 37, "Best role per person": 33, "Median seat": 38, "Weakest seat": 38, "Geometric mean": 38}}, {"name": "Black Sabbath", "cat": "Metal", "lineup": "1970–75", "seats": [{"who": "Ozzy Osbourne", "role": "vocals", "s": [4, 5.5, 4.5, 6, 3, 3, 7.5], "score": 4.79}, {"who": "Tony Iommi", "role": "guitar", "s": [6.5, 8, 6, 7.5, 6.5, 4, 8.5], "score": 6.71}, {"who": "Geezer Butler", "role": "bass", "s": [7.5, 8, 6.5, 7.5, 6.5, 4, 7.5], "score": 6.79}, {"who": "Bill Ward", "role": "drums", "s": [8, 7.5, 8, 8.5, 7.5, 6, 8], "score": 7.64}], "score": 6.482, "p1": 0.0, "mean_rank": 38.79, "p1_noise": 0.0, "mean_rank_noise": 38.31, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.482, "Mean of people": 6.482, "Best role per person": 6.482, "Median seat": 6.75, "Weakest seat": 4.786, "Geometric mean": 6.389}, "agg_ranks": {"Mean of seats": 39, "Mean of people": 39, "Best role per person": 40, "Median seat": 37, "Weakest seat": 43, "Geometric mean": 39}}, {"name": "Van Halen", "cat": "Rock", "lineup": "1978–84", "seats": [{"who": "David Lee Roth", "role": "vocals", "s": [5, 5.5, 6, 7, 6, 5, 8], "score": 6.07}, {"who": "Eddie Van Halen", "role": "guitar", "s": [9, 7.5, 6.5, 8.5, 7, 4, 8.5], "score": 7.29}, {"who": "Michael Anthony", "role": "bass", "s": [6, 8.5, 5, 6.5, 3, 3, 6.5], "score": 5.5}, {"who": "Alex Van Halen", "role": "drums", "s": [8, 8, 7, 8, 5, 4, 7.5], "score": 6.79}], "score": 6.411, "p1": 0.0, "mean_rank": 39.59, "p1_noise": 0.0, "mean_rank_noise": 39.03, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.411, "Mean of people": 6.411, "Best role per person": 6.411, "Median seat": 6.429, "Weakest seat": 5.5, "Geometric mean": 6.374}, "agg_ranks": {"Mean of seats": 40, "Mean of people": 40, "Best role per person": 41, "Median seat": 40, "Weakest seat": 35, "Geometric mean": 40}}, {"name": "Metallica", "cat": "Metal", "lineup": "1983–86", "seats": [{"who": "James Hetfield", "role": "vocals", "s": [5, 7.5, 5.5, 7, 3, 3, 7.5], "score": 5.5}, {"who": "James Hetfield", "role": "guitar", "s": [8.5, 10, 6, 8, 3, 3, 8], "score": 6.64}, {"who": "Kirk Hammett", "role": "guitar", "s": [8, 7, 6, 7.5, 6, 3, 7], "score": 6.36}, {"who": "Cliff Burton", "role": "bass", "s": [8, 8, 7.5, 7.5, 7, 6, 8], "score": 7.43}, {"who": "Lars Ulrich", "role": "drums", "s": [6.5, 6, 6.5, 7.5, 4, 3, 6.5], "score": 5.71}], "score": 6.329, "p1": 0.0, "mean_rank": 40.33, "p1_noise": 0.0, "mean_rank_noise": 39.88, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 6.329, "Mean of people": 6.393, "Best role per person": 6.536, "Median seat": 6.357, "Weakest seat": 5.5, "Geometric mean": 6.292}, "agg_ranks": {"Mean of seats": 41, "Mean of people": 41, "Best role per person": 39, "Median seat": 41, "Weakest seat": 36, "Geometric mean": 41}}, {"name": "Pink Floyd", "cat": "Rock", "lineup": "1973–79", "seats": [{"who": "David Gilmour", "role": "vocals", "s": [5, 8.5, 6, 6, 5, 4, 8.5], "score": 6.14}, {"who": "Roger Waters", "role": "vocals", "s": [3.5, 6.5, 5, 6, 3, 3, 8], "score": 5.0}, {"who": "David Gilmour", "role": "guitar", "s": [5.5, 9, 5.5, 6, 7.5, 4, 10], "score": 6.79}, {"who": "Roger Waters", "role": "bass", "s": [4.5, 7.5, 5, 6, 3, 3, 6.5], "score": 5.07}, {"who": "Richard Wright", "role": "keys", "s": [6, 8, 8, 6.5, 7, 5, 8], "score": 6.93}, {"who": "Nick Mason", "role": "drums", "s": [5, 8, 6, 6.5, 5, 4, 7], "score": 5.93}], "score": 5.976, "p1": 0.0, "mean_rank": 42.12, "p1_noise": 0.0, "mean_rank_noise": 41.98, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 5.976, "Mean of people": 6.089, "Best role per person": 6.179, "Median seat": 6.036, "Weakest seat": 5.0, "Geometric mean": 5.928}, "agg_ranks": {"Mean of seats": 42, "Mean of people": 42, "Best role per person": 42, "Median seat": 42, "Weakest seat": 40, "Geometric mean": 43}}, {"name": "Guns N' Roses", "cat": "Rock", "lineup": "1985–90", "seats": [{"who": "Axl Rose", "role": "vocals", "s": [6.5, 6, 8.5, 7, 4, 5, 8.5], "score": 6.5}, {"who": "Slash", "role": "guitar", "s": [7.5, 8, 6, 7, 7.5, 4, 9], "score": 7.0}, {"who": "Izzy Stradlin", "role": "guitar", "s": [5, 7.5, 5, 6.5, 4, 3, 6.5], "score": 5.36}, {"who": "Duff McKagan", "role": "bass", "s": [5.5, 8, 5, 6.5, 3, 4, 6.5], "score": 5.5}, {"who": "Steven Adler", "role": "drums", "s": [6, 7.5, 5.5, 6.5, 3, 3, 7], "score": 5.5}], "score": 5.971, "p1": 0.0, "mean_rank": 42.5, "p1_noise": 0.0, "mean_rank_noise": 42.26, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 5.971, "Mean of people": 5.971, "Best role per person": 5.971, "Median seat": 5.5, "Weakest seat": 5.357, "Geometric mean": 5.937}, "agg_ranks": {"Mean of seats": 43, "Mean of people": 43, "Best role per person": 43, "Median seat": 43, "Weakest seat": 39, "Geometric mean": 42}}, {"name": "Nirvana", "cat": "Alt", "lineup": "1991–94", "seats": [{"who": "Kurt Cobain", "role": "vocals", "s": [4, 5.5, 5, 6.5, 4, 3, 9], "score": 5.29}, {"who": "Kurt Cobain", "role": "guitar", "s": [4, 5.5, 4.5, 6, 4, 3, 7.5], "score": 4.93}, {"who": "Krist Novoselic", "role": "bass", "s": [4.5, 7, 4.5, 6, 3, 3, 6], "score": 4.86}, {"who": "Dave Grohl", "role": "drums", "s": [8, 8.5, 7, 7.5, 5, 6, 8.5], "score": 7.21}], "score": 5.571, "p1": 0.0, "mean_rank": 43.97, "p1_noise": 0.0, "mean_rank_noise": 43.75, "p1_rock": 0.0, "p1_rock_noise": 0.0, "aggs": {"Mean of seats": 5.571, "Mean of people": 5.726, "Best role per person": 5.786, "Median seat": 5.107, "Weakest seat": 4.857, "Geometric mean": 5.497}, "agg_ranks": {"Mean of seats": 44, "Mean of people": 44, "Best role per person": 44, "Median seat": 44, "Weakest seat": 42, "Geometric mean": 44}}]};
+const $ = s => document.querySelector(s);
+const pct = x => x > 0 && x < .01 ? "<1%" : Math.round(x*100) + "%";
+const B = D.bands, KEYS = D.dims.map(d=>d.key);
+const isRock = b => b.cat !== "Jazz" && b.cat !== "Fusion";
+const winner = B[0];
+const aggNames = Object.keys(winner.aggs);
+const aggWins = aggNames.filter(k => winner.agg_ranks[k] === 1).length;
+
+$("#stats").innerHTML = [
+  [winner.score.toFixed(2), "average seat score out of 10"],
+  [pct(winner.p1), "of all weightings put them #1"],
+  [pct(winner.p1_noise), "still #1 after adding measurement error"],
+  [`${aggWins}/${aggNames.length}`, "averaging rules with them at #1"],
+].map(([b,s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+
+const rk = B.filter(isRock).sort((a,b)=>b.p1_rock-a.p1_rock);
+$("#rockLine").textContent = `Among the 35 non-jazz bands, Led Zeppelin comes first in ${pct(rk[0].p1_rock)} of weightings (${pct(rk[0].p1_rock_noise)} with error). This race is close: ${rk[1].name} takes ${pct(rk[1].p1_rock)} and ${rk[2].name} ${pct(rk[2].p1_rock)}.`;
+
+// ranking table with filter
+const CATS = {"All": () => true, "Rock, prog, metal & alt": isRock, "Jazz & fusion": b => !isRock(b)};
+let cat = "All";
+function cellColor(v){ const a = Math.max(0, (v-4)/6); return `background:color-mix(in srgb, var(--accent) ${Math.round(a*55)}%, transparent)`; }
+function renderTable(){
+  const list = B.filter(CATS[cat]);
+  const rockView = cat === "Rock, prog, metal & alt";
+  const p = b => rockView ? b.p1_rock : b.p1, pn = b => rockView ? b.p1_rock_noise : b.p1_noise;
+  const maxS = Math.max(...list.map(b=>b.score)), minS = 5;
+  const tb = $("#rankT tbody"); tb.innerHTML = "";
+  list.forEach((b,i) => {
+    const tr = document.createElement("tr"); tr.className = "row"; tr.tabIndex = 0; tr.setAttribute("aria-expanded","false");
+    const showP = cat !== "Jazz & fusion";
+    tr.innerHTML = `<td class="rank">${i+1}</td><td class="who"><b>${b.name}</b><small>${b.cat} · ${b.lineup}</small></td>
+      <td class="barcell"><div class="bar"><div class="track"><div class="fill ${i===0?'hi':''}" style="width:${(b.score-minS)/(maxS-minS)*100}%"></div></div><span class="v">${b.score.toFixed(2)}</span></div></td>
+      <td class="r num">${showP ? pct(p(b)) : "–"}</td><td class="r num">${showP ? pct(pn(b)) : "–"}</td><td class="r num">${b.mean_rank.toFixed(1)}</td>`;
+    const det = document.createElement("tr"); det.className = "detail"; det.hidden = true;
+    det.innerHTML = `<td colspan="6"><div class="dwrap"><div class="seats">
+      <div class="seat h"><span>SEAT</span>${KEYS.map(k=>`<span class="c">${k}</span>`).join("")}<span class="tot">AVG</span></div>
+      ${b.seats.map(s=>`<div class="seat"><span>${s.who} <small>${s.role}</small></span>${s.s.map(v=>`<span class="c" style="${cellColor(v)}">${v}</span>`).join("")}<span class="tot">${s.score.toFixed(2)}</span></div>`).join("")}
+    </div></div></td>`;
+    const toggle = () => { det.hidden = !det.hidden; tr.setAttribute("aria-expanded", String(!det.hidden)); };
+    tr.addEventListener("click", toggle);
+    tr.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); }});
+    tb.append(tr, det);
+  });
+  $("#rankNote").textContent = cat === "Jazz & fusion"
+    ? "Chance of #1 is only computed for the full list and the rock list. Tap a band to see every seat's scores."
+    : `Chance of #1 is the share of random weightings where the band tops ${rockView ? "the rock / prog / metal / alt list" : "the full list"}. Tap a band to see every seat's scores.`;
+}
+function chips(el, cur, onPick){
+  el.innerHTML = Object.keys(CATS).map(c=>`<button type="button" data-c="${c}" aria-pressed="${c===cur}">${c}</button>`).join("");
+  el.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => {
+    el.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", String(x===btn))); onPick(btn.dataset.c);
+  }));
+}
+chips($("#catF"), cat, c => { cat = c; renderTable(); });
+renderTable();
+
+// lab
+let w = KEYS.map(()=>1), labCat = "All", agg = "mean";
+$("#sliders").innerHTML = D.dims.map((d,i)=>`<label class="sl" for="w${d.key}"><span>${d.name}</span><input type="range" id="w${d.key}" min="0" max="2" step="0.05" value="1"><output id="o${d.key}">1.00</output></label>`).join("");
+function combine(sc, seats){
+  const s = sc.slice();
+  if (agg === "mean") return s.reduce((a,b)=>a+b,0)/s.length;
+  if (agg === "min") return Math.min(...s);
+  if (agg === "geo") return Math.exp(s.reduce((a,b)=>a+Math.log(Math.max(b,.01)),0)/s.length);
+  if (agg === "median"){ s.sort((a,b)=>a-b); const m = s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; }
+  const by = {}; seats.forEach((st,i)=>{ (by[st.who] ||= []).push(sc[i]); });
+  const vals = Object.values(by).map(a => agg === "person" ? a.reduce((x,y)=>x+y,0)/a.length : Math.max(...a));
+  return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+function renderLab(){
+  const tot = w.reduce((a,b)=>a+b,0) || 1;
+  const res = B.filter(CATS[labCat]).map(b => {
+    const sc = b.seats.map(s => s.s.reduce((a,v,k)=>a+v*w[k],0)/tot);
+    return {n:b.name, v:combine(sc, b.seats)};
+  }).sort((a,b)=>b.v-a.v).slice(0,10);
+  const mx = res[0].v, mn = Math.min(...res.map(r=>r.v)) - 0.3;
+  $("#live").innerHTML = res.map((r,i)=>`<li><span class="rk">${i+1}</span><span class="nm">${r.n}</span><span class="t"><i style="width:${Math.max(4,(r.v-mn)/(mx-mn)*100)}%"></i></span><span class="sc">${r.v.toFixed(2)}</span></li>`).join("");
+  KEYS.forEach((k,i)=>{ $("#w"+k).value = w[i]; $("#o"+k).textContent = w[i].toFixed(2); });
+}
+KEYS.forEach((k,i)=>$("#w"+k).addEventListener("input", e => { w[i] = +e.target.value; renderLab(); }));
+$("#aggSel").addEventListener("change", e => { agg = e.target.value; renderLab(); });
+$("#reset").addEventListener("click", () => { w = KEYS.map(()=>1); renderLab(); });
+chips($("#labCat"), labCat, c => { labCat = c; renderLab(); });
+renderLab();
+
+// aggregator table
+$("#aggT tbody").innerHTML = aggNames.map(k => {
+  const all = B.slice().sort((a,b)=>b.aggs[k]-a.aggs[k])[0];
+  const rock = B.filter(isRock).sort((a,b)=>b.aggs[k]-a.aggs[k])[0];
+  return `<tr><td>${k}</td><td><b>${all.name}</b></td><td><b>${rock.name}</b></td></tr>`;
+}).join("");
+$("#sizeLine").textContent = `Weather Report comes first under every averaging rule, and Led Zeppelin wins the rock list under five of six. Band size barely matters: the correlation between number of members and score is ${D.corr_size.toFixed(2)}, so averaging doesn't reward small or large bands.`;
+</script>

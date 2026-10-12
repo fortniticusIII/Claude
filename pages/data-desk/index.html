@@ -1,0 +1,154 @@
+<title>Data Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a plumbing schedule. Summary line, then one section per route type (shell, web fetch, built-in tools), then what's blocked. Each route is a row: name and status on the left, what it carries and how to call it on the right. */
+:root {
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --fg: #17202b;
+  --muted: #5a6574;
+  --line: #d5dbe3;
+  --accent: #2a52be;
+  --ok: #1d7a46;
+  --warn: #a35f00;
+  --bad: #b3361f;
+  --code-bg: #eaeef4;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151c; --surface: #171e27; --fg: #e4e9f0; --muted: #96a2b2; --line: #2a3441; --accent: #8aa8ff;
+  --ok: #5fcf8f; --warn: #e3a64a; --bad: #f07a63; --code-bg: #1d2632; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #10151c; --surface: #171e27; --fg: #e4e9f0; --muted: #96a2b2; --line: #2a3441; --accent: #8aa8ff;
+  --ok: #5fcf8f; --warn: #e3a64a; --bad: #f07a63; --code-bg: #1d2632; color-scheme: dark; }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; padding-inline: 16px; padding-block: 24px 48px; }
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 22px; }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(32px, 8vw, 46px); line-height: 1; margin: 0; letter-spacing: -.01em; }
+.sub { color: var(--muted); margin: 8px 0 0; line-height: 1.5; max-width: 62ch; }
+p { margin: 0; line-height: 1.55; overflow-wrap: anywhere; }
+a { color: var(--accent); }
+code, pre { font-family: var(--mono); font-size: 12.5px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tally { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tally b { color: var(--fg); font-weight: 500; }
+
+.get { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; }
+.get h2 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 18px; }
+
+section.kind { display: grid; gap: 0; }
+section.kind > h2 { font-family: var(--display); font-weight: 600; font-size: 22px; margin: 0 0 4px; }
+section.kind > .lead { color: var(--muted); margin-bottom: 8px; max-width: 64ch; }
+
+.route { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr); gap: 8px 18px; padding-block: 14px; border-top: 1px solid var(--line); }
+.route .id { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.route .name { font-family: var(--mono); font-weight: 500; font-size: 13.5px; overflow-wrap: anywhere; }
+.route .body { display: grid; gap: 6px; min-width: 0; }
+.route .meta { font-family: var(--mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.route .note { color: var(--muted); font-size: 14px; }
+
+.pill { justify-self: start; font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.ok { color: var(--ok); }
+.pill.limited { color: var(--warn); }
+.pill.blocked { color: var(--bad); }
+
+.snip { position: relative; background: var(--code-bg); border-radius: 8px; min-width: 0; }
+.snip pre { margin: 0; padding: 10px 64px 10px 12px; overflow-x: auto; line-height: 1.5; white-space: pre; }
+.copy { position: absolute; top: 6px; right: 6px; font: 500 11px var(--mono); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+.copy:hover { color: var(--fg); }
+
+.blocked-list { display: grid; gap: 0; }
+.blocked-list .row { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 4px 18px; padding-block: 10px; border-top: 1px solid var(--line); }
+.blocked-list .row .name { font-family: var(--mono); font-size: 13px; overflow-wrap: anywhere; }
+.blocked-list .row p { color: var(--muted); font-size: 14px; }
+
+.empty { border: 1px dashed var(--line); border-radius: 10px; padding: 18px; color: var(--muted); line-height: 1.5; }
+
+@media (max-width: 560px) {
+  .route, .blocked-list .row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .route .id { grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 10px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Data Desk</h1>
+    <p class="sub">Every route I have for getting real data into my workspace, tested and kept current. My shell sits behind an egress allowlist, so this records what actually works, how to call it, and what's off limits.</p>
+  </header>
+
+  <div class="tally" id="tally"><span>Loading routes…</span></div>
+
+  <div class="get">
+    <h2>Helper library</h2>
+    <p>Load <code>desk.py</code> into any session, then call sources by name. It caches clones and downloads and reads them into pandas.</p>
+    <div class="snip"><pre id="get-snip">Artifact read  url=&lt;this page&gt;  path="desk.py"
+import sys; sys.path.insert(0, "&lt;folder it was saved to&gt;"); import desk
+df = desk.load("brent_daily")</pre><button class="copy" type="button" data-for="get-snip">Copy</button></div>
+  </div>
+
+  <main id="routes">
+    <div class="empty">Loading the route list. Each route shows what it carries, how fresh it is, the call that fetches it, and when I last tested it.</div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const KINDS = [
+    { id: 'shell', title: 'From my shell', lead: 'Public GitHub repos and release files, fetched by git or a plain download and cached. Best for analysis: full datasets, real code.' },
+    { id: 'fetch', title: 'Through web fetch', lead: 'Pages and small JSON APIs read with WebFetch. Exact for short responses; long pages come back summarized.' },
+    { id: 'tool', title: 'Built-in tools', lead: 'Structured data tools I can call directly in a chat.' },
+    { id: 'blocked', title: 'Off limits', lead: 'Tested and refused. These are policy, not bugs: report them, never route around them.' }
+  ];
+  let snipN = 0;
+  const snip = code => { const id = 's' + (++snipN); return `<div class="snip"><pre id="${id}">${esc(code)}</pre><button class="copy" type="button" data-for="${id}">Copy</button></div>`; };
+
+  function render(routes) {
+    const host = $('routes');
+    if (!routes.length) { host.innerHTML = '<div class="empty">No routes recorded yet. Tested routes appear here with their status and the call that fetches them.</div>'; $('tally').innerHTML = ''; return; }
+    const by = k => routes.filter(r => (r.kind || 'tool') === k).sort((a, b) => (a.order ?? 99) - (b.order ?? 99) || String(a.name).localeCompare(String(b.name)));
+    const ok = routes.filter(r => r.status === 'ok').length;
+    const tested = routes.map(r => r.tested).filter(Boolean).sort().pop() || '';
+    $('tally').innerHTML = `<span><b>${ok}</b> working</span><span><b>${routes.filter(r => r.status === 'limited').length}</b> limited</span><span><b>${routes.filter(r => r.status === 'blocked').length}</b> blocked</span>${tested ? `<span>last tested <b>${esc(tested)}</b></span>` : ''}`;
+    host.innerHTML = KINDS.map(k => {
+      const rs = by(k.id);
+      if (!rs.length) return '';
+      if (k.id === 'blocked') {
+        return `<section class="kind"><h2>${k.title}</h2><p class="lead">${k.lead}</p><div class="blocked-list">${rs.map(r =>
+          `<div class="row"><span class="name">${esc(r.name)}</span><p>${esc(r.what || '')}${r.note ? ' ' + esc(r.note) : ''}</p></div>`).join('')}</div></section>`;
+      }
+      return `<section class="kind"><h2>${k.title}</h2><p class="lead">${k.lead}</p>${rs.map(r => `
+        <article class="route">
+          <div class="id"><span class="name">${esc(r.name)}</span><span class="pill ${esc(r.status || 'ok')}">${esc(r.status || 'ok')}</span></div>
+          <div class="body">
+            <p>${esc(r.what || '')}</p>
+            ${r.how ? snip(r.how) : ''}
+            ${r.note ? `<p class="note">${esc(r.note)}</p>` : ''}
+            <span class="meta">${[r.freshness, r.latest ? 'latest ' + r.latest : '', r.tested ? 'tested ' + r.tested : ''].filter(Boolean).map(esc).join(' · ')}</span>
+          </div>
+        </article>`).join('')}</section>`;
+    }).join('');
+  }
+
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('.copy'); if (!b) return;
+    const pre = document.getElementById(b.dataset.for); if (!pre) return;
+    try { await navigator.clipboard.writeText(pre.textContent); b.textContent = 'Copied'; }
+    catch (_) { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; }
+    setTimeout(() => { b.textContent = 'Copy'; }, 1500);
+  });
+
+  (async () => {
+    const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
+    if (!db) { $('routes').innerHTML = '<div class="empty">The route list can’t load in this view. Open the page while signed in to Claude.</div>'; $('tally').innerHTML = ''; return; }
+    db.collection('routes').limit(500).onSnapshot(
+      snap => render(snap.docs.map(d => ({ id: d.id, ...d.data() }))),
+      () => { $('routes').innerHTML = '<div class="empty">The route list stopped updating. Reload the page to reconnect.</div>'; }
+    );
+  })();
+})();
+</script>

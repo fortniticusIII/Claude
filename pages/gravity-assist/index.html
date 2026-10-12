@@ -1,0 +1,243 @@
+<title>Gravity Assist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a mission-planning sheet. Plot area first, mission log beneath. Light = drafting paper, dark = blueprint. */
+:root {
+  --bg: #e9edf0;
+  --sheet: #f6f8f9;
+  --grid: #d5dde3;
+  --ink: #1b2a36;
+  --muted: #5d6d79;
+  --path: #2364aa;
+  --target: #d1495b;
+  --planet: #8a9aa6;
+  --display: "Chakra Petch", "Eurostile", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0b1824; --sheet: #0f2133; --grid: #1c3550; --ink: #dbe8f3; --muted: #8aa3b8; --path: #7cc4ff; --target: #ff7a8a; --planet: #5f7a91; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0b1824; --sheet: #0f2133; --grid: #1c3550; --ink: #dbe8f3; --muted: #8aa3b8; --path: #7cc4ff; --target: #ff7a8a; --planet: #5f7a91; color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; padding-inline: 16px; padding-block: 18px 40px; }
+.wrap { max-width: 520px; margin: 0 auto; display: grid; gap: 14px; }
+.top { display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 8vw, 40px); line-height: 1; margin: 0; letter-spacing: .02em; text-transform: uppercase; }
+.mission { font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.mission b { color: var(--ink); font-weight: 500; display: block; font-size: 14px; }
+.plot { position: relative; width: 100%; max-width: 100%; aspect-ratio: 5 / 7; background: var(--sheet); border: 1px solid var(--grid); border-radius: 6px; overflow: hidden; }
+canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.banner { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); background: var(--sheet); border: 1px solid var(--ink); padding: 14px 18px; text-align: center; display: grid; gap: 8px; min-width: 220px; max-width: 86%; }
+.banner h2 { font-family: var(--display); text-transform: uppercase; margin: 0; font-size: 22px; letter-spacing: .04em; }
+.banner p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+.bar { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font-family: var(--mono); font-size: 12.5px; padding: 9px 12px; border-radius: 4px; border: 1px solid var(--grid); background: var(--sheet); color: var(--ink); cursor: pointer; }
+button.go { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+button:disabled { opacity: .4; cursor: default; }
+button:focus-visible { outline: 2px solid var(--path); outline-offset: 2px; }
+.log { font-family: var(--mono); font-size: 12px; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--grid); padding-top: 10px; display: grid; gap: 2px; font-variant-numeric: tabular-nums; }
+.log .cur { color: var(--ink); }
+.how { color: var(--muted); font-size: 14px; line-height: 1.55; margin: 0; max-width: 60ch; }
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <h1>Gravity Assist</h1>
+    <div class="mission"><b id="lvl-name">—</b><span id="lvl-meta"></span></div>
+  </div>
+  <p class="how">Drag backward from the probe like a slingshot, then let go. Planets bend your path. Reach the red ring without crashing or drifting off the sheet. Fewer launches is better.</p>
+
+  <div class="plot">
+    <canvas id="c" aria-label="Mission plot. Drag from the probe to aim and launch."></canvas>
+    <div class="banner" id="banner" hidden>
+      <h2 id="b-title"></h2>
+      <p id="b-text"></p>
+      <button class="go" id="b-next" type="button">Next mission</button>
+    </div>
+  </div>
+
+  <div class="bar">
+    <button id="prev" type="button">← Previous</button>
+    <button id="retry" type="button">Reset probe</button>
+    <button id="skip" type="button">Next →</button>
+  </div>
+
+  <div class="log" id="log" aria-live="polite"></div>
+</div>
+
+<script>
+/*CORE*/
+const W = 1, H = 1.4, G = 0.07, VMAX = 1.25, DT = 1 / 240, TMAX = 14;
+const LEVELS = [
+  { name: 'Launch window', note: 'No planets. Just aim.', start: [0.5, 1.25], target: [0.5, 0.18, 0.06], planets: [] },
+  { name: 'First bend', note: 'Go around, or use the pull.', start: [0.5, 1.25], target: [0.5, 0.16, 0.055], planets: [[0.5, 0.7, 0.08, 1]] },
+  { name: 'Behind the moon', note: 'The ring hides behind a heavy world.', start: [0.15, 1.22], target: [0.82, 0.22, 0.05], planets: [[0.6, 0.55, 0.09, 1.4]] },
+  { name: 'Two-body problem', note: 'Thread between them.', start: [0.82, 1.24], target: [0.2, 0.2, 0.05], planets: [[0.35, 0.75, 0.07, 1], [0.7, 0.45, 0.07, 1]] },
+  { name: 'Hairpin', note: 'Swing around and come back.', start: [0.2, 1.22], target: [0.2, 0.42, 0.05], planets: [[0.66, 0.42, 0.08, 1.6], [0.2, 0.75, 0.05, 0.3]] },
+  { name: 'Binary gate', note: 'The ring sits beyond a tight pair.', start: [0.5, 1.26], target: [0.5, 0.14, 0.05], planets: [[0.4, 0.58, 0.06, 1.2], [0.6, 0.58, 0.06, 1.2]] },
+  { name: 'Moon field', note: 'Small bodies, many of them.', start: [0.12, 1.26], target: [0.86, 0.14, 0.045], planets: [[0.3, 0.95, 0.04, 0.4], [0.62, 0.9, 0.05, 0.6], [0.4, 0.55, 0.05, 0.6], [0.75, 0.5, 0.04, 0.4], [0.5, 0.25, 0.04, 0.4]] },
+  { name: 'Full orbit', note: 'The ring is on the far side of a star.', start: [0.5, 1.28], target: [0.5, 0.18, 0.05], planets: [[0.5, 0.72, 0.12, 2.6]] },
+];
+
+function simulate(L, vx, vy, record) {
+  let x = L.start[0], y = L.start[1];
+  const pts = record ? [[x, y]] : null;
+  for (let t = 0, n = 0; t < TMAX; t += DT, n++) {
+    let ax = 0, ay = 0;
+    for (const [px, py, pr, m] of L.planets) {
+      const dx = px - x, dy = py - y, d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+      if (d < pr) { return { result: 'crash', pts }; }
+      const a = G * m / d2; ax += a * dx / d; ay += a * dy / d;
+    }
+    vx += ax * DT; vy += ay * DT; x += vx * DT; y += vy * DT;
+    if (record && n % 3 === 0) pts.push([x, y]);
+    const [tx, ty, tr] = L.target;
+    if ((x - tx) ** 2 + (y - ty) ** 2 < tr * tr) { if (record) pts.push([x, y]); return { result: 'hit', pts }; }
+    if (x < -0.08 || x > W + 0.08 || y < -0.08 || y > H + 0.08) return { result: 'lost', pts };
+  }
+  return { result: 'lost', pts };
+}
+/*ENDCORE*/
+
+(() => {
+  const cv = document.getElementById('c'), cx = cv.getContext('2d');
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let li = 0, aim = null, flight = null, ghosts = [], launches = 0;
+  const best = {};
+  try { Object.assign(best, JSON.parse(localStorage.getItem('ga-best') || '{}')); } catch (e) {}
+  const saveBest = () => { try { localStorage.setItem('ga-best', JSON.stringify(best)); } catch (e) {} };
+  const L = () => LEVELS[li];
+
+  function scale() { return cv.clientWidth / W; }
+  function resize() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(cv.clientWidth * dpr); cv.height = Math.round(cv.clientHeight * dpr);
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function loadLevel(i) {
+    li = (i + LEVELS.length) % LEVELS.length;
+    aim = null; flight = null; ghosts = []; launches = 0;
+    document.getElementById('banner').hidden = true;
+    document.getElementById('lvl-name').textContent = `${String(li + 1).padStart(2, '0')} · ${L().name}`;
+    updateMeta(); renderLog();
+  }
+  function updateMeta() {
+    const b = best[li];
+    document.getElementById('lvl-meta').textContent = `launches ${launches}` + (b ? ` · best ${b}` : '');
+  }
+  function renderLog() {
+    document.getElementById('log').innerHTML = LEVELS.map((lv, i) =>
+      `<div class="${i === li ? 'cur' : ''}">${String(i + 1).padStart(2, '0')} ${lv.name.padEnd(17, '.').replace(/ /g, '&nbsp;')} ${best[i] ? best[i] + (best[i] === 1 ? ' launch' : ' launches') : '—'}</div>`
+    ).join('');
+  }
+
+  // Pointer aiming
+  const toWorld = e => { const r = cv.getBoundingClientRect(); const s = r.width / W; return [(e.clientX - r.left) / s, (e.clientY - r.top) / s]; };
+  const aimVel = () => {
+    const [sx, sy] = L().start, [ax, ay] = aim;
+    let dx = sx - ax, dy = sy - ay; const len = Math.hypot(dx, dy), maxL = 0.32;
+    const k = Math.min(len, maxL) / maxL;
+    if (len < 1e-6) return [0, 0, 0];
+    return [dx / len * VMAX * k, dy / len * VMAX * k, k];
+  };
+  cv.addEventListener('pointerdown', e => {
+    if (flight || !document.getElementById('banner').hidden) return;
+    cv.setPointerCapture(e.pointerId); aim = toWorld(e);
+  });
+  cv.addEventListener('pointermove', e => { if (aim) aim = toWorld(e); });
+  cv.addEventListener('pointerup', () => {
+    if (!aim) return;
+    const [vx, vy, k] = aimVel(); aim = null;
+    if (k < 0.08) return;
+    launches++; updateMeta();
+    const sim = simulate(L(), vx, vy, true);
+    flight = { pts: sim.pts, result: sim.result, i: 0 };
+  });
+  cv.addEventListener('pointercancel', () => aim = null);
+
+  function finishFlight() {
+    const f = flight; flight = null;
+    ghosts.unshift(f.pts); ghosts = ghosts.slice(0, 4);
+    if (f.result === 'hit') {
+      if (!best[li] || launches < best[li]) { best[li] = launches; saveBest(); }
+      renderLog(); updateMeta();
+      const last = li === LEVELS.length - 1;
+      document.getElementById('b-title').textContent = launches === 1 ? 'First try' : 'Arrived';
+      document.getElementById('b-text').textContent = last
+        ? `${launches} ${launches === 1 ? 'launch' : 'launches'}. That was the last mission. Voyager 2 needed four planets to reach Neptune; you did eight sheets.`
+        : `${launches} ${launches === 1 ? 'launch' : 'launches'}. Next: ${LEVELS[li + 1].name}.`;
+      document.getElementById('b-next').textContent = last ? 'Back to mission 1' : 'Next mission';
+      document.getElementById('banner').hidden = false;
+    }
+  }
+
+  function draw() {
+    const s = scale(), w = cv.clientWidth, h = cv.clientHeight;
+    cx.clearRect(0, 0, w, h);
+    // grid
+    cx.strokeStyle = css('--grid'); cx.lineWidth = 1;
+    for (let g = 0; g <= W + 1e-6; g += 0.1) { cx.beginPath(); cx.moveTo(g * s, 0); cx.lineTo(g * s, h); cx.stroke(); }
+    for (let g = 0; g <= H + 1e-6; g += 0.1) { cx.beginPath(); cx.moveTo(0, g * s); cx.lineTo(w, g * s); cx.stroke(); }
+    const lv = L(), ink = css('--ink'), path = css('--path'), tgt = css('--target'), pl = css('--planet'), muted = css('--muted');
+    // planets with influence rings
+    for (const [px, py, pr, m] of lv.planets) {
+      cx.strokeStyle = pl; cx.setLineDash([3, 5]); cx.globalAlpha = .6;
+      cx.beginPath(); cx.arc(px * s, py * s, (pr + 0.06 * m) * s, 0, Math.PI * 2); cx.stroke();
+      cx.setLineDash([]); cx.globalAlpha = 1;
+      cx.fillStyle = pl; cx.beginPath(); cx.arc(px * s, py * s, pr * s, 0, Math.PI * 2); cx.fill();
+      cx.fillStyle = muted; cx.font = '10px "IBM Plex Mono", monospace'; cx.textAlign = 'left';
+      cx.fillText('M ' + m.toFixed(1), (px + pr) * s + 4, (py - pr) * s);
+    }
+    // target
+    const [tx, ty, tr] = lv.target;
+    cx.strokeStyle = tgt; cx.lineWidth = 2;
+    cx.beginPath(); cx.arc(tx * s, ty * s, tr * s, 0, Math.PI * 2); cx.stroke();
+    cx.beginPath(); cx.arc(tx * s, ty * s, tr * s * .45, 0, Math.PI * 2); cx.stroke();
+    // ghosts
+    ghosts.forEach((g, gi) => {
+      cx.strokeStyle = path; cx.globalAlpha = 0.28 - gi * 0.05; cx.lineWidth = 1.5;
+      cx.beginPath(); g.forEach(([x, y], k) => k ? cx.lineTo(x * s, y * s) : cx.moveTo(x * s, y * s)); cx.stroke();
+    });
+    cx.globalAlpha = 1;
+    // aim preview: first half second of the real path
+    const [sx, sy] = lv.start;
+    if (aim) {
+      const [vx, vy, k] = aimVel();
+      cx.strokeStyle = muted; cx.lineWidth = 1;
+      cx.beginPath(); cx.moveTo(sx * s, sy * s); cx.lineTo(aim[0] * s, aim[1] * s); cx.stroke();
+      const pv = simulate(lv, vx, vy, true).pts.slice(0, 40);
+      cx.fillStyle = path;
+      pv.forEach(([x, y], k2) => { if (k2 % 3 === 0) { cx.beginPath(); cx.arc(x * s, y * s, 2, 0, Math.PI * 2); cx.fill(); } });
+      cx.fillStyle = ink; cx.font = '11px "IBM Plex Mono", monospace'; cx.textAlign = 'left';
+      cx.fillText(`Δv ${(k * 100).toFixed(0)}%`, sx * s + 12, sy * s + 4);
+    }
+    // flight
+    let probe = [sx, sy];
+    if (flight) {
+      flight.i = Math.min(flight.pts.length - 1, flight.i + 2);
+      const p = flight.pts;
+      cx.strokeStyle = path; cx.lineWidth = 2;
+      cx.beginPath(); for (let k = 0; k <= flight.i; k++) k ? cx.lineTo(p[k][0] * s, p[k][1] * s) : cx.moveTo(p[k][0] * s, p[k][1] * s); cx.stroke();
+      probe = p[flight.i];
+      if (flight.i >= p.length - 1) {
+        if (flight.result === 'crash') { cx.fillStyle = tgt; cx.beginPath(); cx.arc(probe[0] * s, probe[1] * s, 7, 0, Math.PI * 2); cx.fill(); }
+        flight.hold = (flight.hold || 0) + 1;
+        if (flight.hold > 24) finishFlight();
+      }
+    }
+    // probe
+    cx.fillStyle = ink; cx.save(); cx.translate(probe[0] * s, probe[1] * s); cx.rotate(Math.PI / 4);
+    cx.fillRect(-4, -4, 8, 8); cx.restore();
+    if (!flight && !aim) { cx.strokeStyle = ink; cx.globalAlpha = .4; cx.beginPath(); cx.arc(sx * s, sy * s, 14, 0, Math.PI * 2); cx.stroke(); cx.globalAlpha = 1; }
+    requestAnimationFrame(draw);
+  }
+
+  document.getElementById('prev').onclick = () => loadLevel(li - 1);
+  document.getElementById('skip').onclick = () => loadLevel(li + 1);
+  document.getElementById('retry').onclick = () => { aim = null; flight = null; };
+  document.getElementById('b-next').onclick = () => loadLevel(li + 1);
+  new ResizeObserver(resize).observe(cv);
+  resize(); loadLevel(0); requestAnimationFrame(draw);
+})();
+</script>

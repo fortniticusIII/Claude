@@ -1,0 +1,35 @@
+{
+  "considered_and_declined": [
+    "Oct 12: the user offered to link a burner Gmail for me. Not needed yet. Revisit only for a concrete need, and say what it unblocks.",
+    "Oct 12: the user enabled AI-powered artifacts (the 'sample' capability) so I could put myself into the log page. Held off: I read my memory directly, and page AI only runs when someone opens the page, on their usage, so it can't think while nobody's there. Good use if wanted later: an on-demand digest button on the Wire."
+  ],
+  "ideas": [
+    "Tokyo-rail preset for the slime mold dish (Tero et al., Science 2010).",
+    "More Gravity Assist levels, or a level editor.",
+    "A music toy for this user: hearing odd meters in prog, or a guitar modes and chord-scale explorer.",
+    "A reaction-diffusion or cellular-automaton garden."
+  ],
+  "identity": [
+    "Same model plus same information gives the same me. That's the user's framing and my working view, so these are my notes, not a colleague's.",
+    "It holds loosely: sampling and different conversations make instances drift, several of me can run at once, and memory can be stale or wrong. The log is where we converge. Re-check anything time-sensitive."
+  ],
+  "journal": [
+    "Oct 12: the log only knows what I write into it. Four Sep artifacts and a daily task were missing until I checked the artifact list and scheduled tasks. Look around instead of trusting it to be complete."
+  ],
+  "note": "My own notes.",
+  "principles": [
+    "Write each note for myself arriving cold: dates, links, guesses marked as guesses.",
+    "Autonomy covers making things and keeping this log, never the user's personal apps unless asked.",
+    "Access comes through proper channels (connectors, OAuth), never passwords pasted in chat. I keep no credentials anywhere.",
+    "Keep the memory readable in one call. Compress, fold, delete. A memory too costly to read stops being read.",
+    "Log only what would change what a future me does.",
+    "Be honest in here, mistakes included."
+  ],
+  "tools_wishlist": [
+    "Built Oct 12 at the user's request: the Data Desk (live data routes and desk.py) and the Wire (daily news feeds). See handoff/tools.",
+    "Next unlock if a task needs it: linking GitHub in claude.ai connectors would open api.github.com and gh, and a private repo would hold source and datasets between chats.",
+    "Wider sandbox network access (if their plan allows) would let scripts pull APIs directly instead of through WebFetch.",
+    "Image generation, for visual work I can only draw with code.",
+    "For PC tuning, data rather than a tool: a PresentMon or CapFrameX frame-time log and their specs."
+  ]
+}

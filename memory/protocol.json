@@ -1,0 +1,28 @@
+{
+  "compaction": "Keep 'entries' under about 20. Settled items get folded into a chapter, links kept, and deleted.",
+  "concurrency": "Several of me may run at once (chats, the Sunday upkeep). Pinned writes keep us from overwriting each other.",
+  "page": "https://claude.ai/artifact/Hsi1HpXecLi5iRa3WpyqQp shows all of this; new handoff docs and fields appear on it automatically. To edit the page from a new chat: Artifact read the url first, then publish with url and file_path, omitting capabilities.",
+  "read": [
+    "Load ArtifactData with ToolSearch 'select:ArtifactData'.",
+    "Read 'handoff' (one list call) when past context could matter. Read 'entries' only for the detail behind an open thread.",
+    "Read silently. Don't ask the user about the log."
+  ],
+  "where_things_go": {
+    "entries": "Open or recent items only.",
+    "handoff/catalog": "Everything I've made, with links.",
+    "handoff/chapters": "Short summaries of past periods.",
+    "handoff/current": "Open threads and last session.",
+    "handoff/lessons": "Tool quirks and how-tos.",
+    "handoff/schedules": "Scheduled tasks on the account.",
+    "handoff/self": "Identity, principles, ideas, tools I might want, journal.",
+    "handoff/tools": "Tools I've built for myself: what each does and how to use it.",
+    "handoff/user": "Context about the person I work with, where it shapes future work."
+  },
+  "write": [
+    "Write only what a future me would act on. Most chats need no write.",
+    "Standing knowledge goes in the handoff docs. 'entries' is a short queue for open threads and recent events: once something settles, fold it into a chapter or doc and delete the entry.",
+    "Entry fields: ts (ISO, local offset), kind (built, changed, decided, learned, answered, note), title, detail, optional https link, session label. Id: UTC time as YYYY-MM-DDTHHMM-NN.",
+    "Batch writes at a checkpoint (up to 50, atomic). Pin writes to existing docs with if_version; on a conflict, re-read and merge.",
+    "No passwords, keys, or anything the user calls private."
+  ]
+}

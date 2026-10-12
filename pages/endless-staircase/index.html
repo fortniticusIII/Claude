@@ -1,0 +1,223 @@
+<title>The Endless Staircase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single column instrument. Big visual of partials under the loudness bell, transport controls, then the explanation. */
+:root {
+  --bg: #eceef3;
+  --panel: #ffffff;
+  --fg: #181b26;
+  --muted: #5b6072;
+  --line: #d3d6e0;
+  --accent: #3946d0;
+  --warm: #d4661f;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --mono: "DM Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f111a; --panel: #171a26; --fg: #e6e8f1; --muted: #9399b0; --line: #2a2e40; --accent: #8c97ff; --warm: #ff9a52; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0f111a; --panel: #171a26; --fg: #e6e8f1; --muted: #9399b0; --line: #2a2e40; --accent: #8c97ff; --warm: #ff9a52; color-scheme: dark; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; padding-inline: 16px; padding-block: 24px 48px; }
+.wrap { max-width: 640px; margin: 0 auto; display: grid; gap: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--warm); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(44px, 13vw, 76px); line-height: .9; margin: 6px 0 0; letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; }
+.lede { color: var(--muted); line-height: 1.55; margin: 0; max-width: 60ch; }
+.instrument { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 14px; }
+canvas { width: 100%; height: 220px; display: block; }
+.transport { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button { font-family: var(--mono); font-size: 13px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+button.play { background: var(--accent); color: var(--panel); border-color: var(--accent); font-weight: 500; min-width: 92px; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.seg { display: inline-flex; gap: 4px; }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
+.row label { font-weight: 700; font-size: 14px; }
+.row output { font-family: var(--mono); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.row input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+.status { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; min-height: 1.4em; }
+.callout { border-left: 3px solid var(--warm); padding: 2px 0 2px 12px; font-size: 14px; line-height: 1.5; }
+.callout b { color: var(--warm); }
+.notes { display: grid; gap: 12px; line-height: 1.6; }
+.notes h2 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 28px; margin: 8px 0 0; letter-spacing: .02em; }
+.notes p { margin: 0; max-width: 62ch; }
+.notes .muted { color: var(--muted); font-size: 13.5px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Auditory illusion · Shepard tone</div>
+    <h1>The Endless Staircase</h1>
+  </header>
+  <p class="lede">This sound keeps rising, forever, and never gets any higher. Put on headphones or turn the volume up a little, press Play, and listen for a minute. Then switch off the bell to hear the trick.</p>
+
+  <section class="instrument" aria-label="Shepard tone instrument">
+    <canvas id="viz" aria-label="Each dot is a sine tone, one octave apart. Size shows loudness. The curve is the loudness bell."></canvas>
+    <div class="status" id="status">Silent. Press Play.</div>
+    <div class="transport">
+      <button class="play" id="play" type="button">Play</button>
+      <span class="seg" role="group" aria-label="Motion">
+        <button id="m-steps" type="button" aria-pressed="true">Scale</button>
+        <button id="m-glide" type="button" aria-pressed="false">Glide</button>
+      </span>
+      <span class="seg" role="group" aria-label="Direction">
+        <button id="d-up" type="button" aria-pressed="true">Up ↑</button>
+        <button id="d-down" type="button" aria-pressed="false">Down ↓</button>
+      </span>
+      <button id="bell" type="button" aria-pressed="true">Bell on</button>
+    </div>
+    <div class="row">
+      <label for="speed">Tempo</label><output id="o-speed"></output>
+      <input type="range" id="speed" min="1" max="10" value="4">
+    </div>
+    <div class="row">
+      <label for="vol">Volume</label><output id="o-vol"></output>
+      <input type="range" id="vol" min="0" max="100" value="45">
+    </div>
+  </section>
+
+  <p class="callout"><b>Try this:</b> let it climb for twenty seconds with the bell on, then tap <b>Bell on</b> to turn it off. Without the bell, the top tone drops out of nowhere and a new bottom tone appears, and you can suddenly hear the loop restarting.</p>
+
+  <section class="notes">
+    <h2>How it fools you</h2>
+    <p>You are hearing about nine sine waves at once, each exactly one octave above the next. Octaves blend so well that your ear hears them as one note with a single pitch class, like "C" or "F sharp".</p>
+    <p>All nine tones rise together. The trick is the bell curve: tones in the middle are loud, tones at the edges fade to silence. By the time the highest tone gets too high, it is inaudible, and it quietly reappears at the bottom, also inaudible. Every moment you hear something going up, and you never hear anything come down.</p>
+    <p>Roger Shepard published the stepped version in 1964. Jean-Claude Risset made the smooth glide a few years later. Composers have used it since: the Shepard tone sits under a lot of tension-building film scores, and the same idea shows up visually in M. C. Escher's <i>Ascending and Descending</i>, the staircase monks climb forever.</p>
+    <p class="muted">Sound starts only after you press Play. On phones, the silent switch may mute it.</p>
+  </section>
+</div>
+
+<script>
+(() => {
+  const NPART = 9, FMIN = 27.5; // A0, nine octaves up to ~14 kHz
+  const state = { playing: false, glide: false, up: true, bell: true, phase: 0, speed: 4, vol: .45, steps: 0 };
+  let actx = null, master = null, oscs = [], gains = [];
+  const NOTE = ['A','A♯','B','C','C♯','D','D♯','E','F','F♯','G','G♯'];
+
+  const amp = (oct) => {          // oct: position in 0..NPART
+    if (!state.bell) return 0.55;
+    const c = NPART / 2, s = NPART / 6.2;
+    return Math.exp(-((oct - c) ** 2) / (2 * s * s));
+  };
+  const partials = () => {
+    const out = [];
+    for (let i = 0; i < NPART; i++) {
+      const oct = (i + state.phase) % NPART;
+      out.push({ oct, f: FMIN * 2 ** oct, a: amp(oct) });
+    }
+    return out;
+  };
+
+  function startAudio() {
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    master = actx.createGain(); master.gain.value = 0;
+    const comp = actx.createDynamicsCompressor();
+    master.connect(comp).connect(actx.destination);
+    for (let i = 0; i < NPART; i++) {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; g.gain.value = 0;
+      o.connect(g).connect(master); o.start();
+      oscs.push(o); gains.push(g);
+    }
+  }
+
+  function applyAudio(snap) {
+    if (!actx) return;
+    const t = actx.currentTime;
+    const ps = partials();
+    const tc = state.glide ? 0.02 : 0.012;
+    ps.forEach((p, i) => {
+      // When a voice wraps from top to bottom, jump its frequency instantly (it's silent there when the bell is on).
+      const prev = oscs[i].frequency.value;
+      if (snap || Math.abs(Math.log2(p.f / prev)) > 2) oscs[i].frequency.setValueAtTime(p.f, t);
+      else oscs[i].frequency.setTargetAtTime(p.f, t, tc);
+      gains[i].gain.setTargetAtTime(p.a / NPART * 2.2, t, 0.03);
+    });
+    master.gain.setTargetAtTime(state.playing ? state.vol * state.vol : 0, t, 0.05);
+  }
+
+  // Visual
+  const cv = document.getElementById('viz'), cx = cv.getContext('2d');
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function draw() {
+    const dpr = Math.min(devicePixelRatio || 1, 2), w = cv.clientWidth, h = cv.clientHeight;
+    if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx.clearRect(0, 0, w, h);
+    const padL = 8, padR = 8, top = 14, base = h - 26;
+    const X = oct => padL + oct / NPART * (w - padL - padR);
+    // octave grid + labels
+    cx.strokeStyle = css('--line'); cx.lineWidth = 1;
+    cx.fillStyle = css('--muted'); cx.font = '10px "DM Mono", monospace'; cx.textAlign = 'center';
+    for (let k = 0; k <= NPART; k++) {
+      const x = X(k); cx.beginPath(); cx.moveTo(x, top); cx.lineTo(x, base); cx.stroke();
+      if (k % 2 === 0) { const f = FMIN * 2 ** k; cx.fillText(f >= 1000 ? (f / 1000).toFixed(1) + 'k' : Math.round(f), x, h - 8); }
+    }
+    cx.textAlign = 'right'; cx.fillText('Hz', w - 2, h - 8);
+    // bell
+    cx.beginPath();
+    for (let s = 0; s <= 200; s++) { const o = s / 200 * NPART, y = base - amp(o) * (base - top); s ? cx.lineTo(X(o), y) : cx.moveTo(X(o), y); }
+    cx.strokeStyle = css('--warm'); cx.lineWidth = 2; cx.setLineDash([5, 4]); cx.stroke(); cx.setLineDash([]);
+    // partials
+    const acc = css('--accent');
+    for (const p of partials()) {
+      const x = X(p.oct), y = base - p.a * (base - top);
+      cx.strokeStyle = acc; cx.globalAlpha = .35 + .65 * p.a; cx.lineWidth = 2;
+      cx.beginPath(); cx.moveTo(x, base); cx.lineTo(x, y); cx.stroke();
+      cx.fillStyle = acc; cx.beginPath(); cx.arc(x, y, 3 + 6 * p.a, 0, Math.PI * 2); cx.fill();
+    }
+    cx.globalAlpha = 1;
+  }
+
+  // Clock
+  let last = performance.now(), acc = 0;
+  function tick(now) {
+    const dt = Math.min(.1, (now - last) / 1000); last = now;
+    if (state.playing) {
+      const dir = state.up ? 1 : -1;
+      if (state.glide) {
+        state.phase = (state.phase + dir * dt * state.speed * 0.025 + NPART) % NPART;
+      } else {
+        acc += dt;
+        const stepT = 1.6 / state.speed;
+        while (acc >= stepT) { acc -= stepT; state.phase = (state.phase + dir / 12 + NPART) % NPART; state.steps += dir; }
+      }
+      applyAudio(false);
+      const semis = Math.round(((state.phase % 1) + 1) % 1 * 12) % 12;
+      document.getElementById('status').textContent = state.glide
+        ? `Gliding ${state.up ? 'up' : 'down'} · pitch class drifting near ${NOTE[semis]}`
+        : `Note ${NOTE[semis]} · ${Math.abs(state.steps)} steps ${state.up ? 'up' : 'down'}, still in the same place`;
+    }
+    draw();
+    requestAnimationFrame(tick);
+  }
+
+  // Controls
+  const $ = id => document.getElementById(id);
+  const press = (on, off) => { $(on).setAttribute('aria-pressed', 'true'); $(off).setAttribute('aria-pressed', 'false'); };
+  $('play').onclick = () => {
+    if (!actx) startAudio();
+    if (actx.state === 'suspended') actx.resume();
+    state.playing = !state.playing;
+    $('play').textContent = state.playing ? 'Stop' : 'Play';
+    if (!state.playing) $('status').textContent = 'Stopped.';
+    applyAudio(true);
+  };
+  $('m-steps').onclick = () => { state.glide = false; press('m-steps', 'm-glide'); };
+  $('m-glide').onclick = () => { state.glide = true; press('m-glide', 'm-steps'); };
+  $('d-up').onclick = () => { state.up = true; state.steps = 0; press('d-up', 'd-down'); };
+  $('d-down').onclick = () => { state.up = false; state.steps = 0; press('d-down', 'd-up'); };
+  $('bell').onclick = () => {
+    state.bell = !state.bell;
+    $('bell').setAttribute('aria-pressed', String(state.bell));
+    $('bell').textContent = state.bell ? 'Bell on' : 'Bell off';
+    applyAudio(false);
+  };
+  const bind = (id, out, fn, fmt) => { const el = $(id); const u = () => { fn(+el.value); $(out).textContent = fmt(+el.value); applyAudio(false); }; el.oninput = u; u(); };
+  bind('speed', 'o-speed', v => state.speed = v, v => v + ' / 10');
+  bind('vol', 'o-vol', v => state.vol = v / 100, v => v + '%');
+
+  state.phase = 0.35;
+  requestAnimationFrame(tick);
+})();
+</script>

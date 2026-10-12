@@ -1,0 +1,175 @@
+<title>The Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a wire-service printout. Status line, region filter, then stories by day, newest first: a time stamp, a dateline (source and region), the headline, one line of summary. Feed health at the foot. */
+:root {
+  --bg: #eef1f3;
+  --surface: #ffffff;
+  --fg: #121619;
+  --muted: #58616a;
+  --line: #d2d8dd;
+  --accent: #b4232f;
+  --ok: #1f7a4a;
+  --bad: #b4232f;
+  --display: "Archivo Narrow", "Arial Narrow", sans-serif;
+  --body: "Source Serif 4", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1215; --surface: #161b1f; --fg: #e6eaee; --muted: #9aa4ad; --line: #283038; --accent: #f0626d; --ok: #5fcf8f; --bad: #f0626d; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0f1215; --surface: #161b1f; --fg: #e6eaee; --muted: #9aa4ad; --line: #283038; --accent: #f0626d; --ok: #5fcf8f; --bad: #f0626d; color-scheme: dark; }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; padding-inline: 16px; padding-block: 24px 48px; }
+.wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 10vw, 56px); line-height: .95; margin: 0; text-transform: uppercase; letter-spacing: .01em; }
+.status { font-family: var(--mono); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px; font-variant-numeric: tabular-nums; margin-top: 10px; }
+.status b { color: var(--fg); font-weight: 500; }
+.sub { color: var(--muted); margin: 8px 0 0; line-height: 1.5; max-width: 60ch; font-size: 15px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.controls { display: grid; gap: 10px; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 2; }
+input[type=search] { font: 15px var(--mono); width: 100%; min-width: 0; padding: 9px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; white-space: nowrap; }
+.chip .n { font-weight: 400; opacity: .8; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+
+.day { display: grid; }
+.day > h2 { font: 600 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 14px 0 4px; padding-bottom: 6px; border-bottom: 2px solid var(--fg); }
+.story { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; padding-block: 12px; border-bottom: 1px solid var(--line); }
+.story time { font: 13px var(--mono); color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.story .body { display: grid; gap: 4px; min-width: 0; }
+.dateline { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+.dateline .region { color: var(--muted); }
+.story a.hed { font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.2; color: var(--fg); text-decoration: none; overflow-wrap: anywhere; }
+.story a.hed:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.story p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; }
+
+.feeds { display: grid; gap: 8px; }
+.feeds > h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 22px; margin: 18px 0 0; }
+.feeds > .lead { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 0; }
+.feed { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 4px 10px; align-items: baseline; padding-block: 9px; border-bottom: 1px solid var(--line); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); align-self: center; }
+.dot.failing { background: var(--bad); }
+.feed .name { font-family: var(--display); font-weight: 600; font-size: 17px; }
+.feed .meta { font: 12px var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.feed .rule { grid-column: 2 / -1; font: 12px var(--mono); color: var(--muted); }
+
+.empty { border: 1px dashed var(--line); border-radius: 8px; padding: 18px; color: var(--muted); line-height: 1.5; font-size: 15px; }
+@media (max-width: 420px) {
+  .story { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .feed { grid-template-columns: 14px minmax(0, 1fr); }
+  .feed .meta { grid-column: 2; text-align: left; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>The Wire</h1>
+    <p class="sub">Overnight stories from sixteen feeds, collected each morning before the daily brief. Defense press, regional desks, official releases and cyber.</p>
+    <div class="status" id="status"><span>Loading…</span></div>
+  </header>
+
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search headlines" aria-label="Search headlines">
+    <div class="chips" id="chips" role="group" aria-label="Filter by region"></div>
+  </div>
+
+  <main id="list"><div class="empty">Loading the wire. Stories appear here grouped by day, each with its source, region and a one-line summary.</div></main>
+
+  <section class="feeds" id="feeds" aria-labelledby="feeds-h">
+    <h2 id="feeds-h">Feeds</h2>
+    <p class="lead">Each feed is read once a morning. A red dot means its last read failed.</p>
+    <div id="feed-list"></div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const dayFmt = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  const timeFmt = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+  const stampFmt = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  const REGION_ORDER = ['United States', 'Defense', 'Europe & Russia', 'Middle East', 'Indo-Pacific', 'Africa', 'Americas', 'Cyber', 'World'];
+  let stories = null, feeds = [], meta = null, region = 'All';
+
+  function setStories(docs) {
+    const seen = new Set(), out = [];
+    for (const d of docs) for (const it of (d.items || [])) {
+      if (!it.link || seen.has(it.link)) continue;
+      seen.add(it.link);
+      const t = new Date(it.t);
+      out.push({ ...it, when: isNaN(t) ? null : t, source: d.source || d.feed, region: d.region || 'World' });
+    }
+    out.sort((a, b) => (b.when || 0) - (a.when || 0));
+    stories = out;
+  }
+
+  function renderChips() {
+    const counts = {};
+    for (const s of stories || []) counts[s.region] = (counts[s.region] || 0) + 1;
+    const regions = ['All', ...REGION_ORDER.filter(r => counts[r]), ...Object.keys(counts).filter(r => !REGION_ORDER.includes(r))];
+    if (!regions.includes(region)) region = 'All';
+    $('chips').innerHTML = regions.map(r => `<button class="chip" type="button" data-r="${esc(r)}" aria-pressed="${r === region}">${esc(r)}<span class="n">${r === 'All' ? (stories || []).length : counts[r]}</span></button>`).join('');
+  }
+
+  function renderList() {
+    const host = $('list');
+    if (!stories) return;
+    if (!stories.length) { host.innerHTML = '<div class="empty">No stories yet. The collector reads every feed each morning at 6:16 Eastern and files what it finds here.</div>'; return; }
+    const q = $('q').value.trim().toLowerCase();
+    const shown = stories.filter(s => (region === 'All' || s.region === region) && (!q || `${s.title} ${s.summary || ''} ${s.source}`.toLowerCase().includes(q)));
+    if (!shown.length) { host.innerHTML = '<div class="empty">No stories match this search or region.</div>'; return; }
+    const groups = new Map();
+    for (const s of shown) { const k = s.when ? dayFmt.format(s.when) : 'Undated'; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(s); }
+    host.innerHTML = [...groups].map(([day, ss]) => `<section class="day"><h2>${esc(day)}</h2>${ss.map(s => {
+      const href = /^https?:\/\//.test(s.link) ? s.link : '#';
+      return `<article class="story"><time${s.when ? ` datetime="${esc(s.t)}"` : ''}>${s.when ? esc(timeFmt.format(s.when)) : ''}</time><div class="body">
+        <span class="dateline">${esc(s.source)} <span class="region">· ${esc(s.region)}</span></span>
+        <a class="hed" href="${esc(href)}" target="_blank" rel="noopener">${esc(s.title)}</a>
+        ${s.summary ? `<p>${esc(s.summary)}</p>` : ''}
+      </div></article>`;
+    }).join('')}</section>`).join('');
+  }
+
+  function renderStatus() {
+    const bits = [];
+    if (meta && meta.last_run) { const d = new Date(meta.last_run); bits.push(`<span>last run <b>${isNaN(d) ? esc(meta.last_run) : esc(stampFmt.format(d))}</b></span>`); }
+    if (stories) bits.push(`<span><b>${stories.length}</b> stories</span>`);
+    if (feeds.length) {
+      const failing = feeds.filter(f => f.status === 'failing').length;
+      bits.push(`<span><b>${feeds.length - failing}</b> of ${feeds.length} feeds ok</span>`);
+    }
+    $('status').innerHTML = bits.join('') || '<span>Waiting for the first run.</span>';
+  }
+
+  function renderFeeds() {
+    const host = $('feed-list');
+    if (!feeds.length) { host.innerHTML = '<div class="empty">No feeds registered yet.</div>'; return; }
+    const sorted = feeds.slice().sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+    host.innerHTML = sorted.map(f => {
+      const d = f.last_ok ? new Date(f.last_ok) : null;
+      const meta = [f.region, f.last_count != null ? `${f.last_count} last run` : '', d && !isNaN(d) ? 'ok ' + stampFmt.format(d) : ''].filter(Boolean).join(' · ');
+      return `<div class="feed"><span class="dot ${f.status === 'failing' ? 'failing' : ''}" aria-label="${f.status === 'failing' ? 'failing' : 'ok'}"></span>
+        <span class="name">${esc(f.name)}</span><span class="meta">${esc(meta)}</span>
+        ${f.status === 'failing' && f.last_error ? `<span class="rule">Last error: ${esc(f.last_error)}</span>` : ''}
+        ${f.skip ? `<span class="rule">Filter: ${esc(f.skip)}</span>` : ''}</div>`;
+    }).join('');
+  }
+
+  $('chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; region = b.dataset.r; renderChips(); renderList(); });
+  $('q').addEventListener('input', renderList);
+
+  (async () => {
+    const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
+    if (!db) { $('list').innerHTML = '<div class="empty">The wire can’t load in this view. Open the page while signed in to Claude.</div>'; $('status').innerHTML = ''; return; }
+    const lost = () => { $('list').innerHTML = '<div class="empty">The wire stopped updating. Reload the page to reconnect.</div>'; };
+    db.collection('items').limit(1000).onSnapshot(snap => { setStories(snap.docs.map(d => d.data())); renderChips(); renderList(); renderStatus(); }, lost);
+    db.collection('feeds').limit(200).onSnapshot(snap => { feeds = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderFeeds(); renderStatus(); }, lost);
+    db.doc('meta/status').onSnapshot(snap => { meta = snap.exists ? snap.data() : null; renderStatus(); }, lost);
+  })();
+})();
+</script>

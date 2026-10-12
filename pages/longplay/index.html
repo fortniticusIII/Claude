@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Longplay</title>
+<meta name="theme-color" content="#1B1720">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Longplay">
+<link id="appIcon" rel="apple-touch-icon" href="">
+<link id="appManifest" rel="manifest" href="">
+<style>
+  :root {
+    --bg:#1B1720; --panel:#262030; --panel-2:#2E2738; --parchment:#F1E8D6; --ink:#221C1C; --ink-soft:#5c5248;
+    --cream:#EDE3CF; --cream-dim:#B8AC96; --gold:#C99A3B; --gold-soft:rgba(201,154,59,0.18);
+    --sage:#7C8F68; --sage-soft:rgba(124,143,104,0.2); --rust:#A85246; --border:#3A3245;
+    --font-display:'Iowan Old Style','Palatino Linotype',Georgia,'Times New Roman',serif;
+    --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { margin:0; padding:0; background:var(--bg); }
+  body { color:var(--cream); font-family:var(--font-sans); min-height:100vh; -webkit-font-smoothing:antialiased; overscroll-behavior-y:contain; }
+  .app { max-width:480px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column; position:relative; }
+  header.top { padding:calc(20px + env(safe-area-inset-top)) 20px 8px; display:flex; align-items:baseline; justify-content:space-between; }
+  header.top h1 { font-family:var(--font-display); font-weight:600; font-size:26px; margin:0; letter-spacing:-0.01em; }
+  header.top .screen-label { font-size:13px; color:var(--cream-dim); }
+  main { flex:1; padding:0 20px 120px; }
+  nav.tabs { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px;
+    background:var(--panel); border-top:1px solid var(--border); display:flex;
+    padding:8px 12px calc(8px + env(safe-area-inset-bottom)); gap:4px; z-index:40; }
+  nav.tabs button { flex:1; background:none; border:none; color:var(--cream-dim); font-family:var(--font-sans);
+    font-size:11.5px; padding:8px 4px 6px; border-radius:10px; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  nav.tabs button.active { color:var(--gold); background:var(--gold-soft); }
+  nav.tabs svg { width:20px; height:20px; }
+
+  .section-label { font-size:11.5px; text-transform:uppercase; letter-spacing:0.07em; color:var(--cream-dim);
+    margin:14px 0 8px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .link-btn { background:none; border:none; color:var(--gold); font-size:12px; cursor:pointer; padding:0;
+    font-family:var(--font-sans); text-transform:none; letter-spacing:0; }
+  .pool-chips { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:6px; }
+  .pool-chip { font-family:var(--font-sans); padding:7px 13px; border-radius:20px; font-size:12.5px; background:var(--panel); color:var(--cream-dim);
+    border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; gap:6px; }
+  .pool-chip.on { background:var(--sage-soft); color:#D5E0C8; border-color:var(--sage); }
+  .pool-chip .n { opacity:.65; font-size:11px; }
+  .pool-note { font-size:11.5px; color:var(--cream-dim); line-height:1.5; margin:2px 0 14px; }
+
+  .mode-toggle { display:flex; gap:6px; margin:6px 0 18px; }
+  .mode-toggle button { flex:1; padding:8px 4px; border-radius:8px; border:1px solid var(--border);
+    background:var(--panel); color:var(--cream-dim); font-size:11.5px; cursor:pointer; font-family:var(--font-sans); }
+  .mode-toggle button.active { background:var(--gold-soft); color:var(--gold); border-color:var(--gold); }
+  .mode-toggle button:disabled { opacity:.35; cursor:default; }
+
+  .spread-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:-6px 0 16px; }
+  .spread-label { font-size:11.5px; color:var(--cream-dim); flex-shrink:0; }
+  .spread-opts { display:flex; gap:5px; }
+  .spread-opts button { background:var(--panel); border:1px solid var(--border); color:var(--cream-dim);
+    font-size:11px; padding:5px 10px; border-radius:14px; cursor:pointer; font-family:var(--font-sans); }
+  .spread-opts button.on { background:var(--sage-soft); color:#D5E0C8; border-color:var(--sage); }
+  .bridge-flag { background:var(--sage-soft); border:1px solid var(--sage); color:#D5E0C8; border-radius:8px;
+    padding:7px 12px; font-size:11.5px; margin-bottom:12px; text-align:center; }
+  .duel { display:flex; flex-direction:column; position:relative; }
+  .song-card { background:var(--parchment); color:var(--ink); border-radius:10px; padding:22px 20px 20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.35); position:relative; cursor:pointer; border:1px solid rgba(0,0,0,0.05);
+    transition:transform .32s ease, opacity .32s ease, box-shadow .32s ease; }
+  .song-card.a { transform:rotate(-1.4deg); margin-bottom:-6px; z-index:1; }
+  .song-card.b { transform:rotate(1.2deg); margin-top:-6px; z-index:0; }
+  .song-card.winner { box-shadow:0 0 0 3px var(--gold),0 12px 26px rgba(201,154,59,0.35); transform:translateY(-6px) rotate(0deg) scale(1.02); }
+  .song-card.loser { opacity:.35; transform:scale(.96) rotate(0deg); }
+  .genre-tag { display:inline-block; background:var(--sage); color:#EFF3EA; font-size:11px; padding:3px 9px; border-radius:20px; margin-bottom:10px; }
+  .genre-tag.small { font-size:9.5px; padding:2px 8px; }
+  .song-title { font-family:var(--font-display); font-size:21px; font-weight:600; line-height:1.28; margin:0 0 4px; }
+  .song-artist { font-size:14px; color:var(--ink-soft); }
+  .vs-badge { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:44px; height:44px; border-radius:50%;
+    background:var(--gold); color:var(--bg); display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-style:italic; font-size:14px; box-shadow:0 4px 10px rgba(0,0,0,0.4); z-index:2; border:3px solid var(--bg); }
+  .duel-actions { display:flex; justify-content:space-between; align-items:center; margin-top:20px; gap:10px; }
+  .skip-btn { background:none; border:1px solid var(--border); color:var(--cream-dim); font-family:var(--font-sans);
+    font-size:13px; padding:8px 14px; border-radius:20px; cursor:pointer; }
+  .progress-line { font-size:12px; color:var(--cream-dim); text-align:center; margin-top:16px; line-height:1.55; }
+
+  .search-box { width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--border);
+    background:var(--panel); color:var(--cream); font-size:16px; margin-bottom:8px; font-family:var(--font-sans); }
+  .list-toolbar { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:6px 0 8px; }
+  .list-toolbar .count { font-size:12px; color:var(--cream-dim); }
+  .edit-toggle { background:none; border:1px solid var(--border); color:var(--cream-dim); font-size:12.5px;
+    padding:6px 14px; border-radius:20px; cursor:pointer; font-family:var(--font-sans); }
+  .edit-toggle.on { background:var(--gold-soft); color:var(--gold); border-color:var(--gold); }
+  .rank-row { display:flex; align-items:center; gap:11px; padding:12px 0; border-bottom:1px solid var(--border); }
+  .rank-row.sel { background:var(--gold-soft); margin:0 -8px; padding-left:8px; padding-right:8px; border-radius:6px; }
+  .rank-num { font-family:var(--font-display); font-size:16px; color:var(--cream-dim); width:32px; text-align:right; flex-shrink:0; }
+  .checkbox { width:22px; height:22px; border-radius:6px; border:1.5px solid var(--border); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--bg); }
+  .checkbox.on { background:var(--gold); border-color:var(--gold); }
+  .rank-info { flex:1; min-width:0; }
+  .rank-title { font-size:14.5px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .rank-artist { font-size:12px; color:var(--cream-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .rank-side { display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0; }
+  .rank-rating { font-family:var(--font-display); font-size:17px; color:var(--gold); }
+  .rank-rating.prov { color:var(--cream-dim); }
+  .rank-n { font-size:10px; color:var(--cream-dim); opacity:.8; }
+  .icon-btn { background:none; border:1px solid var(--border); color:var(--cream-dim); border-radius:8px;
+    width:34px; height:34px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; flex-shrink:0; }
+  .action-bar { position:sticky; top:0; z-index:30; background:var(--bg); padding:10px 0 8px; display:flex; gap:8px; align-items:center; }
+  .action-bar .btn { flex:1; padding:10px 12px; font-size:13px; }
+
+  .import-section { margin-bottom:28px; }
+  .import-section h2 { font-family:var(--font-display); font-weight:600; font-size:18px; margin:0 0 4px; }
+  .import-hint { font-size:12.5px; color:var(--cream-dim); margin:0 0 12px; line-height:1.55; }
+  .drop-zone { border:1.5px dashed var(--border); border-radius:12px; padding:26px 16px; text-align:center;
+    font-size:13.5px; color:var(--cream-dim); cursor:pointer; }
+  .drop-zone.drag { border-color:var(--gold); background:var(--gold-soft); }
+  textarea, input[type=text] { width:100%; background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    color:var(--cream); padding:12px 14px; font-family:var(--font-sans); font-size:16px; }
+  textarea { min-height:110px; resize:vertical; margin-bottom:10px; }
+  .btn { background:var(--gold); color:var(--bg); border:none; border-radius:10px; padding:12px 18px;
+    font-family:var(--font-sans); font-weight:600; font-size:14px; cursor:pointer; }
+  .btn.ghost { background:none; border:1px solid var(--border); color:var(--cream); font-weight:500; }
+  .btn.danger { background:var(--rust); color:#fff; }
+  .btn.block { width:100%; margin-top:8px; }
+  .preview-item { display:flex; align-items:center; gap:10px; background:var(--panel); border-radius:10px; padding:10px 14px; margin-bottom:8px; }
+  .preview-item input[type=text] { width:auto; flex:1; min-width:0; padding:6px 10px; font-size:16px; }
+  .preview-count { font-size:11.5px; color:var(--cream-dim); white-space:nowrap; }
+
+  .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:6px 0 18px; }
+  .stat-box { background:var(--panel); border-radius:12px; padding:16px; }
+  .stat-num { font-family:var(--font-display); font-size:28px; color:var(--gold); }
+  .stat-label { font-size:12px; color:var(--cream-dim); margin-top:2px; line-height:1.35; }
+  .stats-heading { font-family:var(--font-display); font-weight:600; font-size:17px; margin:18px 0 10px; }
+  .genre-bar-row { margin-bottom:12px; }
+  .genre-bar-label { display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:4px; gap:10px; }
+  .genre-bar-label span:first-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .genre-bar-track { background:var(--panel); border-radius:6px; height:8px; overflow:hidden; }
+  .genre-bar-fill { background:var(--sage); height:100%; border-radius:6px; }
+
+  .empty-state { text-align:center; padding:56px 20px; color:var(--cream-dim); }
+  .empty-state h2 { font-family:var(--font-display); color:var(--cream); font-weight:600; font-size:19px; margin:0 0 8px; }
+  .empty-state p { font-size:13.5px; line-height:1.6; margin:0 0 18px; }
+  .toast { position:fixed; bottom:96px; left:50%; transform:translateX(-50%); background:var(--panel-2); color:var(--cream);
+    padding:10px 18px; border-radius:20px; font-size:13px; box-shadow:0 6px 16px rgba(0,0,0,0.4); z-index:50; max-width:90%; text-align:center; }
+  .warn-banner { background:rgba(168,82,70,0.15); border:1px solid var(--rust); color:#E8C4BE; border-radius:10px;
+    padding:10px 14px; font-size:12.5px; line-height:1.5; margin-bottom:16px; }
+  .info-banner { background:var(--panel); border:1px solid var(--border); color:var(--cream-dim); border-radius:10px;
+    padding:11px 14px; font-size:12px; line-height:1.55; margin-bottom:14px; }
+  .info-banner strong { color:var(--cream); font-weight:600; }
+  .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:60; }
+  .modal { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:61;
+    width:min(400px, calc(100vw - 40px)); background:var(--panel-2); border:1px solid var(--border);
+    border-radius:14px; padding:20px; box-shadow:0 18px 44px rgba(0,0,0,0.55); }
+  .modal-msg { font-size:14px; line-height:1.55; color:var(--cream); margin-bottom:14px; }
+  .modal-msg .sub { display:block; margin-top:9px; font-size:12.5px; color:var(--cream-dim); line-height:1.5; }
+  .modal input[type=text] { margin-bottom:14px; }
+  .modal-actions { display:flex; gap:9px; }
+  .modal-actions .btn { flex:1; }
+  @media (prefers-reduced-motion:reduce) { .song-card { transition:none; } }
+  .tie-btn { background:none; border:1px dashed var(--border); color:var(--cream-dim); font-family:var(--font-sans);
+    font-size:13px; padding:8px 14px; border-radius:20px; cursor:pointer; }
+  .skip-btn:disabled, .tie-btn:disabled { opacity:.4; cursor:default; }
+  .conf { margin-top:18px; background:var(--panel); border-radius:12px; padding:12px 14px; }
+  .conf-top { display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--cream-dim); gap:10px; }
+  .conf-top strong { font-family:var(--font-display); font-size:18px; color:var(--gold); font-weight:600; }
+  .conf-track { background:var(--bg); border-radius:6px; height:6px; overflow:hidden; margin:8px 0 6px; }
+  .conf-fill { background:var(--gold); height:100%; border-radius:6px; transition:width .3s ease; }
+  .conf-sub { font-size:11.5px; color:var(--cream-dim); line-height:1.5; }
+  .duel.multi { gap:10px; }
+  .song-card.multi { padding:14px 16px 14px 44px; transform:none; }
+  .song-card.multi .song-title { font-size:18px; }
+  .song-card.multi .genre-tag { margin-bottom:6px; }
+  .song-card.multi.winner { transform:translateY(-2px) scale(1.01); }
+  .song-card.multi.loser { transform:scale(.98); }
+  .card-key { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:20px; height:20px; border-radius:50%;
+    border:1px solid rgba(0,0,0,0.2); color:var(--ink-soft); font-size:11px; display:flex; align-items:center; justify-content:center; }
+  .prompt-line { font-family:var(--font-display); font-style:italic; color:var(--cream-dim); font-size:15px; margin:4px 0 10px; text-align:center; }
+  details.settings { margin-top:14px; background:var(--panel); border-radius:12px; padding:0 14px; }
+  details.settings summary { cursor:pointer; padding:12px 0; font-size:12.5px; color:var(--cream-dim); list-style:none; display:flex; justify-content:space-between; }
+  details.settings summary::-webkit-details-marker { display:none; }
+  details.settings summary::after { content:'+'; color:var(--gold); font-size:15px; line-height:1; }
+  details.settings[open] summary::after { content:'\2212'; }
+  details.settings .spread-row { margin:0 0 12px; flex-wrap:wrap; }
+  .lock-card { background:var(--panel); border:1px solid var(--gold); border-radius:14px; padding:24px 20px 18px; text-align:center; margin-top:4px; }
+  .lock-card h2 { font-family:var(--font-display); font-weight:600; font-size:21px; margin:6px 0 8px; }
+  .lock-card p { font-size:13px; line-height:1.6; color:var(--cream-dim); margin:0 0 8px; }
+  .lock-card p strong { color:var(--cream); }
+  .lock-mark { width:44px; height:44px; border-radius:50%; background:var(--gold); color:var(--bg); font-size:22px; display:inline-flex; align-items:center; justify-content:center; }
+  .surprise-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .surprise-text { flex:1; min-width:0; font-size:12.5px; line-height:1.45; color:var(--cream-dim); }
+  .surprise-text strong { color:var(--cream); font-weight:600; }
+  .surprise-text .rk { font-family:var(--font-display); color:var(--gold); font-size:12px; }
+  .surprise-row .skip-btn { flex-shrink:0; font-size:12px; padding:6px 12px; }
+  .group-btn { display:block; width:100%; margin-top:14px; background:none; border:1px solid var(--sage); color:#D5E0C8;
+    font-family:var(--font-sans); font-size:13px; padding:10px 14px; border-radius:20px; cursor:pointer; }
+  .group-btn:disabled { opacity:.4; cursor:default; }
+  .group-bar { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:10px;
+    position:sticky; bottom:calc(66px + env(safe-area-inset-bottom)); z-index:20; background:var(--bg);
+    padding:10px 0; box-shadow:0 -10px 14px -8px var(--bg); }
+  .group-bar .btn { padding:9px 18px; font-size:13px; }
+  .group-count { font-size:12.5px; color:var(--cream-dim); }
+  .group-prompt { color:#D5E0C8; }
+  .song-card.selectable { outline:1.5px dashed rgba(124,143,104,0.7); outline-offset:-5px; }
+  .song-card.picked { box-shadow:0 0 0 3px var(--sage),0 10px 22px rgba(124,143,104,0.3); }
+  .song-card.picked .card-key { background:var(--sage); color:#fff; border-color:var(--sage); }
+  .kbd-hint { font-size:11px; color:var(--cream-dim); opacity:.7; text-align:center; margin-top:10px; }
+  @media (hover:none) { .kbd-hint { display:none; } }
+  .song-card:focus-visible, button:focus-visible, .pool-chip:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+// ================= State =================
+var songs = [];          // {id,title,artist,genre,legacyW,legacyL} + derived: rating, n, mu, v, sd
+var log = [];            // [{w:winnerId, l:loserId, t?:1 for a tie}] - the source of truth
+var selectedPools = [];
+var loaded = false;
+var screen = 'compare';
+var compareMode = 'balanced';
+var currentPair = null;
+var pairIsBridge = false;
+var animState = null;
+var undoStack = [];      // votes cast this session, newest last
+var libFilter = null;    // null = every pool (a pool may legitimately be called "all")
+var libGenres = [];
+var libLimit = 150;
+var lastShownIds = [];
+var searchQuery = '';
+var editMode = false;
+var selectedIds = {};
+var importFiles = [];
+var pasteGenre = '';
+var pasteText = '';
+var toastMsg = null;
+var toastTimer = null;
+var storageWarning = null;
+var lastFitMs = 0;
+var lastIters = 0;
+var settingsOpen = false;
+var topFocus = 0;        // when set, only the top N songs are in play (a polish pass)
+var recentIds = [];      // songs in the last matchup, so the same card does not show back to back
+var STORE_KEY = 'longplay-library-v1';
+var SETTINGS_REV = 2;    // bumped when a stored setting's meaning changes
+var PRIOR = 0.5;         // weak prior: half a win and half a loss vs the 1500 anchor
+var SCALE = 400/Math.LN10;
+var RANK_Z = 1.64;       // 90% range
+var VAR_INFLATE = 2.5;   // calibration factor on the uncertainty estimate (see recompute)
+var START_SD = 450;      // how unsure we are about a song nothing has been compared with
+
+// ================= Storage =================
+function asText(v, fallback){
+  var s = (v==null) ? '' : String(v).trim();
+  return s || fallback;
+}
+function asCount(v){ v = +v; return (isFinite(v) && v > 0) ? v : 0; }
+// Everything that enters from storage or a backup file passes through here, so a
+// hand-edited or partly corrupted file cannot put the app into a broken state.
+function sanitizeLibrary(rawSongs, rawLog){
+  var seen = {}, out = [];
+  (Array.isArray(rawSongs) ? rawSongs : []).forEach(function(s){
+    if(!s || typeof s !== 'object') return;
+    var title = asText(s.title, '');
+    if(!title) return;
+    var id = asText(s.id, '');
+    if(!id || seen[id]) id = genId();
+    seen[id] = true;
+    out.push({ id:id, title:title, artist:asText(s.artist,'Unknown'), genre:asText(s.genre,'Uncategorized'),
+               legacyW:asCount(s.legacyW), legacyL:asCount(s.legacyL), rating:1500, n:0, mu:0, v:4, sd:START_SD });
+  });
+  var cleanLog = [];
+  (Array.isArray(rawLog) ? rawLog : []).forEach(function(e){
+    if(!e || typeof e !== 'object') return;
+    var w = String(e.w), l = String(e.l);
+    if(w === l || !seen[w] || !seen[l]) return;
+    cleanLog.push(e.t ? { w:w, l:l, t:1 } : { w:w, l:l });
+  });
+  return { songs:out, log:cleanLog };
+}
+function applyStored(data){
+  if(Array.isArray(data)){ migrateOld(data, []); return; }
+  if(!data || typeof data !== 'object') throw new Error('bad');
+  if(Array.isArray(data.songs) && Array.isArray(data.log)){
+    var lib = sanitizeLibrary(data.songs, data.log);
+    songs = lib.songs; log = lib.log;
+    selectedPools = Array.isArray(data.selectedPools) ? data.selectedPools.map(String) : [];
+    if(data.precision && PRECISION[data.precision]) precision = data.precision;
+    if((data.settingsRev||0) >= 2 && data.cardsPerRound>=2 && data.cardsPerRound<=4) cardsPerRound = data.cardsPerRound|0;
+    if(data.topFocus>0) topFocus = Math.min(5000, data.topFocus|0);
+    if(data.compareMode==='within'||data.compareMode==='across'||data.compareMode==='balanced') compareMode = data.compareMode;
+  } else if(Array.isArray(data.songs)) migrateOld(data.songs, data.selectedPools);   // pre-v3: win/loss tallies only
+  else throw new Error('bad');
+}
+function loadSongs(){
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if(raw) applyStored(JSON.parse(raw));
+  } catch(e){
+    songs = []; log = [];
+    storageWarning = 'Could not read saved data. In a private browsing window, progress will not be saved.';
+  }
+  pruneSelectedPools();
+  rebuildSeen();
+  recompute(true);
+  loaded = true;
+  render();
+}
+// Older versions stored only per-song win/loss tallies, not who beat whom.
+// Convert those tallies into results against the 1500 anchor so the standing survives.
+function migrateOld(oldSongs, pools){
+  var conv = (Array.isArray(oldSongs)?oldSongs:[]).map(function(s){
+    s = s || {};
+    var c = asCount(s.comparisons), w = Math.min(asCount(s.wins), c);
+    return { id:s.id, title:s.title, artist:s.artist, genre:s.genre, legacyW:w, legacyL:Math.max(0, c-w) };
+  });
+  songs = sanitizeLibrary(conv, []).songs;
+  log = [];
+  selectedPools = Array.isArray(pools) ? pools.map(String) : [];
+}
+function slimSongs(){
+  return songs.map(function(s){
+    return { id:s.id, title:s.title, artist:s.artist, genre:s.genre, legacyW:s.legacyW||0, legacyL:s.legacyL||0 };
+  });
+}
+function saveSongs(){
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ version:3, settingsRev:SETTINGS_REV, songs:slimSongs(), log:log,
+      selectedPools:selectedPools, compareMode:compareMode, precision:precision, cardsPerRound:cardsPerRound, topFocus:topFocus }));
+    storageWarning = null;
+  } catch(e){
+    storageWarning = 'Saving failed — storage may be full or blocked. Export a backup from the Import tab.';
+  }
+}
+
+// ================= Helpers =================
+function genId(){ return 'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function normKey(t,a){ return (String(t).trim()+'|'+String(a).trim()).toLowerCase(); }
+function escapeHtml(str){
+  return String(str==null?'':str).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function jsArg(str){
+  // Escaped for a JS string literal AND for the HTML attribute it sits inside.
+  var v = String(str).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r/g,'\\r').replace(/\n/g,'\\n')
+    .replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+  v = v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return "'"+v+"'";
+}
+function newSong(t,a,g){ return { id:genId(), title:t, artist:a, genre:g, legacyW:0, legacyL:0, rating:1500, n:0, mu:0, v:4, sd:START_SD }; }
+var songIndex = null;       // id -> song; dropped whenever the song list changes
+function findSong(id){
+  if(!songIndex){
+    songIndex = {};
+    for(var i=0;i<songs.length;i++) songIndex[songs[i].id] = songs[i];
+  }
+  return Object.prototype.hasOwnProperty.call(songIndex, id) ? songIndex[id] : null;
+}
+function invalidateIndex(){ songIndex = null; }
+function allGenres(){
+  var seen={}, g=[];
+  songs.forEach(function(s){ if(!seen[s.genre]){ seen[s.genre]=true; g.push(s.genre); } });
+  return g.sort(function(a,b){ return a.localeCompare(b); });
+}
+function genreCount(g){ var n=0; for(var i=0;i<songs.length;i++) if(songs[i].genre===g) n++; return n; }
+function pruneSelectedPools(){
+  var g=allGenres();
+  selectedPools = selectedPools.filter(function(p, i, arr){ return g.indexOf(p)>-1 && arr.indexOf(p)===i; });
+  if(selectedPools.length === g.length) selectedPools = [];
+}
+function activePools(){ return selectedPools.length ? selectedPools : allGenres(); }
+function eligibleSongs(){
+  var pool;
+  if(!selectedPools.length) pool = songs.slice();
+  else {
+    var on={}; selectedPools.forEach(function(p){ on[p]=true; });
+    pool = songs.filter(function(s){ return on[s.genre]; });
+  }
+  // Polish pass: only the leaders are in play, so the top of the list gets sorted out
+  // properly instead of spending votes on songs nobody will scroll to.
+  if(topFocus && pool.length > topFocus) pool = sortedByRating(pool).slice(0, topFocus);
+  return pool;
+}
+function poolsWithPairs(){
+  var n=0;
+  activePools().forEach(function(p){ if(genreCount(p)>=2) n++; });
+  return n;
+}
+function crossCount(){
+  var n=0;
+  log.forEach(function(e){ var a=findSong(e.w), b=findSong(e.l); if(a && b && a.genre!==b.genre) n++; });
+  return n;
+}
+function plural(n, word){ return n+' '+word+(n===1?'':'s'); }
+
+// ================= Global rating fit (Bradley-Terry, MM algorithm) =================
+// Every rating is derived from the entire comparison history, so results do not depend
+// on the order matches were played. One scale for all songs. A fixed anchor of
+// strength 1 (displayed as 1500) pins the scale and keeps an undefeated song finite.
+// A tie counts as half a win for each side.
+//
+// Alongside each rating the fit estimates how uncertain it is (from the Fisher
+// information, discounted for how uncertain the opponents themselves are). That
+// uncertainty is what the matchmaker uses to decide which comparison teaches the most.
+function recompute(cold){
+  var t0 = Date.now();
+  var n = songs.length;
+  invalidateIndex();
+  if(!n){ lastFitMs = 0; return; }
+  var idx = {};
+  for(var i=0;i<n;i++) idx[songs[i].id] = i;
+
+  var theta = new Float64Array(n);
+  var W = new Float64Array(n);
+  var anchorN = new Float64Array(n);
+  var nComp = new Float64Array(n);
+  for(var i=0;i<n;i++){
+    var prev = songs[i].mu;
+    // Warm start from the last fit when available: the optimum is unique, so this
+    // only changes how fast we get there, not where we end up.
+    theta[i] = (!cold && typeof prev === 'number' && isFinite(prev)) ? Math.exp(prev) : 1;
+    var lw = songs[i].legacyW||0, ll = songs[i].legacyL||0;
+    W[i] = lw + PRIOR;
+    anchorN[i] = lw + ll + 2*PRIOR;
+    nComp[i] = lw + ll;
+  }
+  var A = new Int32Array(log.length), B = new Int32Array(log.length), m = 0;
+  for(var k=0;k<log.length;k++){
+    var a = idx[log[k].w], b = idx[log[k].l];
+    if(a===undefined || b===undefined || a===b) continue;
+    A[m]=a; B[m]=b; m++;
+    if(log[k].t){ W[a] += 0.5; W[b] += 0.5; }
+    else W[a] += 1;
+    nComp[a] += 1; nComp[b] += 1;
+  }
+
+  // Adjacency lists, so each song's update can see its opponents directly.
+  var deg = new Int32Array(n+1);
+  for(var k=0;k<m;k++){ deg[A[k]+1]++; deg[B[k]+1]++; }
+  for(var i=0;i<n;i++) deg[i+1] += deg[i];
+  var adj = new Int32Array(deg[n]), fill = deg.slice(0, n);
+  for(var k=0;k<m;k++){ adj[fill[A[k]]++] = B[k]; adj[fill[B[k]]++] = A[k]; }
+
+  // Maximise the likelihood one song at a time with Newton steps on log-strength.
+  // The problem is concave with a single optimum, so this lands on the same answer as
+  // the classic MM iteration, in far fewer passes.
+  var x = new Float64Array(n);
+  for(var i=0;i<n;i++) x[i] = Math.log(theta[i]);
+  var maxIter = 2000;
+  lastIters = 0;
+  for(var iter=0; iter<maxIter; iter++){
+    var maxStep = 0;
+    for(var i=0;i<n;i++){
+      var xi = x[i];
+      var p0 = 1/(1+Math.exp(-xi));
+      var grad = W[i] - anchorN[i]*p0, hess = anchorN[i]*p0*(1-p0);
+      for(var e=deg[i]; e<deg[i+1]; e++){
+        var p = 1/(1+Math.exp(x[adj[e]]-xi));
+        grad -= p; hess += p*(1-p);
+      }
+      var step = hess > 1e-12 ? grad/hess : 0;
+      if(step > 2) step = 2; else if(step < -2) step = -2;
+      x[i] = xi + step;
+      var as = step < 0 ? -step : step;
+      if(as > maxStep) maxStep = as;
+    }
+    lastIters = iter+1;
+    if(maxStep < 1e-9) break;
+    if((iter & 15) === 15 && Date.now()-t0 > 600) break;   // never freeze the UI
+  }
+  for(var i=0;i<n;i++) theta[i] = Math.exp(x[i]);
+
+  // Uncertainty: information from the anchor plus each comparison, where a comparison
+  // against a shaky opponent is worth less (Glicko-style discount).
+  var mu = new Float64Array(n), info = new Float64Array(n), vv = new Float64Array(n);
+  for(var i=0;i<n;i++) mu[i] = Math.log(theta[i]);
+  for(var i=0;i<n;i++){ var pa = theta[i]/(theta[i]+1); info[i] = anchorN[i]*pa*(1-pa); }
+  var baseInfo = info.slice ? info.slice() : new Float64Array(info);
+  var q = new Float64Array(m);
+  for(var k=0;k<m;k++){
+    var p = 1/(1+Math.exp(mu[B[k]]-mu[A[k]]));
+    q[k] = p*(1-p);
+    info[A[k]] += q[k]; info[B[k]] += q[k];
+  }
+  for(var i=0;i<n;i++) vv[i] = 1/Math.max(info[i], 1e-6);
+  for(var sweep=0; sweep<2; sweep++){
+    for(var i=0;i<n;i++) info[i] = baseInfo[i];
+    for(var k=0;k<m;k++){
+      info[A[k]] += q[k]/(1+q[k]*vv[B[k]]);
+      info[B[k]] += q[k]/(1+q[k]*vv[A[k]]);
+    }
+    for(var i=0;i<n;i++) vv[i] = 1/Math.max(info[i], 1e-6);
+  }
+  for(var i=0;i<n;i++){
+    var s = songs[i];
+    s.mu = mu[i];
+    // The information-based figure is the best case: it assumes every opponent's rating
+    // is known exactly and that taste is perfectly transitive. Checked against simulated
+    // libraries it runs optimistic, so it is widened by a measured factor before anything
+    // is claimed from it.
+    s.v = vv[i]*VAR_INFLATE;
+    s.sd = Math.round(SCALE*Math.sqrt(vv[i]));
+    s.rating = Math.round(1500 + SCALE*mu[i]);
+    s.n = nComp[i];
+  }
+  computePlaces();
+  lastFitMs = Date.now()-t0;
+  confCache = null;
+}
+// For each song: how many other songs it could plausibly still swap places with
+// (the expected number of songs currently on the wrong side of it).
+// For each song: the range of positions it could honestly occupy, at roughly 90%
+// confidence. What moves a song is mostly its OWN rating being off — and that slides it
+// past every nearby song at once, so the range is "where would this song sit if its
+// rating were at the low end of its error bar, and at the high end", counting the
+// neighbours it would pass (each neighbour's own error bar softening the count).
+// Treating neighbours as independent coin flips instead would understate the range
+// several-fold: checked against simulated libraries, that version's ranges held the
+// true position about a quarter of the time rather than nine times in ten.
+function computePlaces(){
+  var n = songs.length;
+  var sorted = songs.slice().sort(function(a,b){ return a.mu-b.mu; });
+  var mus = new Float64Array(n), sds = new Float64Array(n);
+  for(var i=0;i<n;i++){ mus[i] = sorted[i].mu; sds[i] = Math.sqrt(sorted[i].v); }
+  // How many songs sit above a given rating, counted straight off the sorted list.
+  function above(x){
+    var lo = 0, hi = n;
+    while(lo < hi){ var mid = (lo+hi)>>1; if(mus[mid] <= x) lo = mid+1; else hi = mid; }
+    return n - lo;
+  }
+  var Z = RANK_Z, W = 100;
+  for(var i=0;i<n;i++){
+    var si = sorted[i];
+    if(!(si.n > 0)){
+      si.places = n/2; si.rankLo = 1; si.rankHi = n;
+      continue;
+    }
+    var sdi = sds[i];
+    var xLo = si.mu - Z*sdi, xHi = si.mu + Z*sdi;
+    var aboveLo = above(xLo), aboveHi = above(xHi), aboveMid = n-1-i, varInd = 0;
+    // Near neighbours are not simply above or below: each has its own error bar, so in a
+    // window around this song swap the hard count for the probability.
+    var from = Math.max(0, i-W), to = Math.min(n, i+W+1);
+    for(var j=from;j<to;j++){
+      if(j === i) continue;
+      var d = mus[j] - si.mu, sdj = sds[j];
+      aboveLo += normCdf((mus[j]-xLo)/sdj) - (mus[j] > xLo ? 1 : 0);
+      aboveHi += normCdf((mus[j]-xHi)/sdj) - (mus[j] > xHi ? 1 : 0);
+      var p = normCdf(d/Math.sqrt(si.v + sorted[j].v));
+      aboveMid += p - (j > i ? 1 : 0);
+      varInd += p*(1-p);
+    }
+    // The spread between the two ends is this song's own uncertainty sliding it past
+    // its neighbours; varInd is the neighbours' own coin flips. Both go into the range.
+    var sdOwn = (aboveLo - aboveHi)/(2*Z);
+    var sdRank = Math.sqrt(sdOwn*sdOwn + varInd);
+    si.rankLo = Math.max(1, Math.min(n, Math.round(1 + aboveMid - Z*sdRank)));
+    si.rankHi = Math.max(si.rankLo, Math.min(n, Math.round(1 + aboveMid + Z*sdRank)));
+    si.places = (si.rankHi - si.rankLo)/2;   // how far this song could still move, in places
+  }
+}
+// What the stored comparison data actually consists of. Three things can be in there:
+// head-to-head results from this version, ties, and carried-over tallies — a song's
+// win/loss counts from before the app recorded who beat whom (and the residue of songs
+// you have deleted, whose matches were folded into their opponents' tallies).
+function dataBreakdown(){
+  var results = 0, ties = 0, legacySongs = 0, legacyUnits = 0;
+  for(var i=0;i<log.length;i++){ if(log[i].t) ties++; else results++; }
+  songs.forEach(function(s){
+    var u = (s.legacyW||0) + (s.legacyL||0);
+    if(u > 0){ legacySongs++; legacyUnits += u; }
+  });
+  return { results:results, ties:ties, legacySongs:legacySongs, legacyUnits:Math.round(legacyUnits) };
+}
+// How self-consistent the votes are: how often a recorded pick agrees with the order
+// the whole history settles on, next to how often it would agree if every matchup went
+// the way the finished ratings say it should. A gap between the two is the noise in
+// the judging; the closer the matchups, the lower both numbers naturally sit.
+function consistency(){
+  var agree = 0, expect = 0, total = 0;
+  for(var i=0;i<log.length;i++){
+    var e = log[i];
+    if(e.t) continue;
+    var w = findSong(e.w), l = findSong(e.l);
+    if(!w || !l) continue;
+    total++;
+    var p = 1/(1+Math.exp(l.mu - w.mu));   // model's chance the winner wins
+    if(w.mu > l.mu) agree++;
+    else if(w.mu === l.mu) agree += 0.5;
+    expect += Math.max(p, 1-p);
+  }
+  if(!total) return null;
+  return { total:total, agree:agree/total, expect:expect/total };
+}
+// The picks that sit worst with everything else you have said. Usually just close
+// calls; occasionally a mis-tap worth judging again.
+function surprises(limit){
+  var out = [];
+  for(var i=0;i<log.length;i++){
+    var e = log[i];
+    if(e.t) continue;
+    var w = findSong(e.w), l = findSong(e.l);
+    if(!w || !l || w.mu >= l.mu) continue;
+    out.push({ entry:e, w:w, l:l, gap:l.mu - w.mu });
+  }
+  out.sort(function(a,b){ return b.gap - a.gap; });
+  return out.slice(0, limit || 6);
+}
+// With the warm start a refit after one vote is quick, so ratings stay current after
+// every vote and matchmaking always works from the latest picture. On very large
+// libraries (where a fit takes noticeable time) it falls back to refitting every few votes.
+var ratingsDirty = false;
+var votesSinceFit = 0;
+var seenBy = {};                 // song id -> { opponent id -> times judged }
+function markDirty(){ ratingsDirty = true; confCache = null; }
+function bumpSeen(a, b, d){
+  var ma = seenBy[a] || (seenBy[a] = {}), mb = seenBy[b] || (seenBy[b] = {});
+  ma[b] = Math.max(0, (ma[b]||0)+d);
+  mb[a] = Math.max(0, (mb[a]||0)+d);
+}
+function rebuildSeen(){
+  seenBy = {};
+  for(var i=0;i<log.length;i++) bumpSeen(log[i].w, log[i].l, 1);
+}
+function ensureRatings(force){
+  if(!ratingsDirty) return;
+  var every = lastFitMs > 250 ? 5 : (lastFitMs > 90 ? 2 : 1);
+  if(force || votesSinceFit >= every){
+    recompute(false);
+    ratingsDirty = false;
+    votesSinceFit = 0;
+  }
+}
+function coverageSpread(pool){
+  pool = pool || eligibleSongs();
+  if(!pool.length) return { lo:0, hi:0, zero:0, median:0 };
+  var lo=Infinity, hi=0, zero=0, counts=[];
+  pool.forEach(function(s){
+    var c=s.n||0; counts.push(c);
+    if(c<lo) lo=c;
+    if(c>hi) hi=c;
+    if(c===0) zero++;
+  });
+  counts.sort(function(a,b){ return a-b; });
+  return { lo:lo, hi:hi, zero:zero, median:counts[Math.floor(counts.length/2)] };
+}
+function totalComparisons(){ return log.length; }
+function avgComparisons(pool){
+  pool = pool || songs;
+  if(!pool.length) return '0';
+  var n=0; pool.forEach(function(s){ n += (s.n||0); });
+  return (n/pool.length).toFixed(1);
+}
+
+// ================= How settled is the ranking? =================
+// For every pair of songs, the chance the current order has them the right way round
+// (from both ratings and their uncertainty). Averaged, and rescaled so a blind guess
+// is 0% and a certain order is 100%. Also: the typical number of places a song could
+// still move. Large lists are estimated from a sample so this stays fast.
+var confCache = null;
+function normCdf(x){ return 1/(1+Math.exp(-1.702*x)); }
+function rankingConfidence(pool){
+  pool = pool || eligibleSongs();
+  var key = log.length+':'+pool.length+':'+songs.length+':'+(pool[0]&&pool[0].id);
+  if(confCache && confCache.key===key) return confCache.val;
+  var n = pool.length;
+  if(n < 2){ return { pct:100, places:0, key:key }; }
+  var sorted = pool.slice().sort(function(a,b){ return a.mu-b.mu; });
+  var S = 250, exact = n <= S;
+  // Deterministic sample, so the number does not flicker between renders.
+  var picks = [];
+  if(exact){ for(var i=0;i<n;i++) picks.push(i); }
+  else { for(var i=0;i<S;i++) picks.push(Math.floor((i+0.5)*n/S)); }
+  var totalWrong = 0, sumPlaces = 0;
+  picks.forEach(function(i){
+    var si = sorted[i], wrong = 0;
+    for(var t=0;t<picks.length;t++){
+      var j = picks[t];
+      if(j===i) continue;
+      var sj = sorted[j];
+      wrong += normCdf(-Math.abs(si.mu - sj.mu)/Math.sqrt(si.v + sj.v));
+    }
+    if(!exact) wrong *= (n-1)/(picks.length-1);
+    totalWrong += wrong;
+    sumPlaces += (si.places||0);
+  });
+  var sampleIdx = picks;
+  var s = sampleIdx.length;
+  var pairWrong = totalWrong/(s*(n-1));           // fraction of pairs likely misordered
+  var pct = Math.max(0, Math.min(100, (1 - 2*pairWrong)*100));
+  var val = { pct:pct, places:sumPlaces/s };
+  confCache = { key:key, val:val };
+  return val;
+}
+
+// ================= Pool connectivity =================
+// Two pools are linked if any song in one has been compared with a song in the other.
+function poolGroups(pools){
+  var parent = {};
+  pools.forEach(function(p){ parent[p]=p; });
+  function find(x){ while(parent[x]!==x){ parent[x]=parent[parent[x]]; x=parent[x]; } return x; }
+  function union(a,b){ var ra=find(a), rb=find(b); if(ra!==rb) parent[ra]=rb; }
+  log.forEach(function(e){
+    var sa=findSong(e.w), sb=findSong(e.l);
+    if(!sa || !sb) return;
+    var ga=sa.genre, gb=sb.genre;
+    if(ga!==gb && Object.prototype.hasOwnProperty.call(parent,ga) && Object.prototype.hasOwnProperty.call(parent,gb)) union(ga,gb);
+  });
+  var groups={}, order=[];
+  pools.forEach(function(p){
+    var r=find(p);
+    if(!groups[r]){ groups[r]=[]; order.push(r); }
+    groups[r].push(p);
+  });
+  return order.map(function(k){ return groups[k]; });
+}
+
+// ================= Pairing =================
+// Simulations of a realistic (inconsistent) listener showed the most informative
+// one-on-one matchup is simply: the least-compared song against a song rated right
+// next to it. Beyond that, the big saving comes from showing more than two songs per
+// round: picking the best of three records two results with one tap.
+// ---- Locking: when is a song's place "set"? ----
+// A song retires from matchmaking once its place is pinned down to within the chosen
+// precision, or once it hits the hard cap on comparisons, whichever comes first.
+// Retired songs can still be the opponent for a song that is being placed (they are
+// the reference points), but they are never the song being tested.
+// When every song in play has retired, the ranking is locked.
+var PRECISION = {
+  quick:    { label:'Quick',    cap:8,  frac:0.12 },
+  standard: { label:'Standard', cap:14, frac:0.07 },
+  thorough: { label:'Thorough', cap:24, frac:0.04 },
+  endless:  { label:'No limit', cap:Infinity, frac:0 }
+};
+var precision = 'standard';
+function precisionCfg(){ return PRECISION[precision] || PRECISION.standard; }
+function placeTarget(total){
+  var f = precisionCfg().frac;
+  return f ? Math.max(1, f*total) : 0;
+}
+// A song that is set can still appear as the opponent for a song being placed — it is
+// a reference point — but only a few more times, so the cap stays a real ceiling.
+var OPPONENT_GRACE = 4;
+function canOppose(s){
+  var cap = songCap();
+  return cap === Infinity || (s.n||0) < cap + OPPONENT_GRACE;
+}
+function songCap(){
+  var P = precisionCfg();
+  // A polish pass gives its songs a fresh allowance, since the whole point is to
+  // separate songs that the first pass left in a clump.
+  return P.cap === Infinity ? Infinity : (topFocus ? P.cap*2 : P.cap);
+}
+function isOpen(s){
+  var cap = songCap();
+  if(cap === Infinity) return true;
+  if((s.n||0) >= cap) return false;
+  if((s.n||0) >= 2 && s.places <= placeTarget(topFocus || songs.length)) return false;
+  return true;
+}
+function setTopFocus(n){
+  if(animState) return;
+  reviewEntry = null;
+  topFocus = n|0;
+  currentPair = null;
+  if(topFocus && compareMode!=='balanced') compareMode = 'balanced';
+  saveSongs(); render();
+  if(topFocus) showToast('Now comparing the top '+topFocus);
+}
+// Rough number of rounds before every song in `pool` is set (hard-cap bound; songs
+// that settle early make it shorter).
+var ROUND_SPREAD = 1.85;   // measured: how many comparisons a round adds to songs that still need them
+function roundsLeft(pool){
+  var cap = songCap();
+  if(cap === Infinity) return null;
+  var need = 0;
+  for(var i=0;i<pool.length;i++) if(isOpen(pool[i])) need += Math.max(1, cap - (pool[i].n||0));
+  var k = Math.min(cardsPerRound, pool.length);
+  return Math.ceil(need / (ROUND_SPREAD*(k-1)));
+}
+function openCount(pool){ var c=0; for(var i=0;i<pool.length;i++) if(isOpen(pool[i])) c++; return c; }
+function setPrecision(p){
+  if(!PRECISION[p] || animState) return;
+  reviewEntry = null;
+  precision = p; currentPair = null; saveSongs(); render();
+}
+function leastCompared(pool){
+  var lo = Infinity;
+  for(var i=0;i<pool.length;i++){ var c=pool[i].n||0; if(c<lo) lo=c; }
+  var head = pool.filter(function(s){ return (s.n||0) <= lo; });
+  return head[Math.floor(Math.random()*head.length)];
+}
+var cardsPerRound = 3;   // 2, 3 or 4 songs on screen; you pick the best of them
+// Build one round: the song being placed (`firsts`) plus opponents drawn from
+// `seconds`, subject to allowed(a,b) — the pool and mode rules.
+function bestSet(firsts, seconds, allowed, k){
+  if(!firsts.length || !seconds.length) return null;
+  var open = firsts.filter(isOpen);
+  if(!open.length) return null;
+  // Focus: the least-compared open song (ties broken at random), steering clear of
+  // the songs that were just on screen.
+  var fresh = open.filter(function(s){ return recentIds.indexOf(s.id) === -1; });
+  var a = leastCompared(fresh.length ? fresh : open);
+  // Opponents: the songs rated closest to it — the matchups whose outcome is least
+  // predictable, so each vote carries the most information. Among the closest,
+  // prefer ones this song has not met before and ones that have played less.
+  var opp = seconds.filter(canOppose);
+  if(opp.length < 2) opp = seconds.slice();
+  opp.sort(function(x,y){ return x.mu - y.mu; });
+  var lo = 0, hi = opp.length;
+  while(lo < hi){ var mid = (lo+hi)>>1; if(opp[mid].mu < a.mu) lo = mid+1; else hi = mid; }
+  var near = [];
+  for(var span=40; ; span*=4){
+    near = [];
+    for(var j=Math.max(0,lo-span); j<Math.min(opp.length,lo+span); j++){
+      var b = opp[j];
+      if(b.id !== a.id && allowed(a,b)) near.push(b);
+    }
+    if(near.length >= k-1+4 || span >= opp.length) break;
+  }
+  if(!near.length) return null;
+  var met = seenBy[a.id] || {};
+  function penalty(x){ return (met[x.id]?1:0) + (recentIds.indexOf(x.id)>-1?1:0); }
+  near.sort(function(x,y){ return Math.abs(x.mu-a.mu) - Math.abs(y.mu-a.mu); });
+  var chosen = [a], taken = {};
+  taken[a.id] = true;
+  for(var slot=1; slot<k; slot++){
+    var cand = [];
+    for(var c=0;c<near.length && cand.length<6;c++) if(!taken[near[c].id]) cand.push(near[c]);
+    if(!cand.length) break;
+    var lowest = Math.min.apply(null, cand.map(penalty));
+    var tier = cand.filter(function(x){ return penalty(x)===lowest; });
+    tier.sort(function(x,y){ return (x.n||0)-(y.n||0); });
+    var pick = tier[Math.floor(Math.random()*Math.min(3, tier.length))];
+    taken[pick.id] = true;
+    chosen.push(pick);
+  }
+  if(chosen.length < 2) return null;
+  // Shuffle: which card sits where carries no meaning.
+  for(var i=chosen.length-1;i>0;i--){ var r=Math.floor(Math.random()*(i+1)); var t=chosen[i]; chosen[i]=chosen[r]; chosen[r]=t; }
+  return chosen;
+}
+function bridgeSet(first, pool, k){
+  var groups = poolGroups(activePools());
+  if(groups.length < 2) return null;
+  var gIdx = {};
+  groups.forEach(function(gr, gi){ gr.forEach(function(p){ gIdx[p]=gi; }); });
+  return bestSet(first, pool, function(a,b){ return gIdx[a.genre] !== gIdx[b.genre]; }, k);
+}
+function pickPair(mode){
+  var pool = eligibleSongs();
+  pairIsBridge = false;
+  if(pool.length < 2) return null;
+  var k = Math.min(cardsPerRound, pool.length);
+  if(mode !== 'within' && poolGroups(activePools()).length > 1 && (mode==='across' || Math.random()<0.5)){
+    var bp = bridgeSet(pool, pool, k);
+    if(bp){ pairIsBridge = true; return bp; }
+  }
+  var rule = function(){ return true; };
+  if(mode === 'within'){
+    rule = function(a,b){ return a.genre === b.genre; };
+    var byGenre = {};
+    pool.forEach(function(s){ byGenre[s.genre]=(byGenre[s.genre]||0)+1; });
+    pool = pool.filter(function(s){ return byGenre[s.genre] >= 2; });
+    if(pool.length < 2) return null;
+  } else if(mode === 'across' && activePools().length > 1){
+    rule = function(a,b){ return a.genre !== b.genre; };
+  }
+  var set = bestSet(pool, pool, rule, k);
+  if(!set && mode !== 'balanced') set = bestSet(pool, pool, function(){ return true; }, k);
+  return set;
+}
+function setMode(m){
+  if(animState) return;
+  reviewEntry = null;
+  compareMode=m; currentPair=pickPair(compareMode); saveSongs(); render();
+}
+function setCards(k){
+  if(animState) return;
+  reviewEntry = null;
+  groupMode = false; groupSel = []; groupFor = null;
+  k = Math.max(2, Math.min(4, k|0));
+  cardsPerRound = k; currentPair = pickPair(compareMode); saveSongs(); render();
+}
+function sameSet(set){
+  if(!currentPair || currentPair.length !== set.length) return false;
+  for(var i=0;i<set.length;i++){ if(currentPair[i] !== set[i] || !findSong(set[i].id)) return false; }
+  return true;
+}
+function skipPair(){
+  if(animState || !currentPair) return;
+  reviewEntry = null;
+  recentIds = currentPair.map(function(s){ return s.id; });
+  currentPair=pickPair(compareMode);
+  render();
+}
+// One round = one entry on the undo stack, however many results it recorded.
+// Re-judging one earlier pick: the fresh result replaces it, so a mis-tap is corrected
+// rather than averaged with the correction.
+var reviewEntry = null;
+var lastSurprises = [];
+function reJudge(i){
+  var item = lastSurprises[i];
+  if(!item || animState) return;
+  if(!findSong(item.w.id) || !findSong(item.l.id) || log.indexOf(item.entry) === -1) return;
+  // The pair has to be in play for the round to make sense, so widen the selection if
+  // this song or its opponent is currently filtered out.
+  var elig = eligibleSongs();
+  if(elig.indexOf(item.w) === -1 || elig.indexOf(item.l) === -1){
+    topFocus = 0;
+    selectedPools = [];
+    saveSongs();
+  }
+  reviewEntry = item.entry;
+  currentPair = Math.random()<0.5 ? [item.w, item.l] : [item.l, item.w];
+  pairIsBridge = false;
+  setScreen('compare');
+}
+function cancelReview(){
+  reviewEntry = null;
+  currentPair = pickPair(compareMode);
+  render();
+}
+function dropEntry(e){
+  var at = log.indexOf(e);
+  if(at === -1) return false;
+  log.splice(at, 1);
+  bumpSeen(e.w, e.l, -1);
+  var w = findSong(e.w), l = findSong(e.l);
+  if(w) w.n = Math.max(0,(w.n||0)-1);
+  if(l) l.n = Math.max(0,(l.n||0)-1);
+  return true;
+}
+// winnerId: one song beat the rest. better (array of ids): those songs each beat every
+// song not in it, and are even with each other. Neither: everything was even.
+function recordRound(set, winnerId, better){
+  if(reviewEntry){
+    var ids = set.map(function(s){ return s.id; });
+    if(set.length === 2 && ids.indexOf(reviewEntry.w) > -1 && ids.indexOf(reviewEntry.l) > -1){
+      dropEntry(reviewEntry);
+      undoStack = [];           // the replaced vote is gone; no half-undone state
+    }
+    reviewEntry = null;
+  }
+  var entries = [];
+  if(better && better.length){
+    var top = set.filter(function(s){ return better.indexOf(s.id) > -1; });
+    var rest = set.filter(function(s){ return better.indexOf(s.id) === -1; });
+    top.forEach(function(a){ rest.forEach(function(b){ entries.push({ w:a.id, l:b.id }); }); });
+    for(var i=0;i<top.length;i++) for(var j=i+1;j<top.length;j++) entries.push({ w:top[i].id, l:top[j].id, t:1 });
+  } else if(winnerId){
+    var w = null;
+    set.forEach(function(s){ if(s.id===winnerId) w = s; });
+    set.forEach(function(s){ if(s!==w) entries.push({ w:w.id, l:s.id }); });
+  } else {
+    for(var i=0;i<set.length;i++) for(var j=i+1;j<set.length;j++) entries.push({ w:set[i].id, l:set[j].id, t:1 });
+  }
+  entries.forEach(function(e){
+    log.push(e);
+    bumpSeen(e.w, e.l, 1);
+    var a=findSong(e.w), b=findSong(e.l);
+    if(a) a.n=(a.n||0)+1;      // counts update instantly so matchmaking stays fair
+    if(b) b.n=(b.n||0)+1;
+  });
+  undoStack.push({ entries:entries, set:set.slice() });
+  if(undoStack.length > 200) undoStack.shift();
+  votesSinceFit++;
+  markDirty();
+  ensureRatings(false);
+  saveSongs();
+  recentIds = set.map(function(s){ return s.id; });
+  currentPair = pickPair(compareMode);
+}
+// ---- "These beat that" rounds ----
+// For three or four songs where two are about as good as each other and clearly better
+// than the rest: a button switches the cards from "pick the best" to "select the better
+// group". Tapping selects; with three songs the second tap records it, with four a
+// Done button appears once two are picked (a third tap also records).
+var groupMode = false;
+var groupSel = [];
+var groupFor = null;        // the round the selection belongs to
+function groupActive(){
+  if(groupMode && groupFor !== currentPair){ groupMode = false; groupSel = []; groupFor = null; }
+  return groupMode;
+}
+function startGroup(){
+  if(!currentPair || currentPair.length < 3 || animState || modal) return;
+  groupMode = true; groupSel = []; groupFor = currentPair;
+  render();
+}
+function cancelGroup(){ groupMode = false; groupSel = []; groupFor = null; render(); }
+function toggleGroupPick(id){
+  if(!groupActive() || animState) return;
+  var i = groupSel.indexOf(id);
+  if(i > -1) groupSel.splice(i, 1); else groupSel.push(id);
+  if(groupSel.length >= currentPair.length - 1) commitGroup();
+  else render();
+}
+function commitGroup(){
+  if(!groupActive() || animState) return;
+  var set = currentPair.slice();
+  var better = groupSel.filter(function(id){ return set.some(function(s){ return s.id===id; }); });
+  if(better.length < 2 || better.length > set.length - 1) return;
+  groupMode = false; groupSel = []; groupFor = null;
+  var mark = {}; better.forEach(function(id){ mark[id] = true; });
+  animState = { better:mark };
+  render();
+  setTimeout(function(){
+    animState = null;
+    if(sameSet(set)) recordRound(set, null, better);
+    render();
+  },380);
+}
+function chooseWinner(id){
+  if(!currentPair || animState || modal) return;
+  if(groupActive()){ toggleGroupPick(id); return; }
+  var set = currentPair.slice();
+  if(!set.some(function(s){ return s.id===id; })) return;
+  animState={winnerId:id};
+  render();
+  setTimeout(function(){
+    animState=null;
+    // The round may have been replaced meanwhile (e.g. a pool was deselected).
+    if(sameSet(set)) recordRound(set, id);
+    render();
+  },380);
+}
+function chooseTie(){
+  if(!currentPair || animState || modal) return;
+  if(groupActive()){ groupMode = false; groupSel = []; groupFor = null; }
+  var set = currentPair.slice();
+  animState={tie:true};
+  render();
+  setTimeout(function(){
+    animState=null;
+    if(sameSet(set)){
+      recordRound(set, null);
+      showToast(set.length>2 ? 'Called them all even' : 'Called it even');
+    }
+    render();
+  },250);
+}
+function undoLast(){
+  if(animState || !undoStack.length) return;
+  var round = undoStack.pop();
+  var removed = 0;
+  // Remove exactly the results that round recorded (normally the newest log entries).
+  for(var i=round.entries.length-1;i>=0;i--){
+    var e = round.entries[i];
+    var at = log.lastIndexOf(e);
+    if(at === -1) continue;
+    log.splice(at, 1);
+    removed++;
+    bumpSeen(e.w, e.l, -1);
+    var w=findSong(e.w), l=findSong(e.l);
+    if(w) w.n = Math.max(0,(w.n||0)-1);
+    if(l) l.n = Math.max(0,(l.n||0)-1);
+  }
+  if(!removed){ undoStack = []; render(); return; }
+  markDirty();
+  ensureRatings(true);
+  saveSongs();
+  var pools = activePools();
+  var elig = eligibleSongs();
+  var back = round.set.filter(function(s){
+    return findSong(s.id) && pools.indexOf(s.genre)>-1 && elig.indexOf(s)>-1;
+  });
+  // Show that round again, unless it no longer fits what is in play.
+  currentPair = (back.length === round.set.length && back.length <= cardsPerRound) ? back : pickPair(compareMode);
+  pairIsBridge = false;
+  recentIds = [];
+  showToast('Undone — take another look');
+  render();
+}
+
+// ================= Pool selection =================
+function afterPoolChange(){
+  currentPair=null; reviewEntry=null;
+  if(compareMode==='within' && poolsWithPairs()===0) compareMode='balanced';
+  if(compareMode==='across' && activePools().length<2) compareMode='balanced';
+  saveSongs(); render();
+}
+function togglePool(genre){
+  if(animState) return;
+  var g=allGenres();
+  if(!selectedPools.length) selectedPools=g.slice();
+  var i=selectedPools.indexOf(genre);
+  if(i>-1){
+    if(selectedPools.length===1){ showToast('Keep at least one pool in play'); return; }
+    selectedPools.splice(i,1);
+  } else selectedPools.push(genre);
+  if(selectedPools.length===g.length) selectedPools=[];
+  afterPoolChange();
+}
+function selectAllPools(){ if(animState) return; selectedPools=[]; afterPoolChange(); }
+function selectNoPools(){
+  if(animState) return;
+  var g=allGenres();
+  // Keep the pool of the song on screen if there is one, otherwise the biggest pool.
+  var keep = currentPair ? currentPair[0].genre : null;
+  if(!keep){ var best=-1; g.forEach(function(p){ var c=genreCount(p); if(c>best){ best=c; keep=p; } }); }
+  selectedPools = (g.length>1 && keep) ? [keep] : [];
+  afterPoolChange();
+}
+
+// ================= Editing / pruning =================
+// Removing a song drops its matches from the history. To avoid throwing away the
+// evidence those matches gave the surviving opponent, each is folded into that
+// opponent's tally against the anchor.
+function absorbInto(deletedIds){
+  var dead = {};
+  deletedIds.forEach(function(id){ dead[id]=true; });
+  var kept = [];
+  log.forEach(function(e){
+    var dw = dead[e.w], dl = dead[e.l];
+    if(!dw && !dl){ kept.push(e); return; }
+    if(dw && dl) return;
+    var s = findSong(dw ? e.l : e.w);
+    if(!s) return;
+    if(e.t){ s.legacyW=(s.legacyW||0)+0.5; s.legacyL=(s.legacyL||0)+0.5; }
+    else if(dl) s.legacyW=(s.legacyW||0)+1;
+    else s.legacyL=(s.legacyL||0)+1;
+  });
+  log = kept;
+}
+function clearPairIfInvolves(ids){
+  if(currentPair && currentPair.some(function(s){ return ids.indexOf(s.id)>-1; })) currentPair=null;
+}
+function toggleEdit(){ editMode=!editMode; selectedIds={}; render(); }
+function toggleSelect(id){ if(selectedIds[id]) delete selectedIds[id]; else selectedIds[id]=true; render(); }
+function selectedCount(){ return Object.keys(selectedIds).length; }
+function selectAllShown(){
+  var ids = lastShownIds || [];
+  if(!ids.length) return;
+  var allOn = ids.every(function(id){ return selectedIds[id]; });
+  if(allOn) ids.forEach(function(id){ delete selectedIds[id]; });
+  else ids.forEach(function(id){ selectedIds[id]=true; });
+  render();
+}
+function finishDelete(ids, msg){
+  if(animState) animState=null;
+  absorbInto(ids);
+  var dead={}; ids.forEach(function(id){ dead[id]=true; });
+  songs = songs.filter(function(s){ return !dead[s.id]; });
+  invalidateIndex();
+  clearPairIfInvolves(ids);
+  ids.forEach(function(id){ delete selectedIds[id]; });
+  undoStack = [];
+  recentIds = [];
+  pruneSelectedPools();
+  rebuildSeen();
+  if(libFilter!==null && genreCount(libFilter)===0) libFilter=null;
+  recompute(false); ratingsDirty=false; votesSinceFit=0;
+  if(compareMode==='within' && poolsWithPairs()===0) compareMode='balanced';
+  saveSongs();
+  showToast(msg); render();
+}
+function deleteSelected(){
+  var ids=Object.keys(selectedIds).filter(function(id){ return findSong(id); });
+  if(!ids.length) return;
+  var byPool={};
+  ids.forEach(function(id){ var s=findSong(id); byPool[s.genre]=(byPool[s.genre]||0)+1; });
+  var detail=Object.keys(byPool).map(function(g){ return byPool[g]+' from '+g; }).join('\n');
+  askConfirm('Remove '+plural(ids.length,'song')+'?', detail+'\n\nTheir past matchups still count for the songs they played.',
+    'Remove', true, function(){
+      finishDelete(ids, 'Removed '+plural(ids.length,'song'));
+    });
+}
+function changeGenre(id){
+  var s=findSong(id);
+  if(!s) return;
+  askPrompt('Move "'+s.title+'" to which pool?', s.genre, 'Move', function(next){
+    if(!next){ showToast('Pool name cannot be empty'); return; }
+    var song=findSong(id);
+    if(!song || next===song.genre) return;
+    var wasSelected = selectedPools.length && selectedPools.indexOf(song.genre)>-1;
+    song.genre=next;
+    // If the song was in play, keep it in play under its new pool.
+    if(wasSelected && selectedPools.indexOf(next)===-1) selectedPools.push(next);
+    pruneSelectedPools();
+    if(libFilter!==null && genreCount(libFilter)===0) libFilter=null;
+    clearPairIfInvolves([id]);
+    saveSongs();
+    showToast('Moved to '+next); render();
+  });
+}
+function applyRename(oldName, next, merging){
+  songs.forEach(function(s){ if(s.genre===oldName) s.genre=next; });
+  var i=selectedPools.indexOf(oldName);
+  if(i>-1){ selectedPools.splice(i,1); if(selectedPools.indexOf(next)===-1) selectedPools.push(next); }
+  pruneSelectedPools();
+  if(libFilter===oldName) libFilter=next;
+  saveSongs();
+  showToast(merging?'Merged into '+next:'Renamed to '+next);
+  render();
+}
+function renamePool(oldName){
+  askPrompt('Rename pool "'+oldName+'" to:', oldName, 'Rename', function(next){
+    if(!next){ showToast('Pool name cannot be empty'); return; }
+    if(next===oldName) return;
+    if(allGenres().indexOf(next)>-1){
+      askConfirm('"'+next+'" already exists.', 'Merge these two pools into one?', 'Merge', false, function(){
+        applyRename(oldName, next, true);
+      });
+    } else applyRename(oldName, next, false);
+  });
+}
+function deletePool(genreName){
+  var doomed=songs.filter(function(s){ return s.genre===genreName; });
+  if(!doomed.length) return;
+  askConfirm('Remove all '+plural(doomed.length,'song')+' in "'+genreName+'"?', 'This cannot be undone.', 'Remove all', true, function(){
+    libFilter=null;
+    finishDelete(doomed.map(function(s){ return s.id; }), 'Removed '+plural(doomed.length,'song'));
+  });
+}
+
+// ================= CSV =================
+function parseCSV(text, delim){
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  delim = delim || ',';
+  var rows=[], row=[], field='', inQ=false;
+  for(var i=0;i<text.length;i++){
+    var c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){ field+='"'; i++; } else inQ=false; }
+      else field+=c;
+    } else {
+      if(c==='"' && field==='') inQ=true;
+      else if(c===delim){ row.push(field); field=''; }
+      else if(c==='\r' || c==='\n'){
+        if(c==='\r' && text[i+1]==='\n') i++;
+        row.push(field); rows.push(row); row=[]; field='';
+      }
+      else field+=c;
+    }
+  }
+  if(field.length||row.length){ row.push(field); rows.push(row); }
+  return rows.filter(function(r){ return r.some(function(f){ return String(f).trim()!==''; }); });
+}
+function guessDelimiter(text){
+  var first = text.split(/\r?\n/)[0] || '';
+  var tabs = (first.match(/\t/g)||[]).length, commas = (first.match(/,/g)||[]).length, semis = (first.match(/;/g)||[]).length;
+  if(tabs > commas && tabs >= semis) return '\t';
+  if(semis > commas) return ';';
+  return ',';
+}
+function detectColumns(headers){
+  var norm=headers.map(function(h){ return String(h).toLowerCase().trim(); });
+  var t=-1,a=-1;
+  for(var i=0;i<norm.length;i++){
+    if(t===-1 && (norm[i].indexOf('track name')>-1 || norm[i]==='track' || norm[i]==='title' || norm[i]==='name' || norm[i]==='song' || norm[i]==='song name')) t=i;
+    if(a===-1 && norm[i].indexOf('artist')>-1 && norm[i].indexOf('album')===-1 && norm[i].indexOf('uri')===-1 && norm[i].indexOf('id')!==norm[i].length-2) a=i;
+  }
+  if(t===-1) t=0;
+  if(a===-1) a = (headers.length>1 && t!==1) ? 1 : (headers.length>1 ? 0 : t);
+  if(a===t) a = -1;
+  return { titleIdx:t, artistIdx:a };
+}
+function looksLikeHeader(row){
+  for(var i=0;i<row.length;i++){
+    if(/^(track name|track|title|name|song|song name|artist.*|album.*|.*uri.*|added at|added by|duration.*|popularity|isrc|genres?)$/i.test(String(row[i]).trim())) return true;
+  }
+  return false;
+}
+function ingestCSVText(text, fileName){
+  var rows=parseCSV(text, guessDelimiter(text));
+  if(!rows.length){ showToast('No tracks found in '+fileName); return; }
+  // A file with no header row would otherwise have its first song eaten as column names.
+  var hasHeader = looksLikeHeader(rows[0]);
+  var cols = hasHeader ? detectColumns(rows[0])
+                       : { titleIdx:0, artistIdx:(rows[0].length>1?1:-1) };
+  var out=[];
+  for(var i=(hasHeader?1:0);i<rows.length;i++){
+    var title=(rows[i][cols.titleIdx]||'').trim();
+    var artist= cols.artistIdx<0 ? '' : (rows[i][cols.artistIdx]||'').trim();
+    // Exportify separates multiple artists with commas inside the field; keep them readable.
+    artist = artist.replace(/\s*,\s*/g, ', ');
+    if(title) out.push({title:title, artist:artist});
+  }
+  if(!out.length){ showToast('No tracks found in '+fileName); return; }
+  importFiles.push({ name:fileName, genre:fileName.replace(/\.[^.]+$/,'').replace(/[_]+/g,' ').trim(), rows:out });
+  render();
+}
+function handleFiles(fileList){
+  Array.prototype.slice.call(fileList||[]).forEach(function(file){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      try { ingestCSVText(String(e.target.result), file.name); }
+      catch(err){ showToast('Could not read '+file.name); }
+    };
+    reader.onerror=function(){ showToast('Could not read '+file.name); };
+    reader.readAsText(file);
+  });
+}
+function handleDrop(event){
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag');
+  handleFiles(event.dataTransfer && event.dataTransfer.files);
+}
+function removeImportFile(idx){ importFiles.splice(idx,1); render(); }
+function setImportGenre(idx, v){ if(importFiles[idx]) importFiles[idx].genre = v; }
+function addSongs(entries){
+  // entries: [{title, artist, genre}]
+  var added=0, skipped=0, keys={}, newPools={};
+  var existing = {}; allGenres().forEach(function(g){ existing[g]=true; });
+  songs.forEach(function(s){ keys[normKey(s.title,s.artist)]=true; });
+  entries.forEach(function(r){
+    var title=String(r.title||'').trim();
+    if(!title) return;
+    var artist=String(r.artist||'').trim()||'Unknown';
+    var genre=String(r.genre||'').trim()||'Uncategorized';
+    var k=normKey(title,artist);
+    if(keys[k]){ skipped++; return; }
+    keys[k]=true;
+    songs.push(newSong(title,artist,genre));
+    if(!existing[genre]) newPools[genre]=true;
+    added++;
+  });
+  invalidateIndex();
+  // If only some pools were in play, brand-new pools join them so the new songs show up.
+  if(selectedPools.length) Object.keys(newPools).forEach(function(g){ selectedPools.push(g); });
+  pruneSelectedPools();
+  currentPair=null;
+  recompute(false); ratingsDirty=false; votesSinceFit=0;
+  saveSongs();
+  showToast(added || skipped ? 'Added '+plural(added,'song')+(skipped?', skipped '+plural(skipped,'duplicate'):'') : 'Nothing to add');
+  return added;
+}
+function confirmFileImport(){
+  var entries=[];
+  importFiles.forEach(function(f){
+    f.rows.forEach(function(r){ entries.push({ title:r.title, artist:r.artist, genre:f.genre }); });
+  });
+  importFiles=[];
+  addSongs(entries);
+  render();
+}
+function splitPastedLine(line){
+  var m = line.split('\t');
+  if(m.length >= 2) return { title:m[0].trim(), artist:m[1].trim() };
+  // Title - Artist. Use the last separator, since titles often contain one
+  // ("Heroes - 2017 Remaster - David Bowie").
+  var seps = [' - ', ' – ', ' — '], at=-1, len=0;
+  seps.forEach(function(s){ var i=line.lastIndexOf(s); if(i>at){ at=i; len=s.length; } });
+  if(at>0) return { title:line.slice(0,at).trim(), artist:line.slice(at+len).trim() };
+  return { title:line.trim(), artist:'' };
+}
+function handlePaste(){
+  var area=document.getElementById('pasteArea');
+  var text=area?area.value:pasteText;
+  if(!text.trim()){ showToast('Paste some songs first'); return; }
+  var genre=pasteGenre.trim()||'Uncategorized';
+  var entries = text.split(/\r?\n/).map(function(l){ return l.replace(/^\s*(\d+[.)]\s+|[-*•]\s+)/,'').trim(); })
+    .filter(Boolean).map(function(line){ var p=splitPastedLine(line); p.genre=genre; return p; });
+  pasteText='';
+  addSongs(entries);
+  render();
+}
+// Wipe the judging but keep the library: every recorded result, every tie and every
+// carried-over tally goes, and each song returns to an unrated 1500.
+function confirmClearComparisons(){
+  var d = dataBreakdown();
+  if(!d.results && !d.ties && !d.legacyUnits){ showToast('There are no comparisons to erase'); return; }
+  var bits = [];
+  if(d.results) bits.push(plural(d.results,'head-to-head result'));
+  if(d.ties) bits.push(plural(d.ties,'tie'));
+  if(d.legacyUnits) bits.push(d.legacyUnits+' carried-over '+(d.legacyUnits===1?'tally':'tallies')+' on '+plural(d.legacySongs,'song'));
+  askConfirm('Erase every comparison?', bits.join('\n')+'\n\nYour '+plural(songs.length,'song')+' and pools stay exactly as they are. The ranking starts from scratch.',
+    'Erase comparisons', true, function(){
+      log = [];
+      songs.forEach(function(s){ s.legacyW = 0; s.legacyL = 0; s.n = 0; });
+      seenBy = {}; undoStack = []; recentIds = []; reviewEntry = null; lastSurprises = [];
+      currentPair = null; animState = null; topFocus = 0;
+      ratingsDirty = false; votesSinceFit = 0;
+      invalidateIndex();
+      recompute(true); saveSongs();
+      showToast('All comparisons erased — songs kept'); render();
+    });
+}
+function confirmReset(){
+  askConfirm('Erase everything?', 'All songs and every comparison on this device will be permanently deleted.', 'Erase', true, function(){
+    songs=[]; log=[]; selectedPools=[]; currentPair=null; undoStack=[]; selectedIds={}; recentIds=[];
+    seenBy={}; ratingsDirty=false; votesSinceFit=0; libFilter=null; editMode=false; animState=null;
+    invalidateIndex();
+    recompute(true); saveSongs(); showToast('All data erased'); render();
+  });
+}
+
+// ================= Export =================
+// Inside the artifact viewer a page cannot hand over a file by itself: it asks the
+// platform, which shows you a confirmation. Outside it (a saved copy of this page)
+// the ordinary link download still works, so try that as the fallback.
+var downloadsApi;
+function withDownloads(cb){
+  if(downloadsApi !== undefined) return cb(downloadsApi);
+  var done = function(api){ downloadsApi = api || null; cb(downloadsApi); };
+  try {
+    if(window.claude && typeof window.claude.use === 'function'){
+      window.claude.use('downloads').then(done, function(){ done(null); });
+      return;
+    }
+  } catch(e){}
+  done(null);
+}
+function linkDownload(content, filename, type){
+  try {
+    var blob=new Blob([content],{type:type});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download=filename; a.rel='noopener';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); },4000);
+    return true;
+  } catch(e){ return false; }
+}
+function downloadBlob(content, filename, type){
+  withDownloads(function(api){
+    if(api && api.save){
+      showToast('Preparing '+filename+'\u2026');
+      api.save({ filename:filename, data:content }).then(function(){
+        showToast('Saved '+filename);
+      }, function(err){
+        var code = err && err.code;
+        if(code === 'declined') { showToast('Download cancelled'); return; }
+        if(code === 'rate_limited'){ showToast('One download at a time — try again in a moment'); return; }
+        if(!linkDownload(content, filename, type)) showToast('Could not save that file here');
+      });
+      return;
+    }
+    if(!linkDownload(content, filename, type)) showToast('Download not supported here');
+  });
+}
+function csvCell(s){
+  s = String(s==null?'':s);
+  // Stop spreadsheet apps from treating a title like "=SUM(...)" as a formula.
+  if(/^[=+\-@\t\r]/.test(s)) s = "'"+s;
+  return '"'+s.replace(/"/g,'""')+'"';
+}
+// Order by the rating as displayed, then by title, so the list never reshuffles
+// between two songs the fit puts a hair apart.
+function sortedByRating(list){
+  return list.slice().sort(function(a,b){
+    return (b.rating-a.rating) || a.title.localeCompare(b.title) || a.artist.localeCompare(b.artist) || (a.id<b.id?-1:1);
+  });
+}
+function exportCSV(){
+  ensureRatings(true);
+  var csv='Rank,Title,Artist,Pool,Rating,Plus/minus,Rank low,Rank high,Comparisons,Settled\r\n';
+  sortedByRating(songs).forEach(function(s,i){
+    var lo = Math.min(s.rankLo||(i+1), i+1), hi = Math.max(s.rankHi||(i+1), i+1);
+    csv += (i+1)+','+csvCell(s.title)+','+csvCell(s.artist)+','+csvCell(s.genre)+','+s.rating+','+s.sd+','+
+      lo+','+hi+','+(s.n||0)+','+(isOpen(s)?'open':'set')+'\r\n';
+  });
+  downloadBlob('﻿'+csv,'longplay-rankings.csv','text/csv;charset=utf-8');
+}
+function exportBackup(){
+  downloadBlob(JSON.stringify({version:3, settingsRev:SETTINGS_REV, exported:new Date().toISOString(), songs:slimSongs(), log:log,
+    selectedPools:selectedPools, compareMode:compareMode, precision:precision, cardsPerRound:cardsPerRound},null,1),
+    'longplay-backup-'+new Date().toISOString().slice(0,10)+'.json','application/json');
+}
+function handleRestore(fileList){
+  if(!fileList||!fileList.length) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var data;
+    try {
+      data=JSON.parse(String(e.target.result));
+      var incoming = Array.isArray(data) ? data : (data && data.songs);
+      if(!Array.isArray(incoming)) throw new Error('bad');
+    } catch(err){ showToast('That file is not a valid Longplay backup'); return; }
+    askConfirm('Restore this backup?', plural(incoming.length,'song')+' will replace everything currently on this device.',
+      'Restore', true, function(){
+        var before = { songs:songs, log:log, selectedPools:selectedPools, compareMode:compareMode, precision:precision, cards:cardsPerRound };
+        try { applyStored(data); }
+        catch(err){
+          songs=before.songs; log=before.log; selectedPools=before.selectedPools;
+          compareMode=before.compareMode; precision=before.precision; cardsPerRound=before.cards;
+          invalidateIndex();
+          showToast('That file is not a valid Longplay backup'); return;
+        }
+        invalidateIndex();
+        pruneSelectedPools();
+        rebuildSeen();
+        currentPair=null; undoStack=[]; selectedIds={}; recentIds=[]; libFilter=null; animState=null;
+        ratingsDirty=false; votesSinceFit=0;
+        recompute(true); saveSongs();
+        showToast('Restored '+plural(songs.length,'song'));
+        render();
+      });
+  };
+  reader.onerror=function(){ showToast('Could not read that file'); };
+  reader.readAsText(fileList[0]);
+}
+
+// ================= In-app dialogs =================
+// Sandboxed iframes block window.confirm and window.prompt — the call returns
+// immediately and the action silently never happens. These replace them.
+var modal = null;
+function askConfirm(msg, sub, okLabel, danger, onOk){
+  modal = { type:'confirm', msg:msg, sub:sub, okLabel:okLabel, danger:danger, onOk:onOk };
+  render();
+  focusModal();
+}
+function askPrompt(msg, value, okLabel, onOk){
+  modal = { type:'prompt', msg:msg, value:value||'', okLabel:okLabel, onOk:onOk };
+  render();
+  focusModal();
+}
+function focusModal(){
+  setTimeout(function(){
+    var el = document.getElementById('modalInput') || document.getElementById('modalOk');
+    if(el){ try { el.focus(); if(el.select) el.select(); } catch(e){} }
+  }, 30);
+}
+function setModalValue(v){ if(modal) modal.value = v; }
+function modalCancel(){ modal = null; render(); }
+function modalOk(){
+  var m = modal;
+  if(!m) return;
+  modal = null;
+  render();
+  if(m.onOk) m.onOk(m.type==='prompt' ? String(m.value||'').trim() : true);
+}
+function modalKey(e){ if(e && e.key === 'Enter'){ e.preventDefault(); modalOk(); } }
+function modalHtml(){
+  if(!modal) return '';
+  var body = '';
+  if(modal.type==='prompt'){
+    body = '<input type="text" id="modalInput" maxlength="80" value="'+escapeHtml(modal.value)+'" '+
+           'oninput="setModalValue(this.value)" onkeydown="modalKey(event)">';
+  }
+  return '<div class="modal-backdrop" onclick="modalCancel()"></div>'+
+    '<div class="modal" role="dialog" aria-modal="true"><div class="modal-msg">'+escapeHtml(modal.msg).replace(/\n/g,'<br>')+
+      (modal.sub?'<span class="sub">'+escapeHtml(modal.sub).replace(/\n/g,'<br>')+'</span>':'')+
+    '</div>'+body+
+    '<div class="modal-actions">'+
+      '<button class="btn ghost" onclick="modalCancel()">Cancel</button>'+
+      '<button class="btn '+(modal.danger?'danger':'')+'" id="modalOk" onclick="modalOk()">'+escapeHtml(modal.okLabel||'OK')+'</button>'+
+    '</div></div>';
+}
+
+// ================= Toast =================
+function showToast(msg){
+  toastMsg=msg; render();
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ toastMsg=null; render(); },2400);
+}
+
+// ================= Keyboard =================
+function onKey(e){
+  if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+  if(modal){ if(e.key==='Escape'){ e.preventDefault(); modalCancel(); } return; }
+  var t = e.target, tag = t && t.tagName;
+  if(tag==='INPUT' || tag==='TEXTAREA' || tag==='SELECT' || (t && t.isContentEditable)) return;
+  if(screen!=='compare' || !currentPair) return;
+  var k = e.key;
+  var num = '1234'.indexOf(k);
+  if(k==='Escape' && groupActive()){ e.preventDefault(); cancelGroup(); return; }
+  if((k==='g' || k==='G') && currentPair.length > 2){ e.preventDefault(); if(groupActive()) cancelGroup(); else startGroup(); return; }
+  if(k==='Enter' && groupActive()){ e.preventDefault(); commitGroup(); return; }
+  if(num > -1 && num < currentPair.length){ e.preventDefault(); chooseWinner(currentPair[num].id); }
+  else if(k==='ArrowUp' && currentPair.length===2){ e.preventDefault(); chooseWinner(currentPair[0].id); }
+  else if(k==='ArrowDown' && currentPair.length===2){ e.preventDefault(); chooseWinner(currentPair[1].id); }
+  else if(k==='=' || k==='t' || k==='T'){ e.preventDefault(); chooseTie(); }
+  else if(k==='s' || k==='S' || k==='ArrowRight'){ e.preventDefault(); skipPair(); }
+  else if(k==='z' || k==='Z' || k==='Backspace'){ e.preventDefault(); undoLast(); }
+}
+
+// ================= Screens =================
+function icon(name){
+  var s='viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+  if(name==='compare') return '<svg '+s+'><circle cx="7" cy="10" r="5.3"/><circle cx="13" cy="10" r="5.3"/></svg>';
+  if(name==='library') return '<svg '+s+'><line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="10" x2="13" y2="10"/><line x1="3" y1="14" x2="9" y2="14"/></svg>';
+  if(name==='import') return '<svg '+s+'><path d="M10 3v9M6.5 8.5 10 12l3.5-3.5"/><path d="M3.5 13.5V16a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2.5"/></svg>';
+  return '<svg '+s+'><line x1="4" y1="16" x2="4" y2="11"/><line x1="10" y1="16" x2="10" y2="6"/><line x1="16" y1="16" x2="16" y2="9"/></svg>';
+}
+function emptyState(t,b,cta){
+  return '<div class="empty-state"><h2>'+escapeHtml(t)+'</h2><p>'+escapeHtml(b)+'</p>'+
+    (cta?'<button class="btn" onclick="setScreen(\'import\')">Go to Import</button>':'')+'</div>';
+}
+function warnHtml(){ return storageWarning?'<div class="warn-banner">'+escapeHtml(storageWarning)+'</div>':''; }
+function poolSelector(){
+  var g=allGenres(), active=activePools();
+  if(g.length<2) return '';
+  var chips=g.map(function(name){
+    var on=active.indexOf(name)>-1;
+    return '<button class="pool-chip '+(on?'on':'')+'" aria-pressed="'+on+'" onclick="togglePool('+jsArg(name)+')">'+
+      (on?'&#10003; ':'')+escapeHtml(name)+' <span class="n">'+genreCount(name)+'</span></button>';
+  }).join('');
+  var allOn = !selectedPools.length;
+  return '<div class="section-label"><span>Pools in play</span>'+
+    (allOn?'<button class="link-btn" onclick="selectNoPools()">Just one</button>'
+          :'<button class="link-btn" onclick="selectAllPools()">Select all</button>')+
+    '</div><div class="pool-chips">'+chips+'</div>'+
+    '<p class="pool-note">'+plural(eligibleSongs().length,'song')+(topFocus?' (top '+topFocus+')':'')+' across '+plural(active.length,'pool')+' in the running.</p>';
+}
+function confidenceHtml(pool){
+  var c = rankingConfidence(pool);
+  var pct = Math.round(c.pct);
+  var places = c.places;
+  var placesTxt = places < 0.5 ? 'Songs are locked into place.'
+    : 'A typical song could still move about <strong>'+(places<10?places.toFixed(1):Math.round(places))+'</strong> place'+(places>=0.95&&places<1.05?'':'s')+'.';
+  var sp = coverageSpread(pool);
+  var open = openCount(pool), left = roundsLeft(pool);
+  var lockTxt = left===null ? 'No limit set &mdash; matchups never lock.'
+    : (open ? '<strong>'+(pool.length-open)+'</strong> of '+pool.length+' songs set &middot; about <strong>'+left.toLocaleString()+'</strong> round'+(left===1?'':'s')+' until the ranking locks.'
+            : 'All '+pool.length+' songs are set.');
+  return '<div class="conf" aria-live="polite">'+
+    '<div class="conf-top"><span>Ranking settled</span><strong>'+pct+'%</strong></div>'+
+    '<div class="conf-track"><div class="conf-fill" style="width:'+pct+'%"></div></div>'+
+    '<div class="conf-sub">'+placesTxt+' '+plural(totalComparisons(),'comparison')+' so far; each song seen '+
+      sp.lo+(sp.hi!==sp.lo?'&ndash;'+sp.hi:'')+' time'+(sp.hi===1?'':'s')+'.<br>'+lockTxt+'</div></div>';
+}
+function lockedHtml(pool){
+  var P = precisionCfg();
+  var polish = '';
+  if(!topFocus && songs.length > 120){
+    var n = songs.length > 400 ? 100 : 50;
+    polish = '<button class="btn ghost block" onclick="setTopFocus('+n+')">Sharpen the top '+n+'</button>';
+  }
+  return '<div class="lock-card">'+
+    '<div class="lock-mark" aria-hidden="true">&#10003;</div>'+
+    '<h2>'+(topFocus?'Top '+topFocus+' is set':'Rankings are set')+'</h2>'+
+    '<p>Every song in play has found its place at <strong>'+P.label+'</strong> precision, or reached its limit of '+songCap()+' comparisons. Matchups are locked and the order will not change.</p>'+
+    '<button class="btn block" onclick="setScreen(\'library\')">See the final list</button>'+
+    polish+
+    (topFocus?'<button class="btn ghost block" onclick="setTopFocus(0)">Back to the whole library</button>':'')+
+    '<button class="btn ghost block" onclick="setPrecision(\'endless\')">Keep comparing anyway</button>'+
+    '</div>';
+}
+function precisionRow(){
+  var opts = ['quick','standard','thorough','endless'];
+  return '<div class="spread-row"><span class="spread-label">Precision</span><div class="spread-opts">'+
+    opts.map(function(o){
+      var P = PRECISION[o];
+      var tip = P.cap===Infinity ? 'Never lock; keep comparing forever' : 'Lock each song after '+P.cap+' comparisons, or sooner once its place is clear';
+      return '<button class="'+(precision===o?'on':'')+'" title="'+tip+'" onclick="setPrecision(\''+o+'\')">'+P.label+'</button>';
+    }).join('')+'</div></div>';
+}
+function cardsRow(n){
+  if(n < 3) return '';
+  var opts = [2,3,4].filter(function(k){ return k<=n; });
+  return '<div class="spread-row"><span class="spread-label">Songs per round</span><div class="spread-opts">'+
+    opts.map(function(k){
+      return '<button class="'+(cardsPerRound===k?'on':'')+'" onclick="setCards('+k+')">'+k+(k===3?' &#9733;':'')+'</button>';
+    }).join('')+'</div></div>';
+}
+function compareScreen(){
+  if(songs.length<2) return emptyState('Nothing to compare yet','Import at least two songs to start ranking. Head to the Import tab to upload playlists or paste a list.',true);
+  var eligible=eligibleSongs();
+  var multi=activePools().length>1;
+  var canWithin=poolsWithPairs()>0;
+  var head=warnHtml()+poolSelector();
+  if(eligible.length<2) return head+'<div class="empty-state"><h2>Not enough songs selected</h2><p>Pick at least one pool with two or more songs in it.</p></div>';
+  if(currentPair && currentPair.some(function(s){ return !findSong(s.id); })) currentPair=null;
+  var modes = '';
+  if(allGenres().length>1){
+    modes='<div class="mode-toggle">'+
+      '<button class="'+(compareMode==='within'?'active':'')+'" '+(canWithin?'':'disabled')+' onclick="setMode(\'within\')">Within a pool</button>'+
+      '<button class="'+(compareMode==='balanced'?'active':'')+'" onclick="setMode(\'balanced\')">Any pairing</button>'+
+      '<button class="'+(compareMode==='across'?'active':'')+'" '+(multi?'':'disabled')+' onclick="setMode(\'across\')">Across pools</button>'+
+    '</div>';
+  }
+  if(reviewEntry && (!currentPair || currentPair.length!==2 || log.indexOf(reviewEntry)===-1)) reviewEntry = null;
+  var reviewBanner = reviewEntry ? '<div class="bridge-flag">Judging this pair again &mdash; your answer replaces the earlier one &middot; <button class="link-btn" onclick="cancelReview()">cancel</button></div>' : '';
+  var topBanner = topFocus ? '<div class="bridge-flag">Polishing the top '+topFocus+' &middot; <button class="link-btn" onclick="setTopFocus(0)">whole library</button></div>' : '';
+  var settings = '<details class="settings"'+(settingsOpen?' open':'')+' ontoggle="settingsOpen=this.open">'+
+    '<summary>Round settings</summary>'+
+    cardsRow(eligible.length)+
+    precisionRow()+
+    '</details>';
+  if(openCount(eligible)===0 && !reviewEntry){
+    currentPair = null;
+    return head+modes+topBanner+lockedHtml(eligible)+settings+confidenceHtml(eligible);
+  }
+  if(!currentPair) currentPair=pickPair(compareMode);
+  if(!currentPair) return head+modes+'<div class="empty-state"><h2>No matchup available</h2><p>Try a different mode or select more pools.</p></div>'+settings;
+  var set = currentPair;
+  function cls(s){
+    if(!animState) return '';
+    if(animState.tie) return 'loser';
+    if(animState.better) return animState.better[s.id] ? 'winner' : 'loser';
+    return animState.winnerId===s.id ? 'winner' : 'loser';
+  }
+  var flag = pairIsBridge ? '<div class="bridge-flag">Linking pool groups that have never met, so the overall list can compare them</div>' : '';
+  var multiCard = set.length > 2;
+  var grouping = groupActive() && multiCard;
+  function card(s, i){
+    var pos = multiCard ? 'multi' : (i===0 ? 'a' : 'b');
+    var picked = grouping && groupSel.indexOf(s.id) > -1;
+    return '<div class="song-card '+pos+' '+cls(s)+(grouping?' selectable':'')+(picked?' picked':'')+'" role="button" tabindex="0" aria-pressed="'+(grouping?picked:'false')+'" aria-label="'+(grouping?'Select ':'Pick ')+escapeHtml(s.title)+'" '+
+      'onclick="chooseWinner('+jsArg(s.id)+')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();event.stopPropagation();chooseWinner('+jsArg(s.id)+');}">'+
+      (multiCard?'<span class="card-key" aria-hidden="true">'+(picked?'&#10003;':(i+1))+'</span>':'')+
+      '<span class="genre-tag">'+escapeHtml(s.genre)+'</span>'+
+      '<div class="song-title">'+escapeHtml(s.title)+'</div>'+
+      '<div class="song-artist">'+escapeHtml(s.artist)+'</div></div>';
+  }
+  var cards = set.map(card);
+  var busy = !!animState;
+  var prompt;
+  if(grouping){
+    var need = set.length === 3 ? 'Tap the two that are better than the third' : 'Tap the songs that are better than the rest';
+    prompt = '<div class="prompt-line group-prompt">'+need+'</div>';
+  } else prompt = '<div class="prompt-line">Which is best?</div>';
+  var duel = multiCard
+    ? prompt+'<div class="duel multi">'+cards.join('')+'</div>'
+    : '<div class="duel">'+cards[0]+'<div class="vs-badge" aria-hidden="true">vs</div>'+cards[1]+'</div>';
+  var groupBar = '';
+  if(multiCard){
+    if(grouping){
+      var ready = groupSel.length >= 2;
+      groupBar = '<div class="group-bar">'+
+        '<button class="skip-btn" onclick="cancelGroup()">Cancel</button>'+
+        '<span class="group-count">'+groupSel.length+' of '+(set.length-1)+(set.length===3?'':' max')+' picked</span>'+
+        (set.length > 3 ? '<button class="btn" '+(ready&&!busy?'':'disabled style="opacity:.4"')+' onclick="commitGroup()">Done</button>' : '<span style="width:64px"></span>')+
+      '</div>';
+    } else {
+      groupBar = '<button class="group-btn" '+(busy?'disabled':'')+' onclick="startGroup()">'+
+        (set.length===3 ? 'Two beat one&hellip;' : 'Pick the better ones&hellip;')+'</button>';
+    }
+  }
+  return head+modes+topBanner+reviewBanner+flag+duel+
+    groupBar+
+    (grouping ? '' :
+    '<div class="duel-actions">'+
+      '<button class="skip-btn" '+(undoStack.length&&!busy?'':'disabled')+' onclick="undoLast()">Undo</button>'+
+      '<button class="tie-btn" '+(busy?'disabled':'')+' onclick="chooseTie()">'+(multiCard?'All about even':'Too close to call')+'</button>'+
+      '<button class="skip-btn" '+(busy?'disabled':'')+' onclick="skipPair()">Skip</button>'+
+    '</div>')+
+    '<div class="kbd-hint">Keys: '+(grouping?'1&ndash;'+set.length+' select &middot; Enter record &middot; Esc cancel'
+      :(multiCard?'1&ndash;'+set.length+' pick &middot; G two beat one':'&uarr; / &darr; pick')+' &middot; T even &middot; S skip &middot; Z undo')+'</div>'+
+    confidenceHtml(eligible)+settings;
+}
+function setLibFilterIdx(i){ libFilter=(i===-1)?null:(libGenres[i]===undefined?null:libGenres[i]); selectedIds={}; libLimit=150; render(); }
+function setSearch(v){ searchQuery=v; libLimit=150; render(); }
+function showMore(){ libLimit += 300; render(); }
+function libraryScreen(){
+  ensureRatings(true);
+  if(!songs.length) return emptyState('No songs yet','Import your catalog to browse and prune it here.',true);
+  var sortedAll=sortedByRating(songs);
+  var rankMap={};
+  sortedAll.forEach(function(s,i){ rankMap[s.id]=i+1; });
+  libGenres=allGenres();
+  if(libFilter!==null && libGenres.indexOf(libFilter)===-1) libFilter=null;
+  var list=sortedAll;
+  if(libFilter!==null) list=list.filter(function(s){ return s.genre===libFilter; });
+  var q=searchQuery.trim().toLowerCase();
+  if(q){
+    list=list.filter(function(s){ return s.title.toLowerCase().indexOf(q)>-1 || s.artist.toLowerCase().indexOf(q)>-1; });
+  }
+  var chips=['<button class="pool-chip '+(libFilter===null?'on':'')+'" onclick="setLibFilterIdx(-1)">All <span class="n">'+songs.length+'</span></button>'];
+  libGenres.forEach(function(g,gi){
+    chips.push('<button class="pool-chip '+(libFilter===g?'on':'')+'" onclick="setLibFilterIdx('+gi+')">'+escapeHtml(g)+' <span class="n">'+genreCount(g)+'</span></button>');
+  });
+  lastShownIds = list.map(function(s){ return s.id; });
+  var bar='';
+  if(editMode){
+    var n=selectedCount();
+    var allOn = lastShownIds.length && lastShownIds.every(function(id){ return selectedIds[id]; });
+    bar='<div class="action-bar">'+
+      '<button class="btn ghost" onclick="selectAllShown()">'+(allOn?'Clear selection':'Select all '+list.length)+'</button>'+
+      '<button class="btn danger" '+(n?'':'disabled style="opacity:.4"')+' onclick="deleteSelected()">Remove'+(n?' ('+n+')':'')+'</button>'+
+    '</div>';
+  }
+  var poolTools='';
+  if(editMode && libFilter!==null){
+    poolTools='<div class="action-bar" style="padding-top:0;position:static;">'+
+      '<button class="btn ghost" onclick="renamePool('+jsArg(libFilter)+')">Rename pool</button>'+
+      '<button class="btn danger" onclick="deletePool('+jsArg(libFilter)+')">Delete pool</button></div>';
+  }
+  var shown = list.slice(0, libLimit);
+  var rows=shown.map(function(s){ return rankRow(s, rankMap[s.id]); }).join('');
+  var more = list.length>shown.length ? '<button class="btn ghost block" onclick="showMore()">Show more ('+(list.length-shown.length)+' left)</button>' : '';
+  return warnHtml()+
+    '<input class="search-box" id="searchInput" type="search" autocomplete="off" placeholder="Search title or artist" value="'+escapeHtml(searchQuery)+'" oninput="setSearch(this.value)">'+
+    '<div class="pool-chips" style="margin-bottom:2px;">'+chips.join('')+'</div>'+
+    '<div class="list-toolbar"><span class="count">'+list.length+' shown</span>'+
+      '<button class="edit-toggle '+(editMode?'on':'')+'" onclick="toggleEdit()">'+(editMode?'Done':'Edit')+'</button></div>'+
+    bar+poolTools+
+    (editMode?'<div class="info-banner">Removing a song takes it out of its own pool only. Matches it played are folded into its opponents&rsquo; records, so their standing survives. Tap &#9998; to move a song to another pool.</div>':'')+
+    (rows||'<p style="color:var(--cream-dim);font-size:13.5px;">No matches.</p>')+
+    more+
+    '<button class="btn ghost block" onclick="exportCSV()">Export rankings as CSV</button>';
+}
+function rankRow(s, rank){
+  if(editMode){
+    var on=!!selectedIds[s.id];
+    return '<div class="rank-row '+(on?'sel':'')+'" onclick="toggleSelect('+jsArg(s.id)+')">'+
+      '<div class="checkbox '+(on?'on':'')+'">'+(on?'&#10003;':'')+'</div>'+
+      '<div class="rank-info"><div class="rank-title">'+escapeHtml(s.title)+'</div>'+
+      '<div class="rank-artist">'+escapeHtml(s.artist)+' &middot; '+escapeHtml(s.genre)+'</div></div>'+
+      '<button class="icon-btn" title="Move to another pool" aria-label="Move to another pool" onclick="event.stopPropagation(); changeGenre('+jsArg(s.id)+')">&#9998;</button></div>';
+  }
+  var set = !isOpen(s);
+  var swing = Math.round(s.places||0);
+  var firm = set || swing <= Math.max(1, 0.015*songs.length);
+  var lo = Math.min(s.rankLo||rank, rank), hi = Math.max(s.rankHi||rank, rank);
+  var range = (lo===hi) ? 'firmly #'+rank : 'likely #'+lo+'&ndash;'+hi;
+  return '<div class="rank-row">'+
+    '<div class="rank-num">'+rank+'</div>'+
+    '<div class="rank-info"><div class="rank-title">'+escapeHtml(s.title)+'</div>'+
+    '<div class="rank-artist">'+escapeHtml(s.artist)+'</div></div>'+
+    '<div class="rank-side">'+
+      '<span class="genre-tag small">'+escapeHtml(s.genre)+'</span>'+
+      '<div class="rank-rating '+(firm?'':'prov')+'">'+s.rating+'</div>'+
+      '<div class="rank-n">'+plural(s.n||0,'vote')+' &middot; '+range+(set?' &middot; set':'')+'</div>'+
+    '</div></div>';
+}
+function renderFilePreview(){
+  var total=0;
+  importFiles.forEach(function(f){ total+=f.rows.length; });
+  return importFiles.map(function(f,idx){
+    return '<div class="preview-item">'+
+      '<input type="text" id="importGenre'+idx+'" aria-label="Pool name" value="'+escapeHtml(f.genre)+'" oninput="setImportGenre('+idx+',this.value)">'+
+      '<span class="preview-count">'+plural(f.rows.length,'track')+'</span>'+
+      '<button class="skip-btn" onclick="removeImportFile('+idx+')">Remove</button></div>';
+  }).join('')+'<button class="btn block" onclick="confirmFileImport()">Import '+plural(total,'track')+'</button>';
+}
+function importScreen(){
+  return warnHtml()+
+    '<div class="import-section"><h2>Upload playlist files</h2>'+
+      '<p class="import-hint">Export playlists as CSV from exportify.net, then choose the files here. Each file becomes its own pool, named after the filename &mdash; edit before importing.</p>'+
+      '<div class="drop-zone" role="button" tabindex="0" ondragover="event.preventDefault(); this.classList.add(\'drag\')" ondragleave="this.classList.remove(\'drag\')" ondrop="handleDrop(event)" onclick="document.getElementById(\'fileInput\').click()" onkeydown="if(event.key===\'Enter\'){document.getElementById(\'fileInput\').click();}">Tap to choose CSV files</div>'+
+      '<input type="file" id="fileInput" accept=".csv,.tsv,.txt,text/csv,text/plain" multiple style="display:none" onchange="handleFiles(this.files); this.value=\'\';">'+
+      (importFiles.length?renderFilePreview():'')+
+    '</div>'+
+    '<div class="import-section"><h2>Or paste a list</h2>'+
+      '<p class="import-hint">One song per line, formatted as Title - Artist. Every line in this batch joins the pool you name below.</p>'+
+      '<input type="text" id="pasteGenre" placeholder="Pool name (e.g. Prog Rock)" value="'+escapeHtml(pasteGenre)+'" oninput="pasteGenre=this.value" style="margin-bottom:10px;">'+
+      '<textarea id="pasteArea" oninput="pasteText=this.value" placeholder="Echoes - Pink Floyd&#10;Xanadu - Rush">'+escapeHtml(pasteText)+'</textarea>'+
+      '<button class="btn block" onclick="handlePaste()">Add pasted songs</button>'+
+    '</div>'+
+    '<div class="import-section"><h2>Backup &amp; restore</h2>'+
+      '<p class="import-hint">Your data lives on this device only. The backup includes every comparison you have made, so a restore reproduces the exact same ranking.</p>'+
+      '<button class="btn ghost block" onclick="exportBackup()">Export backup (JSON)</button>'+
+      '<button class="btn ghost block" onclick="document.getElementById(\'restoreInput\').click()">Restore from backup</button>'+
+      '<input type="file" id="restoreInput" accept=".json,application/json" style="display:none" onchange="handleRestore(this.files); this.value=\'\';">'+
+      (songs.length?'<button class="btn ghost block" onclick="confirmClearComparisons()">Erase all comparisons (keep songs)</button>':'')+
+      (songs.length?'<button class="btn danger block" onclick="confirmReset()">Erase all song data</button>':'')+
+    '</div>';
+}
+function statsScreen(){
+  ensureRatings(true);
+  if(!songs.length) return emptyState('No stats yet','Import songs and start comparing to see your collection take shape.',true);
+  var genres=allGenres();
+  var counts=genres.map(function(g){
+    var inG=songs.filter(function(s){ return s.genre===g; });
+    var c=0; inG.forEach(function(s){ c+=(s.n||0); });
+    return { g:g, n:inG.length, avg:(inG.length?(c/inG.length):0), conf:rankingConfidenceFresh(inG) };
+  }).sort(function(a,b){ return b.n-a.n; });
+  var maxCount=counts[0].n;
+  var groups=poolGroups(genres);
+  var setCount=songs.length-openCount(songs);
+  var linkNote='';
+  if(groups.length>1){
+    var listing=groups.map(function(gr){ return gr.map(escapeHtml).join(' + '); }).join('</strong> &nbsp;|&nbsp; <strong>');
+    linkNote='<div class="info-banner">Your pools form <strong>'+groups.length+' separate groups</strong> that have never been compared with each other: <strong>'+listing+'</strong>.<br><br>'+
+      'Songs are ranked correctly inside each group, but nothing yet places one group above another, so the combined list is not meaningful across them. &ldquo;Any pairing&rdquo; and &ldquo;Across pools&rdquo; will steer matchups toward joining them up.</div>';
+  } else if(genres.length>1){
+    linkNote='<div class="info-banner">All pools are linked, so the overall ranking is on one scale.</div>';
+  }
+  return warnHtml()+
+    '<div class="stat-grid">'+
+      '<div class="stat-box"><div class="stat-num">'+songs.length+'</div><div class="stat-label">songs catalogued</div></div>'+
+      '<div class="stat-box"><div class="stat-num">'+totalComparisons()+'</div><div class="stat-label">comparisons recorded</div></div>'+
+      '<div class="stat-box"><div class="stat-num">'+Math.round(rankingConfidence(songs).pct)+'%</div><div class="stat-label">overall ranking settled</div></div>'+
+      '<div class="stat-box"><div class="stat-num">'+setCount+'</div><div class="stat-label">songs set (of '+songs.length+')</div></div>'+
+    '</div>'+
+    linkNote+
+    dataBlock()+
+    consistencyBlock()+
+    coverageBlock()+
+    '<h2 class="stats-heading">Pools</h2>'+
+    counts.map(function(c){
+      return '<div class="genre-bar-row"><div class="genre-bar-label"><span>'+escapeHtml(c.g)+'</span><span>'+c.n+' songs &middot; '+c.avg.toFixed(1)+' votes each &middot; '+Math.round(c.conf.pct)+'% settled</span></div>'+
+        '<div class="genre-bar-track"><div class="genre-bar-fill" style="width:'+(c.n/maxCount*100).toFixed(0)+'%"></div></div></div>';
+    }).join('')+
+    '<button class="btn ghost block" onclick="exportCSV()">Export rankings as CSV</button>';
+}
+function consistencyBlock(){
+  var c = consistency();
+  if(!c || c.total < 10) return '';
+  var actual = Math.round(c.agree*100), expected = Math.round(c.expect*100);
+  var gap = expected - actual;
+  var read = gap <= 3 ? 'Your picks are about as consistent as the matchups allow.'
+    : (gap <= 8 ? 'A normal amount of back-and-forth for close calls.'
+                : 'More disagreement than the closeness of the matchups explains &mdash; some picks were probably mis-taps or changes of mind.');
+  var body = '<strong>'+actual+'%</strong> of your '+plural(c.total,'pick')+' match the finished order, against <strong>'+expected+
+    '%</strong> expected from how close those matchups were.<br><br>'+read+
+    '<br><br>Both figures are measured against a ranking built from these same votes, so this is how much you agree with yourself, not how right the list is.';
+  var list = surprises(6);
+  lastSurprises = list;
+  var rows = '';
+  if(list.length){
+    var rankMap = {};
+    sortedByRating(songs).forEach(function(s,i){ rankMap[s.id]=i+1; });
+    rows = '<h2 class="stats-heading">Picks worth a second look</h2>'+
+      '<p class="import-hint">Each of these went against everything else you have said &mdash; usually just a close call. Judging one again replaces that vote; leaving it alone keeps it. Worth doing for a mis-tap, not for every one: re-judging whatever disagrees with the ranking would only teach it to agree with itself.</p>'+
+      list.map(function(it, i){
+        return '<div class="surprise-row"><div class="surprise-text">'+
+          '<strong>'+escapeHtml(it.w.title)+'</strong> <span class="rk">#'+rankMap[it.w.id]+'</span> beat '+
+          escapeHtml(it.l.title)+' <span class="rk">#'+rankMap[it.l.id]+'</span></div>'+
+          '<button class="skip-btn" onclick="reJudge('+i+')">Judge again</button></div>';
+      }).join('');
+  }
+  return '<h2 class="stats-heading">Consistency</h2><div class="info-banner">'+body+'</div>'+rows;
+}
+function rankingConfidenceFresh(pool){ var saved=confCache; confCache=null; var r=rankingConfidence(pool); confCache=saved; return r; }
+function dataBlock(){
+  var d = dataBreakdown();
+  var body = '<strong>'+d.results.toLocaleString()+'</strong> head-to-head results'+
+    (d.ties ? ' and <strong>'+d.ties.toLocaleString()+'</strong> called even' : '')+
+    ', each one a stored pair of song ids — one format, however many sittings they came from.';
+  if(d.legacyUnits){
+    body += '<br><br><strong>'+d.legacyUnits.toLocaleString()+'</strong> carried-over '+(d.legacyUnits===1?'tally':'tallies')+' on <strong>'+
+      d.legacySongs.toLocaleString()+'</strong> '+(d.legacySongs===1?'song':'songs')+': win/loss counts from a version that did not record who beat whom, plus the matches of any songs you have deleted. '+
+      'They still count, as results against the middle of the scale, but they say nothing about which songs were involved &mdash; so they carry less weight than a real matchup. '+
+      'Erasing all comparisons (Import tab) clears these too.';
+  } else {
+    body += '<br><br>No carried-over tallies: every comparison in here names both songs.';
+  }
+  return '<h2 class="stats-heading">Comparison data</h2><div class="info-banner">'+body+'</div>';
+}
+function coverageBlock(){
+  var c = coverageSpread(songs);
+  var P = precisionCfg();
+  var left = roundsLeft(songs);
+  var body = 'Least-seen song: <strong>'+c.lo+'</strong> comparisons. Most-seen: <strong>'+c.hi+'</strong>. Typical: <strong>'+c.median+'</strong>.';
+  if(c.zero>0) body += '<br><strong>'+c.zero+'</strong> '+(c.zero===1?'song has':'songs have')+' not appeared yet.';
+  body += '<br><br>Cross-pool comparisons: <strong>'+crossCount()+'</strong>.';
+  body += '<br><br>Precision: <strong>'+P.label+'</strong>' + (P.cap===Infinity
+    ? ' &mdash; nothing ever locks.'
+    : ' &mdash; a song is set once its place is clear, or after '+P.cap+' comparisons.'+
+      (left ? ' About <strong>'+left.toLocaleString()+'</strong> round'+(left===1?'':'s')+' to go.' : ' Everything is set.'));
+  return '<h2 class="stats-heading">Progress</h2><div class="info-banner">'+body+'</div>';
+}
+
+// ================= Shell =================
+function topBar(){
+  var labels={compare:'Compare', library:'Library', import:'Import', stats:'Stats'};
+  return '<header class="top"><h1>Longplay</h1><span class="screen-label">'+labels[screen]+'</span></header>';
+}
+function tabBar(){
+  var tabs=[['compare','Compare'],['library','Library'],['import','Import'],['stats','Stats']];
+  return '<nav class="tabs">'+tabs.map(function(t){
+    return '<button class="'+(screen===t[0]?'active':'')+'" '+(screen===t[0]?'aria-current="page" ':'')+'onclick="setScreen(\''+t[0]+'\')">'+icon(t[0])+'<span>'+t[1]+'</span></button>';
+  }).join('')+'</nav>';
+}
+function setScreen(s){
+  screen=s;
+  if(s!=='library'){ editMode=false; selectedIds={}; }
+  if(s==='compare' && !currentPair && eligibleSongs().length>=2) currentPair=pickPair(compareMode);
+  render();
+  try { window.scrollTo(0,0); } catch(e){}
+}
+function toastHtml(){ return toastMsg?'<div class="toast" role="status">'+escapeHtml(toastMsg)+'</div>':''; }
+function mainContent(){
+  var inner;
+  if(!loaded) inner='<div class="empty-state"><h2>Loading your library</h2></div>';
+  else if(screen==='compare') inner=compareScreen();
+  else if(screen==='library') inner=libraryScreen();
+  else if(screen==='import') inner=importScreen();
+  else inner=statsScreen();
+  return '<main>'+inner+'</main>'+toastHtml()+modalHtml();
+}
+// Re-rendering replaces the page's HTML, so remember which field had focus (and where
+// the cursor was) and put it back. Without this, a toast or a background update would
+// kick you out of whatever you were typing.
+function render(){
+  var app = document.getElementById('app');
+  var active = document.activeElement;
+  var id = active && active.id;
+  var ss = null, se = null;
+  try { ss = active.selectionStart; se = active.selectionEnd; } catch(e){}
+  app.innerHTML = topBar()+mainContent()+tabBar();
+  if(id){
+    var el = document.getElementById(id);
+    if(el && el !== active && el.focus){
+      try { el.focus({preventScroll:true}); } catch(e){ try { el.focus(); } catch(e2){} }
+      if(ss!=null && el.setSelectionRange){ try{ el.setSelectionRange(ss,se); }catch(e){} }
+    }
+  }
+}
+
+// ================= Installable =================
+function buildIcon(size){
+  try {
+    var c=document.createElement('canvas');
+    c.width=c.height=size;
+    var ctx=c.getContext('2d');
+    ctx.fillStyle='#1B1720'; ctx.fillRect(0,0,size,size);
+    ctx.strokeStyle='#C99A3B'; ctx.lineWidth=size*0.055;
+    ctx.beginPath(); ctx.arc(size*0.38,size*0.5,size*0.235,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(size*0.62,size*0.5,size*0.235,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle='#7C8F68';
+    ctx.beginPath(); ctx.arc(size*0.5,size*0.5,size*0.075,0,Math.PI*2); ctx.fill();
+    return c.toDataURL('image/png');
+  } catch(e){ return ''; }
+}
+function setupInstallable(){
+  try {
+    var i192=buildIcon(192), i512=buildIcon(512);
+    if(!i192) return;
+    document.getElementById('appIcon').href=i192;
+    var manifest={ name:'Longplay', short_name:'Longplay', start_url:'.', display:'standalone',
+      background_color:'#1B1720', theme_color:'#1B1720',
+      icons:[{src:i192,sizes:'192x192',type:'image/png'},{src:i512,sizes:'512x512',type:'image/png'}] };
+    document.getElementById('appManifest').href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(manifest));
+  } catch(e){}
+}
+
+document.addEventListener('keydown', onKey);
+render();
+loadSongs();
+setupInstallable();
+</script>
+</body>
+</html>

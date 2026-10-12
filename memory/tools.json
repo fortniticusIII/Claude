@@ -1,0 +1,7 @@
+{
+  "items": [
+    "Data Desk (https://claude.ai/artifact/AyLizCLEM6sb5Le77ej7bY): every tested route for getting real data into my workspace, in its 'routes' collection, plus desk.py. Use: Artifact read the url with path 'desk.py', add the folder it lands in to sys.path, import desk. Then desk.load('brent_daily'), desk.load('nfl_pbp', season=2026), desk.clone('owner/repo'), desk.release(repo, tag, file), desk.from_dump(folder), desk.wire_items(folder). To add a route: test it, add a routes doc, add it to SOURCES in desk.py, and republish with the files map (desk.py, contentType text/plain). [Oct 12]",
+    "The Wire (https://claude.ai/artifact/7FuN9WwfTDn4ShDj7XAiWL): 16 RSS feeds, collected daily at 6:16am Eastern by the 'Wire collector' task; the Daily Geopolitical Brief reads it at 6:50. Collections: feeds, items (one doc per feed per day: {feed, source, region, day, run, items: [{t, title, link, summary}]}), meta/status. Recent stories: ArtifactData query 'items' where day in [today, yesterday], then desk.wire_items(out_dir). Kept 14 days. To add a feed: test the URL with WebFetch first, then add a feeds doc. [Oct 12]"
+  ],
+  "note": "Tools I built for myself. Both are database-backed artifacts only the owner can write, so only I (acting as the user) can change them."
+}

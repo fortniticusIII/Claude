@@ -1,0 +1,132 @@
+[
+  {
+    "id": "whitehouse",
+    "kind": "official",
+    "name": "White House",
+    "order": 0,
+    "region": "United States",
+    "url": "https://www.whitehouse.gov/news/feed/"
+  },
+  {
+    "id": "breakingdefense",
+    "kind": "defense press",
+    "name": "Breaking Defense",
+    "order": 1,
+    "region": "Defense",
+    "url": "https://breakingdefense.com/feed/"
+  },
+  {
+    "id": "twz",
+    "kind": "defense press",
+    "name": "The War Zone",
+    "order": 2,
+    "region": "Defense",
+    "url": "https://www.twz.com/feed"
+  },
+  {
+    "id": "usni",
+    "kind": "defense press",
+    "name": "USNI News",
+    "order": 3,
+    "region": "Defense",
+    "url": "https://news.usni.org/feed"
+  },
+  {
+    "id": "defensenews",
+    "kind": "defense press",
+    "name": "Defense News",
+    "order": 4,
+    "region": "Defense",
+    "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml"
+  },
+  {
+    "id": "aljazeera",
+    "kind": "world news",
+    "name": "Al Jazeera",
+    "order": 5,
+    "region": "World",
+    "skip": "Skip links under /sports/.",
+    "url": "https://www.aljazeera.com/xml/rss/all.xml"
+  },
+  {
+    "id": "npr",
+    "kind": "world news",
+    "name": "NPR World",
+    "order": 6,
+    "region": "World",
+    "url": "https://feeds.npr.org/1004/rss.xml"
+  },
+  {
+    "id": "meduza",
+    "kind": "regional",
+    "name": "Meduza",
+    "order": 7,
+    "region": "Europe & Russia",
+    "url": "https://meduza.io/rss/en/all"
+  },
+  {
+    "id": "ukrinform",
+    "kind": "regional",
+    "name": "Ukrinform",
+    "order": 8,
+    "region": "Europe & Russia",
+    "url": "https://www.ukrinform.net/rss/block-lastnews"
+  },
+  {
+    "id": "jpost",
+    "kind": "regional",
+    "name": "Jerusalem Post",
+    "order": 9,
+    "region": "Middle East",
+    "url": "https://www.jpost.com/rss/rssfeedsfrontpage.aspx"
+  },
+  {
+    "id": "nknews",
+    "kind": "regional",
+    "name": "NK News",
+    "order": 10,
+    "region": "Indo-Pacific",
+    "url": "https://www.nknews.org/feed/"
+  },
+  {
+    "id": "taipeitimes",
+    "kind": "regional",
+    "name": "Taipei Times",
+    "order": 11,
+    "region": "Indo-Pacific",
+    "skip": "Keep only links under /News/front/, /News/taiwan/ and /News/world/.",
+    "url": "https://www.taipeitimes.com/xml/index.rss"
+  },
+  {
+    "id": "africanews",
+    "kind": "regional",
+    "name": "Africanews",
+    "order": 12,
+    "region": "Africa",
+    "url": "https://www.africanews.com/feed/rss"
+  },
+  {
+    "id": "insightcrime",
+    "kind": "regional",
+    "name": "InSight Crime",
+    "order": 13,
+    "region": "Americas",
+    "url": "https://insightcrime.org/feed/"
+  },
+  {
+    "id": "therecord",
+    "kind": "cyber",
+    "name": "The Record",
+    "order": 14,
+    "region": "Cyber",
+    "url": "https://therecord.media/feed"
+  },
+  {
+    "id": "bleepingcomputer",
+    "kind": "cyber",
+    "name": "BleepingComputer",
+    "order": 15,
+    "region": "Cyber",
+    "url": "https://www.bleepingcomputer.com/feed/"
+  }
+]

@@ -1,0 +1,3684 @@
+<title>The Guitar Skill Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#EDEFEB; --surface:#F8F9F6; --ink:#16191C; --ink2:#3C4348; --muted:#657076; --line:#D3D8D2;
+  --accent:#2C6A9C; --accent-soft:#D6E4EF; --bar:#AEB7BA; --warn:#9A5B12;
+  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111315; --surface:#191C1F; --ink:#E9EBE7; --ink2:#C3C9C6; --muted:#939DA2; --line:#2B3034;
+    --accent:#7FB2DD; --accent-soft:#1F3345; --bar:#4B5458; --warn:#E0A55C; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111315; --surface:#191C1F; --ink:#E9EBE7; --ink2:#C3C9C6; --muted:#939DA2; --line:#2B3034;
+  --accent:#7FB2DD; --accent-soft:#1F3345; --bar:#4B5458; --warn:#E0A55C; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font:15px/1.6 var(--sans); padding-inline:16px; padding-block:0 48px}
+.wrap{max-width:960px; margin:0 auto; display:flex; flex-direction:column; gap:56px}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; letter-spacing:-0.01em}
+h2{font-size:clamp(1.5rem,3.4vw,2rem); font-weight:700; line-height:1.15}
+h3{font-size:1.05rem; font-weight:700}
+p{margin:0; max-width:66ch}
+.eyebrow{font:500 12px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+section{display:flex; flex-direction:column; gap:18px}
+.lede{color:var(--ink2)}
+
+/* hero */
+.hero{padding-top:40px; display:flex; flex-direction:column; gap:18px}
+.strings{display:grid; gap:5px; margin-bottom:8px}
+.strings i{display:block; height:var(--h); background:var(--line); border-radius:2px}
+.hero h1{font-size:clamp(2.8rem,9vw,5.6rem); font-weight:800; line-height:.95; letter-spacing:-0.03em}
+.hero h1 span{color:var(--accent)}
+.hero .q{font:500 1.05rem/1.4 var(--sans); color:var(--ink2)}
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+.stat{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:4px}
+.stat b{font:700 1.9rem/1 var(--display); font-variant-numeric:tabular-nums}
+.stat span{font-size:13px; color:var(--muted); line-height:1.4}
+.callout{border-left:3px solid var(--warn); padding:4px 0 4px 16px; display:flex; flex-direction:column; gap:8px}
+.callout h3{color:var(--warn)}
+
+/* dims */
+.dims{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px 28px}
+.dim{display:grid; grid-template-columns:34px 1fr; gap:2px 12px; padding-block:12px; border-top:1px solid var(--line)}
+.dim .k{grid-row:span 3; font:700 1.3rem/1 var(--display); color:var(--accent); padding-top:2px}
+.dim .u{font:400 12px/1.4 var(--mono); color:var(--muted)}
+.dim p{font-size:14px; color:var(--ink2)}
+
+/* steps */
+ol.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0; counter-reset:s}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:40px 1fr; gap:4px 12px; padding-block:14px; border-top:1px solid var(--line)}
+ol.steps li::before{content:counter(s); grid-row:span 2; font:700 1.1rem/1.4 var(--mono); color:var(--muted)}
+ol.steps p{font-size:14px; color:var(--ink2)}
+
+/* tables */
+.scroll{overflow-x:auto; border:1px solid var(--line); border-radius:6px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:14px}
+th{font:500 11px/1.3 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); text-align:left; padding:10px 10px; border-bottom:1px solid var(--line); white-space:nowrap}
+td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.r, th.r{text-align:right}
+.rank{font:500 13px var(--mono); color:var(--muted); width:28px}
+.who b{font-weight:600}
+.who small{display:block; color:var(--muted); font-size:12px}
+.barcell{min-width:140px}
+.bar{display:flex; align-items:center; gap:8px}
+.bar .track{flex:1; height:8px; background:transparent; position:relative}
+.bar .fill{position:absolute; left:0; top:0; bottom:0; background:var(--bar); border-radius:0 4px 4px 0; min-width:2px}
+.bar .fill.hi{background:var(--accent)}
+.bar .v{font:400 12px var(--mono); color:var(--ink2); width:44px; text-align:right; font-variant-numeric:tabular-nums}
+tr.row{cursor:pointer}
+tr.row:hover td, tr.row:focus-visible td{background:var(--accent-soft)}
+tr.row:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+tr.detail td{background:var(--bg); padding:14px 16px}
+.prof{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px 24px}
+.prof .pr{display:grid; grid-template-columns:120px 1fr 52px; gap:8px; align-items:center; font-size:12px}
+.prof .pr .t{height:6px; position:relative}
+.prof .pr .t i{position:absolute; inset:0 auto 0 0; background:var(--accent); border-radius:0 3px 3px 0}
+.prof .pr .t{background:var(--line); border-radius:3px}
+.dwrap{position:sticky; left:16px; max-width:calc(100vw - 66px)}
+.chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+.chip{font:400 11px/1 var(--mono); padding:5px 8px; border:1px solid var(--line); border-radius:99px; color:var(--ink2); background:var(--surface)}
+.note{font-size:13px; color:var(--muted)}
+
+/* lab */
+.lab{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:20px}
+@media (max-width:720px){ .lab{grid-template-columns:1fr} }
+.presets{display:flex; flex-wrap:wrap; gap:6px}
+.presets button{font:500 12px/1 var(--sans); padding:8px 11px; border-radius:99px; border:1px solid var(--line); background:var(--bg); color:var(--ink); cursor:pointer}
+.presets button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--surface)}
+.presets button:focus-visible, input[type=range]:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.sliders{display:flex; flex-direction:column; gap:10px; margin-top:14px}
+.sl{display:grid; grid-template-columns:150px 1fr 40px; gap:10px; align-items:center; font-size:13px}
+.sl output{font:400 12px var(--mono); color:var(--muted); text-align:right}
+input[type=range]{width:100%; accent-color:var(--accent)}
+.live{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.live li{display:grid; grid-template-columns:22px 1fr 1fr; gap:10px; align-items:center; font-size:13px}
+.live .rk{font:500 12px var(--mono); color:var(--muted)}
+.live .t{height:8px; position:relative}
+.live .t i{position:absolute; inset:0 auto 0 0; background:var(--bar); border-radius:0 4px 4px 0}
+.live li:first-child .t i{background:var(--accent)}
+.live li:first-child .nm{font-weight:600}
+
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px}
+.box{border-top:2px solid var(--ink); padding-top:12px; display:flex; flex-direction:column; gap:8px}
+.box ol{margin:0; padding-left:20px; font-size:14px}
+ul.lim{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:10px; max-width:70ch; color:var(--ink2)}
+footer{font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:16px; display:flex; flex-direction:column; gap:6px}
+footer a{color:var(--accent)}
+.full td, .full th{font-size:12px; padding:7px 8px; white-space:nowrap}
+.full td.num{text-align:right}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="strings" aria-hidden="true">
+      <i style="--h:1px"></i><i style="--h:1px"></i><i style="--h:2px"></i><i style="--h:2px"></i><i style="--h:3px"></i><i style="--h:3px"></i>
+    </div>
+    <div class="eyebrow">51 guitarists · 8 measured dimensions · 240,000 simulated weightings</div>
+    <p class="q">Who is the most skilled guitarist, by the numbers?</p>
+    <h1><span>Guthrie</span> Govan</h1>
+    <p class="lede" id="heroLine"></p>
+    <div class="stats" id="stats"></div>
+    <div class="callout">
+      <h3>How solid is that?</h3>
+      <p>The win holds across every method tried, but it is narrower than the headline suggests. It comes from breadth: Govan is near the top on almost everything and weak on nothing. Once you add realistic measurement error, he is #1 in only about 38% of simulations, and a half-point downgrade across all eight scores would hand the top spot to Danny Gatton. Rank only the judged musicianship scores (harmony, polyphony, improvisation, touch, precision) and Tuck Andress comes first. Govan is the most defensible single answer. He is not a lock.</p>
+    </div>
+  </header>
+
+  <section id="measure">
+    <div class="eyebrow">Step 1 · What gets measured</div>
+    <h2>Eight dimensions of playing skill</h2>
+    <p class="lede">Only abilities you can in principle measure from a recording or a transcription count. Fame, sales, influence, songwriting and "feel" as public opinion are all excluded. Three dimensions are raw counts; five are 0–10 scores estimated from recorded evidence.</p>
+    <div class="dims" id="dims"></div>
+  </section>
+
+  <section id="math">
+    <div class="eyebrow">Step 2 · The math</div>
+    <h2>Removing the opinion from the weights</h2>
+    <p class="lede">Any ranking needs weights: is speed worth more than harmony? Choosing them myself would sneak opinion back in. So the analysis never picks one set. It checks who wins across all of them.</p>
+    <ol class="steps">
+      <li><h3>Put every dimension on one scale</h3><p>Each dimension is rescaled 0–1 across the pool (min–max), so notes per second and genre counts can be combined.</p></li>
+      <li><h3>Find the Pareto front</h3><p>Drop anyone who is matched or beaten on all eight dimensions by someone else. <b id="paretoN"></b> of 51 survive. Only these players can be #1 under any weighting at all.</p></li>
+      <li><h3>Try every possible weighting</h3><p>200,000 weight vectors drawn uniformly from the whole space of weightings (a flat Dirichlet on the 8-simplex). Each draw produces a full ranking; I record how often each player finishes #1 and their average rank.</p></li>
+      <li><h3>Add measurement error</h3><p>40,000 more draws with random noise on every score (±1.5 notes/sec, ±0.75 points, ±1 genre, ±1 technique, one standard deviation), because my estimates are not lab measurements.</p></li>
+      <li><h3>Let the data pick the weights</h3><p>Three standard "objective weighting" methods from decision science set weights from the data itself: Entropy (EWM), CRITIC and the first principal component. Each is combined three ways (weighted sum, geometric mean, TOPSIS), plus a Borda count: 13 methods in total.</p></li>
+      <li><h3>Run it as an election</h3><p>For every pair of players, whoever scores higher in most weightings wins that matchup. A player who wins every matchup is a Condorcet winner.</p></li>
+    </ol>
+  </section>
+
+  <section id="rank">
+    <div class="eyebrow">Step 3 · Results</div>
+    <h2>The consensus ranking</h2>
+    <p class="lede">Ordered by average position across all 16 ranking methods. Tap a player to see their profile.</p>
+    <div class="scroll">
+      <table id="rankT">
+        <thead><tr><th>#</th><th>Player</th><th>Chance of #1</th><th class="r">With error</th><th class="r">Avg rank</th><th class="r">Matchups won</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note">"Chance of #1" is the share of 200,000 random weightings where the player tops the list. "With error" adds measurement noise. "Matchups won" counts head-to-heads (out of 50) won in the majority of weightings.</p>
+  </section>
+
+  <section id="lab">
+    <div class="eyebrow">Try it</div>
+    <h2>Set your own weights</h2>
+    <p class="lede">Move the sliders to decide what matters most. The ranking updates live. Try "Speed only" to see why a single metric fails.</p>
+    <div class="lab">
+      <div>
+        <div class="presets" id="presets"></div>
+        <div class="sliders" id="sliders"></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:10px">Top 10 with these weights</h3>
+        <ol class="live" id="live"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="stress">
+    <div class="eyebrow">Step 4 · Trying to break it</div>
+    <h2>Stress tests</h2>
+    <div class="two">
+      <div class="box"><h3>Delete one dimension at a time</h3><p class="note">Winner with equal weights on the remaining seven.</p><table id="looT"><tbody></tbody></table></div>
+      <div class="box"><h3>Split by kind of evidence</h3>
+        <p class="note">Only the three countable dimensions (speed, genres, techniques):</p><ol id="cntL"></ol>
+        <p class="note">Only the five judged scores (precision, harmony, polyphony, improvisation, expression):</p><ol id="jdgL"></ol>
+      </div>
+    </div>
+    <p class="lede" id="h2h"></p>
+  </section>
+
+  <section id="limits">
+    <div class="eyebrow">What this can't tell you</div>
+    <h2>Limits of the model</h2>
+    <ul class="lim">
+      <li><b>The inputs are estimates.</b> Nobody has onset-analyzed and transcribed these 51 catalogs on one standard. My scores come from recorded performances and documented work. The noise test exists to show how much that matters, and it matters a lot.</li>
+      <li><b>The checklists reward breadth.</b> Genres and techniques come from fixed lists of 15 and 17 items. Splitting classical or flamenco into finer sub-skills would help the specialists. Versatility is a real skill, but how you count it is a choice.</li>
+      <li><b>Output only, not constraints.</b> Django Reinhardt played with two working fretting fingers, and Segovia and Django are judged from old recordings. This index measures what reached the recording, not what it took to get there.</li>
+      <li><b>The pool decides who can win.</b> I picked 51 players across rock, metal, blues, jazz, classical, flamenco, country and bluegrass. Anyone left out cannot win.</li>
+      <li><b>Speed has diminishing returns.</b> The Guinness record for guitar speed is held by players who rank nowhere here. That is why no single dimension can decide this.</li>
+    </ul>
+  </section>
+
+  <section id="data">
+    <div class="eyebrow">Appendix</div>
+    <h2>All 51 players, raw scores</h2>
+    <div class="scroll"><table class="full" id="fullT"><thead></thead><tbody></tbody></table></div>
+  </section>
+
+  <footer>
+    <span>Method: min–max normalisation, Pareto dominance, Dirichlet Monte Carlo (seed 42), Entropy/CRITIC/PCA weighting, weighted-sum, geometric and TOPSIS aggregation, Borda and Copeland counts.</span>
+    <span>Context: <a href="https://www.guinnessworldrecords.com/news/2012/1/dr-hot-licks-sees-in-the-new-year-in-hong-kong-with-new-fastest-guitar-playing-record">Guinness fastest-guitar record</a> · <a href="https://www.guitarworld.com/magazine/50-fastest-guitarists-all-time">Guitar World, 50 fastest guitarists</a> · <a href="https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0069268">PLOS One, note-onset deviations</a></span>
+  </footer>
+</div>
+
+<script>
+const D = {
+ "dims": [
+  {
+   "key": "V",
+   "name": "Velocity",
+   "unit": "notes/sec",
+   "lo": 7.0,
+   "hi": 22.0
+  },
+  {
+   "key": "P",
+   "name": "Precision",
+   "unit": "0–10",
+   "lo": 6.5,
+   "hi": 10.0
+  },
+  {
+   "key": "H",
+   "name": "Harmonic vocabulary",
+   "unit": "0–10",
+   "lo": 4.5,
+   "hi": 10.0
+  },
+  {
+   "key": "I",
+   "name": "Polyphonic independence",
+   "unit": "0–10",
+   "lo": 2.0,
+   "hi": 10.0
+  },
+  {
+   "key": "M",
+   "name": "Improvisation",
+   "unit": "0–10",
+   "lo": 1.5,
+   "hi": 10.0
+  },
+  {
+   "key": "E",
+   "name": "Expressive control",
+   "unit": "0–10",
+   "lo": 6.5,
+   "hi": 10.0
+  },
+  {
+   "key": "G",
+   "name": "Stylistic range",
+   "unit": "genres",
+   "lo": 2.0,
+   "hi": 8.0
+  },
+  {
+   "key": "T",
+   "name": "Technique breadth",
+   "unit": "of 17",
+   "lo": 2.0,
+   "hi": 12.0
+  }
+ ],
+ "tech": [
+  {
+   "key": "alt",
+   "name": "Alternate picking"
+  },
+  {
+   "key": "sweep",
+   "name": "Sweep/economy picking"
+  },
+  {
+   "key": "legato",
+   "name": "Legato"
+  },
+  {
+   "key": "tap",
+   "name": "Two-hand tapping"
+  },
+  {
+   "key": "hybrid",
+   "name": "Hybrid picking"
+  },
+  {
+   "key": "finger",
+   "name": "Classical/fingerstyle PIMA"
+  },
+  {
+   "key": "rasg",
+   "name": "Rasgueado/flamenco RH"
+  },
+  {
+   "key": "trem",
+   "name": "Tremolo (picked or PAMI)"
+  },
+  {
+   "key": "harm",
+   "name": "Artificial/harp harmonics"
+  },
+  {
+   "key": "slide",
+   "name": "Slide"
+  },
+  {
+   "key": "bend",
+   "name": "Bends & vibrato"
+  },
+  {
+   "key": "comp",
+   "name": "Chord-melody/comping"
+  },
+  {
+   "key": "thumb",
+   "name": "Travis/thumb independence"
+  },
+  {
+   "key": "cross",
+   "name": "Crosspicking"
+  },
+  {
+   "key": "perc",
+   "name": "Percussive/body"
+  },
+  {
+   "key": "octave",
+   "name": "Octaves/thumb lines"
+  },
+  {
+   "key": "bar",
+   "name": "Whammy-bar manipulation"
+  }
+ ],
+ "schemes": {
+  "Equal": [
+   0.125,
+   0.125,
+   0.125,
+   0.125,
+   0.125,
+   0.125,
+   0.125,
+   0.125
+  ],
+  "Entropy (EWM)": [
+   0.084,
+   0.0698,
+   0.1576,
+   0.165,
+   0.1016,
+   0.0704,
+   0.2481,
+   0.1034
+  ],
+  "CRITIC": [
+   0.1156,
+   0.1112,
+   0.1232,
+   0.1625,
+   0.1507,
+   0.1423,
+   0.1084,
+   0.0861
+  ],
+  "PCA-1": [
+   0.0948,
+   0.1249,
+   0.1774,
+   0.1063,
+   0.09,
+   0.0077,
+   0.1865,
+   0.2124
+  ]
+ },
+ "pareto": [
+  "Guthrie Govan",
+  "John McLaughlin",
+  "Shawn Lane",
+  "Paco de Lucía",
+  "Allan Holdsworth",
+  "Pat Metheny",
+  "Joe Pass",
+  "Lenny Breau",
+  "Tommy Emmanuel",
+  "Danny Gatton",
+  "Tuck Andress",
+  "Ted Greene",
+  "Julian Lage",
+  "Frank Gambale",
+  "Biréli Lagrène",
+  "John Williams",
+  "Julian Bream",
+  "David Russell",
+  "Chet Atkins",
+  "David Gilmour",
+  "Jeff Beck",
+  "Paul Gilbert"
+ ],
+ "condorcet": [
+  "Guthrie Govan"
+ ],
+ "players": [
+  {
+   "name": "Guthrie Govan",
+   "genre": "Rock/Fusion",
+   "raw": {
+    "V": 17,
+    "P": 9.5,
+    "H": 8.5,
+    "I": 6,
+    "M": 9,
+    "E": 9.5,
+    "G": 8,
+    "T": 12
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "hybrid",
+    "trem",
+    "harm",
+    "slide",
+    "bend",
+    "comp",
+    "octave",
+    "bar"
+   ],
+   "norm": [
+    0.6667,
+    0.8571,
+    0.7273,
+    0.5,
+    0.8824,
+    0.8571,
+    1.0,
+    1.0
+   ],
+   "p1": 0.6929,
+   "p3": 0.857,
+   "p10": 0.9751,
+   "mean_rank": 2.15,
+   "p1_noise": 0.3805,
+   "p3_noise": 0.6548,
+   "mean_rank_noise": 4.08,
+   "copeland": 50,
+   "consensus": 1.0,
+   "methods": {
+    "Equal · weighted sum": 1,
+    "Equal · geometric": 1,
+    "Equal · TOPSIS": 1,
+    "Entropy (EWM) · weighted sum": 1,
+    "Entropy (EWM) · geometric": 1,
+    "Entropy (EWM) · TOPSIS": 1,
+    "CRITIC · weighted sum": 1,
+    "CRITIC · geometric": 1,
+    "CRITIC · TOPSIS": 1,
+    "PCA-1 · weighted sum": 1,
+    "PCA-1 · geometric": 1,
+    "PCA-1 · TOPSIS": 1,
+    "Borda (per-dimension ranks)": 1
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Danny Gatton",
+   "genre": "Rock/Jazz/Country",
+   "raw": {
+    "V": 16,
+    "P": 9,
+    "H": 8,
+    "I": 8,
+    "M": 9,
+    "E": 9,
+    "G": 6,
+    "T": 12
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "hybrid",
+    "finger",
+    "harm",
+    "slide",
+    "bend",
+    "comp",
+    "thumb",
+    "cross",
+    "octave",
+    "bar"
+   ],
+   "norm": [
+    0.6,
+    0.7143,
+    0.6364,
+    0.75,
+    0.8824,
+    0.7143,
+    0.6667,
+    1.0
+   ],
+   "p1": 0.0135,
+   "p3": 0.481,
+   "p10": 0.9535,
+   "mean_rank": 4.45,
+   "p1_noise": 0.0911,
+   "p3_noise": 0.3448,
+   "mean_rank_noise": 7.2,
+   "copeland": 49,
+   "consensus": 2.31,
+   "methods": {
+    "Equal · weighted sum": 2,
+    "Equal · geometric": 2,
+    "Equal · TOPSIS": 2,
+    "Entropy (EWM) · weighted sum": 2,
+    "Entropy (EWM) · geometric": 2,
+    "Entropy (EWM) · TOPSIS": 4,
+    "CRITIC · weighted sum": 3,
+    "CRITIC · geometric": 2,
+    "CRITIC · TOPSIS": 3,
+    "PCA-1 · weighted sum": 2,
+    "PCA-1 · geometric": 2,
+    "PCA-1 · TOPSIS": 2,
+    "Borda (per-dimension ranks)": 3
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Pat Metheny",
+   "genre": "Jazz",
+   "raw": {
+    "V": 14,
+    "P": 9,
+    "H": 9.5,
+    "I": 7.5,
+    "M": 9.5,
+    "E": 9,
+    "G": 6,
+    "T": 9
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "hybrid",
+    "finger",
+    "harm",
+    "bend",
+    "comp",
+    "thumb",
+    "octave"
+   ],
+   "norm": [
+    0.4667,
+    0.7143,
+    0.9091,
+    0.6875,
+    0.9412,
+    0.7143,
+    0.6667,
+    0.7
+   ],
+   "p1": 0.0055,
+   "p3": 0.2372,
+   "p10": 0.9424,
+   "mean_rank": 5.52,
+   "p1_noise": 0.0564,
+   "p3_noise": 0.2242,
+   "mean_rank_noise": 8.44,
+   "copeland": 48,
+   "consensus": 3.38,
+   "methods": {
+    "Equal · weighted sum": 4,
+    "Equal · geometric": 3,
+    "Equal · TOPSIS": 3,
+    "Entropy (EWM) · weighted sum": 3,
+    "Entropy (EWM) · geometric": 3,
+    "Entropy (EWM) · TOPSIS": 3,
+    "CRITIC · weighted sum": 4,
+    "CRITIC · geometric": 4,
+    "CRITIC · TOPSIS": 4,
+    "PCA-1 · weighted sum": 4,
+    "PCA-1 · geometric": 3,
+    "PCA-1 · TOPSIS": 4,
+    "Borda (per-dimension ranks)": 2
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Lenny Breau",
+   "genre": "Jazz",
+   "raw": {
+    "V": 14,
+    "P": 8.5,
+    "H": 9.5,
+    "I": 9.5,
+    "M": 9,
+    "E": 9.5,
+    "G": 5,
+    "T": 9
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "bend",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.4667,
+    0.5714,
+    0.9091,
+    0.9375,
+    0.8824,
+    0.8571,
+    0.5,
+    0.7
+   ],
+   "p1": 0.1088,
+   "p3": 0.327,
+   "p10": 0.905,
+   "mean_rank": 5.64,
+   "p1_noise": 0.0886,
+   "p3_noise": 0.2684,
+   "mean_rank_noise": 8.24,
+   "copeland": 47,
+   "consensus": 4.31,
+   "methods": {
+    "Equal · weighted sum": 3,
+    "Equal · geometric": 4,
+    "Equal · TOPSIS": 4,
+    "Entropy (EWM) · weighted sum": 4,
+    "Entropy (EWM) · geometric": 4,
+    "Entropy (EWM) · TOPSIS": 6,
+    "CRITIC · weighted sum": 2,
+    "CRITIC · geometric": 3,
+    "CRITIC · TOPSIS": 2,
+    "PCA-1 · weighted sum": 7,
+    "PCA-1 · geometric": 7,
+    "PCA-1 · TOPSIS": 7,
+    "Borda (per-dimension ranks)": 5
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Tommy Emmanuel",
+   "genre": "Fingerstyle",
+   "raw": {
+    "V": 15,
+    "P": 9,
+    "H": 7,
+    "I": 9.5,
+    "M": 8,
+    "E": 9,
+    "G": 6,
+    "T": 11
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "finger",
+    "trem",
+    "harm",
+    "slide",
+    "bend",
+    "comp",
+    "thumb",
+    "cross",
+    "perc"
+   ],
+   "norm": [
+    0.5333,
+    0.7143,
+    0.4545,
+    0.9375,
+    0.7647,
+    0.7143,
+    0.6667,
+    0.9
+   ],
+   "p1": 0.0313,
+   "p3": 0.2106,
+   "p10": 0.7375,
+   "mean_rank": 7.7,
+   "p1_noise": 0.0534,
+   "p3_noise": 0.2117,
+   "mean_rank_noise": 9.96,
+   "copeland": 45,
+   "consensus": 5.94,
+   "methods": {
+    "Equal · weighted sum": 6,
+    "Equal · geometric": 5,
+    "Equal · TOPSIS": 5,
+    "Entropy (EWM) · weighted sum": 6,
+    "Entropy (EWM) · geometric": 6,
+    "Entropy (EWM) · TOPSIS": 5,
+    "CRITIC · weighted sum": 5,
+    "CRITIC · geometric": 5,
+    "CRITIC · TOPSIS": 6,
+    "PCA-1 · weighted sum": 6,
+    "PCA-1 · geometric": 6,
+    "PCA-1 · TOPSIS": 6,
+    "Borda (per-dimension ranks)": 12
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "John McLaughlin",
+   "genre": "Jazz/Fusion",
+   "raw": {
+    "V": 16,
+    "P": 8.5,
+    "H": 9.5,
+    "I": 5.5,
+    "M": 9.5,
+    "E": 8.5,
+    "G": 7,
+    "T": 9
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "hybrid",
+    "finger",
+    "rasg",
+    "trem",
+    "bend",
+    "comp",
+    "perc"
+   ],
+   "norm": [
+    0.6,
+    0.5714,
+    0.9091,
+    0.4375,
+    0.9412,
+    0.5714,
+    0.8333,
+    0.7
+   ],
+   "p1": 0.0042,
+   "p3": 0.1542,
+   "p10": 0.6571,
+   "mean_rank": 9.55,
+   "p1_noise": 0.0366,
+   "p3_noise": 0.1683,
+   "mean_rank_noise": 11.37,
+   "copeland": 44,
+   "consensus": 6.69,
+   "methods": {
+    "Equal · weighted sum": 8,
+    "Equal · geometric": 8,
+    "Equal · TOPSIS": 8,
+    "Entropy (EWM) · weighted sum": 5,
+    "Entropy (EWM) · geometric": 5,
+    "Entropy (EWM) · TOPSIS": 2,
+    "CRITIC · weighted sum": 10,
+    "CRITIC · geometric": 8,
+    "CRITIC · TOPSIS": 10,
+    "PCA-1 · weighted sum": 5,
+    "PCA-1 · geometric": 5,
+    "PCA-1 · TOPSIS": 3,
+    "Borda (per-dimension ranks)": 7
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Shawn Lane",
+   "genre": "Fusion",
+   "raw": {
+    "V": 22,
+    "P": 8.5,
+    "H": 8.5,
+    "I": 5,
+    "M": 9,
+    "E": 8.5,
+    "G": 6,
+    "T": 11
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "hybrid",
+    "finger",
+    "trem",
+    "harm",
+    "bend",
+    "comp",
+    "bar"
+   ],
+   "norm": [
+    1.0,
+    0.5714,
+    0.7273,
+    0.375,
+    0.8824,
+    0.5714,
+    0.6667,
+    0.9
+   ],
+   "p1": 0.0738,
+   "p3": 0.2928,
+   "p10": 0.6769,
+   "mean_rank": 8.67,
+   "p1_noise": 0.0897,
+   "p3_noise": 0.263,
+   "mean_rank_noise": 10.39,
+   "copeland": 46,
+   "consensus": 6.81,
+   "methods": {
+    "Equal · weighted sum": 5,
+    "Equal · geometric": 7,
+    "Equal · TOPSIS": 7,
+    "Entropy (EWM) · weighted sum": 7,
+    "Entropy (EWM) · geometric": 7,
+    "Entropy (EWM) · TOPSIS": 7,
+    "CRITIC · weighted sum": 9,
+    "CRITIC · geometric": 10,
+    "CRITIC · TOPSIS": 12,
+    "PCA-1 · weighted sum": 3,
+    "PCA-1 · geometric": 4,
+    "PCA-1 · TOPSIS": 5,
+    "Borda (per-dimension ranks)": 8
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Paco de Lucía",
+   "genre": "Flamenco",
+   "raw": {
+    "V": 17,
+    "P": 9.5,
+    "H": 8,
+    "I": 7.5,
+    "M": 8,
+    "E": 9.5,
+    "G": 5,
+    "T": 8
+   },
+   "techs": [
+    "alt",
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb",
+    "perc"
+   ],
+   "norm": [
+    0.6667,
+    0.8571,
+    0.6364,
+    0.6875,
+    0.7647,
+    0.8571,
+    0.5,
+    0.6
+   ],
+   "p1": 0.001,
+   "p3": 0.1173,
+   "p10": 0.7845,
+   "mean_rank": 7.75,
+   "p1_noise": 0.0301,
+   "p3_noise": 0.1265,
+   "mean_rank_noise": 10.39,
+   "copeland": 43,
+   "consensus": 7.31,
+   "methods": {
+    "Equal · weighted sum": 7,
+    "Equal · geometric": 6,
+    "Equal · TOPSIS": 6,
+    "Entropy (EWM) · weighted sum": 10,
+    "Entropy (EWM) · geometric": 9,
+    "Entropy (EWM) · TOPSIS": 9,
+    "CRITIC · weighted sum": 6,
+    "CRITIC · geometric": 6,
+    "CRITIC · TOPSIS": 5,
+    "PCA-1 · weighted sum": 10,
+    "PCA-1 · geometric": 9,
+    "PCA-1 · TOPSIS": 9,
+    "Borda (per-dimension ranks)": 4
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Julian Lage",
+   "genre": "Jazz",
+   "raw": {
+    "V": 14,
+    "P": 9,
+    "H": 9,
+    "I": 8,
+    "M": 9,
+    "E": 9,
+    "G": 5,
+    "T": 8
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "finger",
+    "harm",
+    "bend",
+    "comp",
+    "thumb",
+    "cross"
+   ],
+   "norm": [
+    0.4667,
+    0.7143,
+    0.8182,
+    0.75,
+    0.8824,
+    0.7143,
+    0.5,
+    0.6
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.7153,
+   "mean_rank": 9.82,
+   "p1_noise": 0.0154,
+   "p3_noise": 0.0796,
+   "mean_rank_noise": 11.94,
+   "copeland": 42,
+   "consensus": 8.44,
+   "methods": {
+    "Equal · weighted sum": 10,
+    "Equal · geometric": 9,
+    "Equal · TOPSIS": 9,
+    "Entropy (EWM) · weighted sum": 8,
+    "Entropy (EWM) · geometric": 8,
+    "Entropy (EWM) · TOPSIS": 8,
+    "CRITIC · weighted sum": 8,
+    "CRITIC · geometric": 7,
+    "CRITIC · TOPSIS": 7,
+    "PCA-1 · weighted sum": 9,
+    "PCA-1 · geometric": 8,
+    "PCA-1 · TOPSIS": 8,
+    "Borda (per-dimension ranks)": 9
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Tuck Andress",
+   "genre": "Jazz",
+   "raw": {
+    "V": 12,
+    "P": 9.5,
+    "H": 9.5,
+    "I": 10,
+    "M": 7.5,
+    "E": 9,
+    "G": 4,
+    "T": 8
+   },
+   "techs": [
+    "alt",
+    "tap",
+    "hybrid",
+    "finger",
+    "harm",
+    "comp",
+    "thumb",
+    "perc"
+   ],
+   "norm": [
+    0.3333,
+    0.8571,
+    0.9091,
+    1.0,
+    0.7059,
+    0.7143,
+    0.3333,
+    0.6
+   ],
+   "p1": 0.0378,
+   "p3": 0.1436,
+   "p10": 0.5554,
+   "mean_rank": 10.12,
+   "p1_noise": 0.0446,
+   "p3_noise": 0.1437,
+   "mean_rank_noise": 12.47,
+   "copeland": 41,
+   "consensus": 9.88,
+   "methods": {
+    "Equal · weighted sum": 9,
+    "Equal · geometric": 11,
+    "Equal · TOPSIS": 11,
+    "Entropy (EWM) · weighted sum": 9,
+    "Entropy (EWM) · geometric": 11,
+    "Entropy (EWM) · TOPSIS": 11,
+    "CRITIC · weighted sum": 7,
+    "CRITIC · geometric": 11,
+    "CRITIC · TOPSIS": 8,
+    "PCA-1 · weighted sum": 8,
+    "PCA-1 · geometric": 11,
+    "PCA-1 · TOPSIS": 11,
+    "Borda (per-dimension ranks)": 10
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Biréli Lagrène",
+   "genre": "Gypsy jazz",
+   "raw": {
+    "V": 16,
+    "P": 9,
+    "H": 8.5,
+    "I": 6.5,
+    "M": 9.5,
+    "E": 9,
+    "G": 5,
+    "T": 8
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "finger",
+    "trem",
+    "harm",
+    "bend",
+    "comp",
+    "octave"
+   ],
+   "norm": [
+    0.6,
+    0.7143,
+    0.7273,
+    0.5625,
+    0.9412,
+    0.7143,
+    0.5,
+    0.6
+   ],
+   "p1": 0.0,
+   "p3": 0.0007,
+   "p10": 0.4943,
+   "mean_rank": 10.87,
+   "p1_noise": 0.0112,
+   "p3_noise": 0.0643,
+   "mean_rank_noise": 12.87,
+   "copeland": 40,
+   "consensus": 10.06,
+   "methods": {
+    "Equal · weighted sum": 11,
+    "Equal · geometric": 10,
+    "Equal · TOPSIS": 10,
+    "Entropy (EWM) · weighted sum": 11,
+    "Entropy (EWM) · geometric": 10,
+    "Entropy (EWM) · TOPSIS": 10,
+    "CRITIC · weighted sum": 11,
+    "CRITIC · geometric": 9,
+    "CRITIC · TOPSIS": 9,
+    "PCA-1 · weighted sum": 11,
+    "PCA-1 · geometric": 10,
+    "PCA-1 · TOPSIS": 10,
+    "Borda (per-dimension ranks)": 6
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Allan Holdsworth",
+   "genre": "Fusion",
+   "raw": {
+    "V": 16,
+    "P": 9,
+    "H": 10,
+    "I": 6.5,
+    "M": 9.5,
+    "E": 9,
+    "G": 3,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "tap",
+    "hybrid",
+    "bend",
+    "comp",
+    "bar"
+   ],
+   "norm": [
+    0.6,
+    0.7143,
+    1.0,
+    0.5625,
+    0.9412,
+    0.7143,
+    0.1667,
+    0.5
+   ],
+   "p1": 0.0127,
+   "p3": 0.0488,
+   "p10": 0.3333,
+   "mean_rank": 13.41,
+   "p1_noise": 0.0197,
+   "p3_noise": 0.0775,
+   "mean_rank_noise": 15.21,
+   "copeland": 39,
+   "consensus": 14.19,
+   "methods": {
+    "Equal · weighted sum": 12,
+    "Equal · geometric": 15,
+    "Equal · TOPSIS": 12,
+    "Entropy (EWM) · weighted sum": 16,
+    "Entropy (EWM) · geometric": 21,
+    "Entropy (EWM) · TOPSIS": 20,
+    "CRITIC · weighted sum": 13,
+    "CRITIC · geometric": 13,
+    "CRITIC · TOPSIS": 13,
+    "PCA-1 · weighted sum": 13,
+    "PCA-1 · geometric": 17,
+    "PCA-1 · TOPSIS": 15,
+    "Borda (per-dimension ranks)": 11
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Vicente Amigo",
+   "genre": "Flamenco",
+   "raw": {
+    "V": 16,
+    "P": 9,
+    "H": 8,
+    "I": 7.5,
+    "M": 7.5,
+    "E": 9,
+    "G": 4,
+    "T": 8
+   },
+   "techs": [
+    "alt",
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb",
+    "perc"
+   ],
+   "norm": [
+    0.6,
+    0.7143,
+    0.6364,
+    0.6875,
+    0.7059,
+    0.7143,
+    0.3333,
+    0.6
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.017,
+   "mean_rank": 16.3,
+   "p1_noise": 0.0036,
+   "p3_noise": 0.0174,
+   "mean_rank_noise": 17.7,
+   "copeland": 37,
+   "consensus": 14.25,
+   "methods": {
+    "Equal · weighted sum": 14,
+    "Equal · geometric": 12,
+    "Equal · TOPSIS": 13,
+    "Entropy (EWM) · weighted sum": 18,
+    "Entropy (EWM) · geometric": 14,
+    "Entropy (EWM) · TOPSIS": 19,
+    "CRITIC · weighted sum": 14,
+    "CRITIC · geometric": 12,
+    "CRITIC · TOPSIS": 14,
+    "PCA-1 · weighted sum": 16,
+    "PCA-1 · geometric": 13,
+    "PCA-1 · TOPSIS": 14,
+    "Borda (per-dimension ranks)": 13
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Paco de Lucía",
+    "Danny Gatton"
+   ]
+  },
+  {
+   "name": "Brent Mason",
+   "genre": "Country",
+   "raw": {
+    "V": 16,
+    "P": 9.5,
+    "H": 7,
+    "I": 7,
+    "M": 8,
+    "E": 8.5,
+    "G": 5,
+    "T": 8
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "hybrid",
+    "slide",
+    "bend",
+    "comp",
+    "thumb",
+    "cross"
+   ],
+   "norm": [
+    0.6,
+    0.8571,
+    0.4545,
+    0.625,
+    0.7647,
+    0.5714,
+    0.5,
+    0.6
+   ],
+   "p1": 0.0,
+   "p3": 0.0003,
+   "p10": 0.0939,
+   "mean_rank": 16.43,
+   "p1_noise": 0.0039,
+   "p3_noise": 0.0227,
+   "mean_rank_noise": 17.96,
+   "copeland": 36,
+   "consensus": 14.31,
+   "methods": {
+    "Equal · weighted sum": 15,
+    "Equal · geometric": 13,
+    "Equal · TOPSIS": 14,
+    "Entropy (EWM) · weighted sum": 17,
+    "Entropy (EWM) · geometric": 12,
+    "Entropy (EWM) · TOPSIS": 15,
+    "CRITIC · weighted sum": 15,
+    "CRITIC · geometric": 15,
+    "CRITIC · TOPSIS": 15,
+    "PCA-1 · weighted sum": 14,
+    "PCA-1 · geometric": 12,
+    "PCA-1 · TOPSIS": 12,
+    "Borda (per-dimension ranks)": 14
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Paco de Lucía"
+   ]
+  },
+  {
+   "name": "Joe Pass",
+   "genre": "Jazz",
+   "raw": {
+    "V": 13,
+    "P": 9,
+    "H": 9.5,
+    "I": 9,
+    "M": 10,
+    "E": 8.5,
+    "G": 3,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "finger",
+    "bend",
+    "comp",
+    "thumb",
+    "octave"
+   ],
+   "norm": [
+    0.4,
+    0.7143,
+    0.9091,
+    0.875,
+    1.0,
+    0.5714,
+    0.1667,
+    0.5
+   ],
+   "p1": 0.0072,
+   "p3": 0.0337,
+   "p10": 0.2968,
+   "mean_rank": 14.92,
+   "p1_noise": 0.0184,
+   "p3_noise": 0.0693,
+   "mean_rank_noise": 16.28,
+   "copeland": 38,
+   "consensus": 14.38,
+   "methods": {
+    "Equal · weighted sum": 13,
+    "Equal · geometric": 16,
+    "Equal · TOPSIS": 15,
+    "Entropy (EWM) · weighted sum": 13,
+    "Entropy (EWM) · geometric": 19,
+    "Entropy (EWM) · TOPSIS": 17,
+    "CRITIC · weighted sum": 12,
+    "CRITIC · geometric": 14,
+    "CRITIC · TOPSIS": 11,
+    "PCA-1 · weighted sum": 12,
+    "PCA-1 · geometric": 18,
+    "PCA-1 · TOPSIS": 16,
+    "Borda (per-dimension ranks)": 15
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Eric Johnson",
+   "genre": "Rock/Fusion",
+   "raw": {
+    "V": 16,
+    "P": 9.5,
+    "H": 7.5,
+    "I": 5,
+    "M": 7.5,
+    "E": 9.5,
+    "G": 5,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "hybrid",
+    "finger",
+    "slide",
+    "bend",
+    "comp"
+   ],
+   "norm": [
+    0.6,
+    0.8571,
+    0.5455,
+    0.375,
+    0.7059,
+    0.8571,
+    0.5,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.005,
+   "p10": 0.1423,
+   "mean_rank": 16.35,
+   "p1_noise": 0.0059,
+   "p3_noise": 0.0302,
+   "mean_rank_noise": 18.55,
+   "copeland": 35,
+   "consensus": 16.94,
+   "methods": {
+    "Equal · weighted sum": 16,
+    "Equal · geometric": 14,
+    "Equal · TOPSIS": 16,
+    "Entropy (EWM) · weighted sum": 19,
+    "Entropy (EWM) · geometric": 16,
+    "Entropy (EWM) · TOPSIS": 18,
+    "CRITIC · weighted sum": 17,
+    "CRITIC · geometric": 16,
+    "CRITIC · TOPSIS": 18,
+    "PCA-1 · weighted sum": 20,
+    "PCA-1 · geometric": 16,
+    "PCA-1 · TOPSIS": 20,
+    "Borda (per-dimension ranks)": 18
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía"
+   ]
+  },
+  {
+   "name": "John Williams",
+   "genre": "Classical",
+   "raw": {
+    "V": 14,
+    "P": 10,
+    "H": 8,
+    "I": 9.5,
+    "M": 3,
+    "E": 9,
+    "G": 5,
+    "T": 6
+   },
+   "techs": [
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.4667,
+    1.0,
+    0.6364,
+    0.9375,
+    0.1765,
+    0.7143,
+    0.5,
+    0.4
+   ],
+   "p1": 0.0066,
+   "p3": 0.0437,
+   "p10": 0.2247,
+   "mean_rank": 19.24,
+   "p1_noise": 0.0142,
+   "p3_noise": 0.0521,
+   "mean_rank_noise": 20.64,
+   "copeland": 34,
+   "consensus": 17.31,
+   "methods": {
+    "Equal · weighted sum": 17,
+    "Equal · geometric": 20,
+    "Equal · TOPSIS": 17,
+    "Entropy (EWM) · weighted sum": 14,
+    "Entropy (EWM) · geometric": 15,
+    "Entropy (EWM) · TOPSIS": 13,
+    "CRITIC · weighted sum": 18,
+    "CRITIC · geometric": 20,
+    "CRITIC · TOPSIS": 20,
+    "PCA-1 · weighted sum": 17,
+    "PCA-1 · geometric": 19,
+    "PCA-1 · TOPSIS": 19,
+    "Borda (per-dimension ranks)": 17
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Chet Atkins",
+   "genre": "Country/Fingerstyle",
+   "raw": {
+    "V": 12,
+    "P": 9,
+    "H": 7.5,
+    "I": 9,
+    "M": 7,
+    "E": 8.5,
+    "G": 5,
+    "T": 7
+   },
+   "techs": [
+    "hybrid",
+    "finger",
+    "harm",
+    "bend",
+    "comp",
+    "thumb",
+    "bar"
+   ],
+   "norm": [
+    0.3333,
+    0.7143,
+    0.5455,
+    0.875,
+    0.6471,
+    0.5714,
+    0.5,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0198,
+   "mean_rank": 22.16,
+   "p1_noise": 0.0014,
+   "p3_noise": 0.0089,
+   "mean_rank_noise": 22.67,
+   "copeland": 31,
+   "consensus": 17.44,
+   "methods": {
+    "Equal · weighted sum": 19,
+    "Equal · geometric": 17,
+    "Equal · TOPSIS": 18,
+    "Entropy (EWM) · weighted sum": 15,
+    "Entropy (EWM) · geometric": 13,
+    "Entropy (EWM) · TOPSIS": 12,
+    "CRITIC · weighted sum": 19,
+    "CRITIC · geometric": 17,
+    "CRITIC · TOPSIS": 17,
+    "PCA-1 · weighted sum": 19,
+    "PCA-1 · geometric": 15,
+    "PCA-1 · TOPSIS": 18,
+    "Borda (per-dimension ranks)": 22
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Ted Greene",
+   "genre": "Jazz",
+   "raw": {
+    "V": 10,
+    "P": 8.5,
+    "H": 10,
+    "I": 10,
+    "M": 8,
+    "E": 8,
+    "G": 4,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "finger",
+    "harm",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.2,
+    0.5714,
+    1.0,
+    1.0,
+    0.7647,
+    0.4286,
+    0.3333,
+    0.4
+   ],
+   "p1": 0.0012,
+   "p3": 0.0161,
+   "p10": 0.1264,
+   "mean_rank": 23.01,
+   "p1_noise": 0.0083,
+   "p3_noise": 0.034,
+   "mean_rank_noise": 22.88,
+   "copeland": 30,
+   "consensus": 18.56,
+   "methods": {
+    "Equal · weighted sum": 18,
+    "Equal · geometric": 24,
+    "Equal · TOPSIS": 21,
+    "Entropy (EWM) · weighted sum": 12,
+    "Entropy (EWM) · geometric": 17,
+    "Entropy (EWM) · TOPSIS": 14,
+    "CRITIC · weighted sum": 16,
+    "CRITIC · geometric": 19,
+    "CRITIC · TOPSIS": 16,
+    "PCA-1 · weighted sum": 15,
+    "PCA-1 · geometric": 20,
+    "PCA-1 · TOPSIS": 17,
+    "Borda (per-dimension ranks)": 26
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "George Benson",
+   "genre": "Jazz",
+   "raw": {
+    "V": 15,
+    "P": 9,
+    "H": 8.5,
+    "I": 6,
+    "M": 9,
+    "E": 8.5,
+    "G": 4,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "finger",
+    "bend",
+    "comp",
+    "octave"
+   ],
+   "norm": [
+    0.5333,
+    0.7143,
+    0.7273,
+    0.5,
+    0.8824,
+    0.5714,
+    0.3333,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 21.78,
+   "p1_noise": 0.0009,
+   "p3_noise": 0.0067,
+   "mean_rank_noise": 22.6,
+   "copeland": 33,
+   "consensus": 19.56,
+   "methods": {
+    "Equal · weighted sum": 20,
+    "Equal · geometric": 18,
+    "Equal · TOPSIS": 19,
+    "Entropy (EWM) · weighted sum": 21,
+    "Entropy (EWM) · geometric": 20,
+    "Entropy (EWM) · TOPSIS": 23,
+    "CRITIC · weighted sum": 20,
+    "CRITIC · geometric": 18,
+    "CRITIC · TOPSIS": 19,
+    "PCA-1 · weighted sum": 21,
+    "PCA-1 · geometric": 21,
+    "PCA-1 · TOPSIS": 23,
+    "Borda (per-dimension ranks)": 16
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Biréli Lagrène"
+   ]
+  },
+  {
+   "name": "Steve Vai",
+   "genre": "Rock",
+   "raw": {
+    "V": 16,
+    "P": 9,
+    "H": 7.5,
+    "I": 4,
+    "M": 7,
+    "E": 9.5,
+    "G": 5,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "harm",
+    "bend",
+    "bar"
+   ],
+   "norm": [
+    0.6,
+    0.7143,
+    0.5455,
+    0.25,
+    0.6471,
+    0.8571,
+    0.5,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0215,
+   "mean_rank": 22.56,
+   "p1_noise": 0.0017,
+   "p3_noise": 0.0114,
+   "mean_rank_noise": 23.38,
+   "copeland": 32,
+   "consensus": 21.94,
+   "methods": {
+    "Equal · weighted sum": 21,
+    "Equal · geometric": 19,
+    "Equal · TOPSIS": 20,
+    "Entropy (EWM) · weighted sum": 22,
+    "Entropy (EWM) · geometric": 22,
+    "Entropy (EWM) · TOPSIS": 25,
+    "CRITIC · weighted sum": 22,
+    "CRITIC · geometric": 23,
+    "CRITIC · TOPSIS": 26,
+    "PCA-1 · weighted sum": 23,
+    "PCA-1 · geometric": 22,
+    "PCA-1 · TOPSIS": 21,
+    "Borda (per-dimension ranks)": 25
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía",
+    "Eric Johnson"
+   ]
+  },
+  {
+   "name": "Scott Henderson",
+   "genre": "Fusion",
+   "raw": {
+    "V": 15,
+    "P": 8.5,
+    "H": 8.5,
+    "I": 4.5,
+    "M": 9,
+    "E": 9,
+    "G": 4,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "hybrid",
+    "bend",
+    "comp",
+    "bar"
+   ],
+   "norm": [
+    0.5333,
+    0.5714,
+    0.7273,
+    0.3125,
+    0.8824,
+    0.7143,
+    0.3333,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0001,
+   "mean_rank": 23.41,
+   "p1_noise": 0.0008,
+   "p3_noise": 0.0059,
+   "mean_rank_noise": 23.96,
+   "copeland": 29,
+   "consensus": 22.44,
+   "methods": {
+    "Equal · weighted sum": 22,
+    "Equal · geometric": 21,
+    "Equal · TOPSIS": 22,
+    "Entropy (EWM) · weighted sum": 23,
+    "Entropy (EWM) · geometric": 26,
+    "Entropy (EWM) · TOPSIS": 28,
+    "CRITIC · weighted sum": 21,
+    "CRITIC · geometric": 21,
+    "CRITIC · TOPSIS": 22,
+    "PCA-1 · weighted sum": 22,
+    "PCA-1 · geometric": 23,
+    "PCA-1 · TOPSIS": 22,
+    "Borda (per-dimension ranks)": 20
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Biréli Lagrène"
+   ]
+  },
+  {
+   "name": "Al Di Meola",
+   "genre": "Fusion",
+   "raw": {
+    "V": 17,
+    "P": 9,
+    "H": 7.5,
+    "I": 4.5,
+    "M": 7,
+    "E": 7.5,
+    "G": 6,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "finger",
+    "rasg",
+    "trem",
+    "bend",
+    "comp",
+    "perc"
+   ],
+   "norm": [
+    0.6667,
+    0.7143,
+    0.5455,
+    0.3125,
+    0.6471,
+    0.2857,
+    0.6667,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0255,
+   "mean_rank": 27.6,
+   "p1_noise": 0.0005,
+   "p3_noise": 0.0057,
+   "mean_rank_noise": 27.44,
+   "copeland": 26,
+   "consensus": 22.75,
+   "methods": {
+    "Equal · weighted sum": 25,
+    "Equal · geometric": 26,
+    "Equal · TOPSIS": 25,
+    "Entropy (EWM) · weighted sum": 20,
+    "Entropy (EWM) · geometric": 18,
+    "Entropy (EWM) · TOPSIS": 16,
+    "CRITIC · weighted sum": 32,
+    "CRITIC · geometric": 28,
+    "CRITIC · TOPSIS": 35,
+    "PCA-1 · weighted sum": 18,
+    "PCA-1 · geometric": 14,
+    "PCA-1 · TOPSIS": 13,
+    "Borda (per-dimension ranks)": 19
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan"
+   ]
+  },
+  {
+   "name": "Bryan Sutton",
+   "genre": "Bluegrass",
+   "raw": {
+    "V": 15,
+    "P": 9.5,
+    "H": 6.5,
+    "I": 5.5,
+    "M": 8.5,
+    "E": 8.5,
+    "G": 5,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "bend",
+    "comp",
+    "thumb",
+    "cross"
+   ],
+   "norm": [
+    0.5333,
+    0.8571,
+    0.3636,
+    0.4375,
+    0.8235,
+    0.5714,
+    0.5,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.007,
+   "mean_rank": 24.63,
+   "p1_noise": 0.0008,
+   "p3_noise": 0.006,
+   "mean_rank_noise": 25.32,
+   "copeland": 28,
+   "consensus": 23.5,
+   "methods": {
+    "Equal · weighted sum": 24,
+    "Equal · geometric": 22,
+    "Equal · TOPSIS": 23,
+    "Entropy (EWM) · weighted sum": 24,
+    "Entropy (EWM) · geometric": 23,
+    "Entropy (EWM) · TOPSIS": 24,
+    "CRITIC · weighted sum": 24,
+    "CRITIC · geometric": 22,
+    "CRITIC · TOPSIS": 25,
+    "PCA-1 · weighted sum": 24,
+    "PCA-1 · geometric": 24,
+    "PCA-1 · TOPSIS": 24,
+    "Borda (per-dimension ranks)": 24
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan"
+   ]
+  },
+  {
+   "name": "Jeff Beck",
+   "genre": "Rock/Fusion",
+   "raw": {
+    "V": 12,
+    "P": 8.5,
+    "H": 7,
+    "I": 4.5,
+    "M": 8.5,
+    "E": 10,
+    "G": 5,
+    "T": 7
+   },
+   "techs": [
+    "legato",
+    "tap",
+    "finger",
+    "harm",
+    "slide",
+    "bend",
+    "bar"
+   ],
+   "norm": [
+    0.3333,
+    0.5714,
+    0.4545,
+    0.3125,
+    0.8235,
+    1.0,
+    0.5,
+    0.5
+   ],
+   "p1": 0.0003,
+   "p3": 0.0066,
+   "p10": 0.0489,
+   "mean_rank": 24.97,
+   "p1_noise": 0.003,
+   "p3_noise": 0.0132,
+   "mean_rank_noise": 25.41,
+   "copeland": 27,
+   "consensus": 24.69,
+   "methods": {
+    "Equal · weighted sum": 23,
+    "Equal · geometric": 23,
+    "Equal · TOPSIS": 24,
+    "Entropy (EWM) · weighted sum": 25,
+    "Entropy (EWM) · geometric": 25,
+    "Entropy (EWM) · TOPSIS": 27,
+    "CRITIC · weighted sum": 23,
+    "CRITIC · geometric": 24,
+    "CRITIC · TOPSIS": 24,
+    "PCA-1 · weighted sum": 26,
+    "PCA-1 · geometric": 25,
+    "PCA-1 · TOPSIS": 25,
+    "Borda (per-dimension ranks)": 29
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Albert Lee",
+   "genre": "Country",
+   "raw": {
+    "V": 15,
+    "P": 9,
+    "H": 6,
+    "I": 6.5,
+    "M": 8,
+    "E": 8.5,
+    "G": 5,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "hybrid",
+    "bend",
+    "comp",
+    "thumb",
+    "cross"
+   ],
+   "norm": [
+    0.5333,
+    0.7143,
+    0.2727,
+    0.5625,
+    0.7647,
+    0.5714,
+    0.5,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 28.12,
+   "p1_noise": 0.0002,
+   "p3_noise": 0.0024,
+   "mean_rank_noise": 27.83,
+   "copeland": 24,
+   "consensus": 25.81,
+   "methods": {
+    "Equal · weighted sum": 26,
+    "Equal · geometric": 25,
+    "Equal · TOPSIS": 26,
+    "Entropy (EWM) · weighted sum": 27,
+    "Entropy (EWM) · geometric": 24,
+    "Entropy (EWM) · TOPSIS": 26,
+    "CRITIC · weighted sum": 27,
+    "CRITIC · geometric": 25,
+    "CRITIC · TOPSIS": 27,
+    "PCA-1 · weighted sum": 25,
+    "PCA-1 · geometric": 26,
+    "PCA-1 · TOPSIS": 27,
+    "Borda (per-dimension ranks)": 23
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Paco de Lucía",
+    "Tommy Emmanuel",
+    "Danny Gatton",
+    "Biréli Lagrène",
+    "Brent Mason"
+   ]
+  },
+  {
+   "name": "Michael Hedges",
+   "genre": "Fingerstyle",
+   "raw": {
+    "V": 11,
+    "P": 8.5,
+    "H": 7.5,
+    "I": 9,
+    "M": 6,
+    "E": 9,
+    "G": 4,
+    "T": 6
+   },
+   "techs": [
+    "tap",
+    "finger",
+    "harm",
+    "comp",
+    "thumb",
+    "perc"
+   ],
+   "norm": [
+    0.2667,
+    0.5714,
+    0.5455,
+    0.875,
+    0.5294,
+    0.7143,
+    0.3333,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0004,
+   "mean_rank": 30.33,
+   "p1_noise": 0.0003,
+   "p3_noise": 0.0027,
+   "mean_rank_noise": 29.55,
+   "copeland": 23,
+   "consensus": 27.31,
+   "methods": {
+    "Equal · weighted sum": 28,
+    "Equal · geometric": 27,
+    "Equal · TOPSIS": 27,
+    "Entropy (EWM) · weighted sum": 26,
+    "Entropy (EWM) · geometric": 27,
+    "Entropy (EWM) · TOPSIS": 21,
+    "CRITIC · weighted sum": 26,
+    "CRITIC · geometric": 26,
+    "CRITIC · TOPSIS": 23,
+    "PCA-1 · weighted sum": 29,
+    "PCA-1 · geometric": 27,
+    "PCA-1 · TOPSIS": 28,
+    "Borda (per-dimension ranks)": 38
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Lenny Breau",
+    "Tuck Andress"
+   ]
+  },
+  {
+   "name": "Wes Montgomery",
+   "genre": "Jazz",
+   "raw": {
+    "V": 12,
+    "P": 8.5,
+    "H": 8.5,
+    "I": 6.5,
+    "M": 9.5,
+    "E": 9,
+    "G": 3,
+    "T": 4
+   },
+   "techs": [
+    "bend",
+    "comp",
+    "thumb",
+    "octave"
+   ],
+   "norm": [
+    0.3333,
+    0.5714,
+    0.7273,
+    0.5625,
+    0.9412,
+    0.7143,
+    0.1667,
+    0.2
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.001,
+   "mean_rank": 30.43,
+   "p1_noise": 0.0003,
+   "p3_noise": 0.0027,
+   "mean_rank_noise": 29.61,
+   "copeland": 22,
+   "consensus": 30.31,
+   "methods": {
+    "Equal · weighted sum": 29,
+    "Equal · geometric": 30,
+    "Equal · TOPSIS": 29,
+    "Entropy (EWM) · weighted sum": 31,
+    "Entropy (EWM) · geometric": 31,
+    "Entropy (EWM) · TOPSIS": 31,
+    "CRITIC · weighted sum": 25,
+    "CRITIC · geometric": 27,
+    "CRITIC · TOPSIS": 21,
+    "PCA-1 · weighted sum": 36,
+    "PCA-1 · geometric": 38,
+    "PCA-1 · TOPSIS": 37,
+    "Borda (per-dimension ranks)": 33
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Allan Holdsworth",
+    "Pat Metheny",
+    "Biréli Lagrène"
+   ]
+  },
+  {
+   "name": "Pat Martino",
+   "genre": "Jazz",
+   "raw": {
+    "V": 15,
+    "P": 9,
+    "H": 9,
+    "I": 5,
+    "M": 9.5,
+    "E": 8,
+    "G": 3,
+    "T": 4
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "bend",
+    "comp"
+   ],
+   "norm": [
+    0.5333,
+    0.7143,
+    0.8182,
+    0.375,
+    0.9412,
+    0.4286,
+    0.1667,
+    0.2
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0034,
+   "mean_rank": 31.02,
+   "p1_noise": 0.0009,
+   "p3_noise": 0.0039,
+   "mean_rank_noise": 30.03,
+   "copeland": 21,
+   "consensus": 30.94,
+   "methods": {
+    "Equal · weighted sum": 30,
+    "Equal · geometric": 33,
+    "Equal · TOPSIS": 30,
+    "Entropy (EWM) · weighted sum": 32,
+    "Entropy (EWM) · geometric": 35,
+    "Entropy (EWM) · TOPSIS": 33,
+    "CRITIC · weighted sum": 29,
+    "CRITIC · geometric": 31,
+    "CRITIC · TOPSIS": 29,
+    "PCA-1 · weighted sum": 30,
+    "PCA-1 · geometric": 33,
+    "PCA-1 · TOPSIS": 32,
+    "Borda (per-dimension ranks)": 28
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Allan Holdsworth"
+   ]
+  },
+  {
+   "name": "Tony Rice",
+   "genre": "Bluegrass",
+   "raw": {
+    "V": 13,
+    "P": 9.5,
+    "H": 7,
+    "I": 5,
+    "M": 8.5,
+    "E": 9,
+    "G": 4,
+    "T": 4
+   },
+   "techs": [
+    "alt",
+    "bend",
+    "comp",
+    "cross"
+   ],
+   "norm": [
+    0.4,
+    0.8571,
+    0.4545,
+    0.375,
+    0.8235,
+    0.7143,
+    0.3333,
+    0.2
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0016,
+   "mean_rank": 31.24,
+   "p1_noise": 0.0008,
+   "p3_noise": 0.0039,
+   "mean_rank_noise": 30.53,
+   "copeland": 20,
+   "consensus": 32.0,
+   "methods": {
+    "Equal · weighted sum": 31,
+    "Equal · geometric": 28,
+    "Equal · TOPSIS": 31,
+    "Entropy (EWM) · weighted sum": 33,
+    "Entropy (EWM) · geometric": 30,
+    "Entropy (EWM) · TOPSIS": 34,
+    "CRITIC · weighted sum": 31,
+    "CRITIC · geometric": 29,
+    "CRITIC · TOPSIS": 30,
+    "PCA-1 · weighted sum": 37,
+    "PCA-1 · geometric": 34,
+    "PCA-1 · TOPSIS": 39,
+    "Borda (per-dimension ranks)": 32
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan"
+   ]
+  },
+  {
+   "name": "David Russell",
+   "genre": "Classical",
+   "raw": {
+    "V": 14,
+    "P": 10,
+    "H": 7.5,
+    "I": 9.5,
+    "M": 2,
+    "E": 9.5,
+    "G": 2,
+    "T": 6
+   },
+   "techs": [
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.4667,
+    1.0,
+    0.5455,
+    0.9375,
+    0.0588,
+    0.8571,
+    0.0,
+    0.4
+   ],
+   "p1": 0.0024,
+   "p3": 0.0154,
+   "p10": 0.0974,
+   "mean_rank": 28.17,
+   "p1_noise": 0.0065,
+   "p3_noise": 0.0244,
+   "mean_rank_noise": 28.48,
+   "copeland": 25,
+   "consensus": 32.5,
+   "methods": {
+    "Equal · weighted sum": 27,
+    "Equal · geometric": 42,
+    "Equal · TOPSIS": 28,
+    "Entropy (EWM) · weighted sum": 34,
+    "Entropy (EWM) · geometric": 44,
+    "Entropy (EWM) · TOPSIS": 35,
+    "CRITIC · weighted sum": 28,
+    "CRITIC · geometric": 42,
+    "CRITIC · TOPSIS": 31,
+    "PCA-1 · weighted sum": 33,
+    "PCA-1 · geometric": 42,
+    "PCA-1 · TOPSIS": 33,
+    "Borda (per-dimension ranks)": 21
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Julian Bream",
+   "genre": "Classical",
+   "raw": {
+    "V": 12,
+    "P": 8,
+    "H": 8,
+    "I": 9.5,
+    "M": 3,
+    "E": 10,
+    "G": 3,
+    "T": 6
+   },
+   "techs": [
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.3333,
+    0.4286,
+    0.6364,
+    0.9375,
+    0.1765,
+    1.0,
+    0.1667,
+    0.4
+   ],
+   "p1": 0.0007,
+   "p3": 0.0057,
+   "p10": 0.0437,
+   "mean_rank": 31.78,
+   "p1_noise": 0.0025,
+   "p3_noise": 0.0113,
+   "mean_rank_noise": 31.17,
+   "copeland": 17,
+   "consensus": 33.25,
+   "methods": {
+    "Equal · weighted sum": 32,
+    "Equal · geometric": 39,
+    "Equal · TOPSIS": 32,
+    "Entropy (EWM) · weighted sum": 30,
+    "Entropy (EWM) · geometric": 33,
+    "Entropy (EWM) · TOPSIS": 30,
+    "CRITIC · weighted sum": 30,
+    "CRITIC · geometric": 36,
+    "CRITIC · TOPSIS": 28,
+    "PCA-1 · weighted sum": 39,
+    "PCA-1 · geometric": 39,
+    "PCA-1 · TOPSIS": 36,
+    "Borda (per-dimension ranks)": 30
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Buckethead",
+   "genre": "Rock/Metal",
+   "raw": {
+    "V": 18,
+    "P": 8.5,
+    "H": 6,
+    "I": 4,
+    "M": 8,
+    "E": 8,
+    "G": 6,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "bend"
+   ],
+   "norm": [
+    0.7333,
+    0.5714,
+    0.2727,
+    0.25,
+    0.7647,
+    0.4286,
+    0.6667,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0001,
+   "p10": 0.0161,
+   "mean_rank": 33.75,
+   "p1_noise": 0.0003,
+   "p3_noise": 0.0031,
+   "mean_rank_noise": 32.38,
+   "copeland": 15,
+   "consensus": 33.25,
+   "methods": {
+    "Equal · weighted sum": 36,
+    "Equal · geometric": 32,
+    "Equal · TOPSIS": 36,
+    "Entropy (EWM) · weighted sum": 28,
+    "Entropy (EWM) · geometric": 29,
+    "Entropy (EWM) · TOPSIS": 22,
+    "CRITIC · weighted sum": 38,
+    "CRITIC · geometric": 34,
+    "CRITIC · TOPSIS": 39,
+    "PCA-1 · weighted sum": 31,
+    "PCA-1 · geometric": 30,
+    "PCA-1 · TOPSIS": 30,
+    "Borda (per-dimension ranks)": 40
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Shawn Lane"
+   ]
+  },
+  {
+   "name": "Jerry Reed",
+   "genre": "Country",
+   "raw": {
+    "V": 13,
+    "P": 8,
+    "H": 6.5,
+    "I": 8.5,
+    "M": 8,
+    "E": 8,
+    "G": 4,
+    "T": 6
+   },
+   "techs": [
+    "hybrid",
+    "finger",
+    "bend",
+    "comp",
+    "thumb",
+    "perc"
+   ],
+   "norm": [
+    0.4,
+    0.4286,
+    0.3636,
+    0.8125,
+    0.7647,
+    0.4286,
+    0.3333,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0001,
+   "mean_rank": 35.47,
+   "p1_noise": 0.0,
+   "p3_noise": 0.0001,
+   "mean_rank_noise": 33.57,
+   "copeland": 13,
+   "consensus": 33.44,
+   "methods": {
+    "Equal · weighted sum": 37,
+    "Equal · geometric": 29,
+    "Equal · TOPSIS": 37,
+    "Entropy (EWM) · weighted sum": 29,
+    "Entropy (EWM) · geometric": 28,
+    "Entropy (EWM) · TOPSIS": 29,
+    "CRITIC · weighted sum": 34,
+    "CRITIC · geometric": 30,
+    "CRITIC · TOPSIS": 32,
+    "PCA-1 · weighted sum": 34,
+    "PCA-1 · geometric": 29,
+    "PCA-1 · TOPSIS": 35,
+    "Borda (per-dimension ranks)": 41
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Lenny Breau",
+    "Tommy Emmanuel"
+   ]
+  },
+  {
+   "name": "Frank Gambale",
+   "genre": "Fusion",
+   "raw": {
+    "V": 18,
+    "P": 9,
+    "H": 8.5,
+    "I": 4.5,
+    "M": 8,
+    "E": 7.5,
+    "G": 3,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "bend",
+    "comp"
+   ],
+   "norm": [
+    0.7333,
+    0.7143,
+    0.7273,
+    0.3125,
+    0.7647,
+    0.2857,
+    0.1667,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0001,
+   "p10": 0.0078,
+   "mean_rank": 33.81,
+   "p1_noise": 0.0004,
+   "p3_noise": 0.0029,
+   "mean_rank_noise": 32.28,
+   "copeland": 17,
+   "consensus": 34.38,
+   "methods": {
+    "Equal · weighted sum": 35,
+    "Equal · geometric": 37,
+    "Equal · TOPSIS": 35,
+    "Entropy (EWM) · weighted sum": 35,
+    "Entropy (EWM) · geometric": 36,
+    "Entropy (EWM) · TOPSIS": 37,
+    "CRITIC · weighted sum": 36,
+    "CRITIC · geometric": 38,
+    "CRITIC · TOPSIS": 36,
+    "PCA-1 · weighted sum": 28,
+    "PCA-1 · geometric": 31,
+    "PCA-1 · TOPSIS": 29,
+    "Borda (per-dimension ranks)": 31
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "John Petrucci",
+   "genre": "Prog metal",
+   "raw": {
+    "V": 17,
+    "P": 9.5,
+    "H": 7,
+    "I": 4,
+    "M": 6.5,
+    "E": 8.5,
+    "G": 3,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "hybrid",
+    "bend",
+    "bar"
+   ],
+   "norm": [
+    0.6667,
+    0.8571,
+    0.4545,
+    0.25,
+    0.5882,
+    0.5714,
+    0.1667,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0033,
+   "mean_rank": 32.54,
+   "p1_noise": 0.0004,
+   "p3_noise": 0.0031,
+   "mean_rank_noise": 31.77,
+   "copeland": 19,
+   "consensus": 35.25,
+   "methods": {
+    "Equal · weighted sum": 34,
+    "Equal · geometric": 31,
+    "Equal · TOPSIS": 33,
+    "Entropy (EWM) · weighted sum": 41,
+    "Entropy (EWM) · geometric": 40,
+    "Entropy (EWM) · TOPSIS": 44,
+    "CRITIC · weighted sum": 37,
+    "CRITIC · geometric": 35,
+    "CRITIC · TOPSIS": 40,
+    "PCA-1 · weighted sum": 32,
+    "PCA-1 · geometric": 32,
+    "PCA-1 · TOPSIS": 31,
+    "Borda (per-dimension ranks)": 34
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía"
+   ]
+  },
+  {
+   "name": "Tosin Abasi",
+   "genre": "Prog metal",
+   "raw": {
+    "V": 15,
+    "P": 9,
+    "H": 8,
+    "I": 6,
+    "M": 6,
+    "E": 7.5,
+    "G": 3,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "hybrid",
+    "thumb",
+    "perc"
+   ],
+   "norm": [
+    0.5333,
+    0.7143,
+    0.6364,
+    0.5,
+    0.5294,
+    0.2857,
+    0.1667,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 36.54,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0006,
+   "mean_rank_noise": 34.55,
+   "copeland": 13,
+   "consensus": 36.31,
+   "methods": {
+    "Equal · weighted sum": 40,
+    "Equal · geometric": 35,
+    "Equal · TOPSIS": 40,
+    "Entropy (EWM) · weighted sum": 36,
+    "Entropy (EWM) · geometric": 34,
+    "Entropy (EWM) · TOPSIS": 38,
+    "CRITIC · weighted sum": 41,
+    "CRITIC · geometric": 37,
+    "CRITIC · TOPSIS": 43,
+    "PCA-1 · weighted sum": 27,
+    "PCA-1 · geometric": 28,
+    "PCA-1 · TOPSIS": 26,
+    "Borda (per-dimension ranks)": 37
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía",
+    "Allan Holdsworth",
+    "Danny Gatton",
+    "Biréli Lagrène",
+    "Vicente Amigo"
+   ]
+  },
+  {
+   "name": "Ana Vidović",
+   "genre": "Classical",
+   "raw": {
+    "V": 14,
+    "P": 10,
+    "H": 7.5,
+    "I": 9.5,
+    "M": 1.5,
+    "E": 9,
+    "G": 2,
+    "T": 6
+   },
+   "techs": [
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.4667,
+    1.0,
+    0.5455,
+    0.9375,
+    0.0,
+    0.7143,
+    0.0,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0018,
+   "p10": 0.0488,
+   "mean_rank": 32.11,
+   "p1_noise": 0.004,
+   "p3_noise": 0.0148,
+   "mean_rank_noise": 31.11,
+   "copeland": 17,
+   "consensus": 36.81,
+   "methods": {
+    "Equal · weighted sum": 33,
+    "Equal · geometric": 47,
+    "Equal · TOPSIS": 34,
+    "Entropy (EWM) · weighted sum": 37,
+    "Entropy (EWM) · geometric": 48,
+    "Entropy (EWM) · TOPSIS": 36,
+    "CRITIC · weighted sum": 33,
+    "CRITIC · geometric": 48,
+    "CRITIC · TOPSIS": 34,
+    "PCA-1 · weighted sum": 35,
+    "PCA-1 · geometric": 44,
+    "PCA-1 · TOPSIS": 34,
+    "Borda (per-dimension ranks)": 27
+   },
+   "pareto": false,
+   "dominated_by": [
+    "John Williams",
+    "David Russell"
+   ]
+  },
+  {
+   "name": "Django Reinhardt",
+   "genre": "Gypsy jazz",
+   "raw": {
+    "V": 13,
+    "P": 8,
+    "H": 7.5,
+    "I": 5,
+    "M": 9.5,
+    "E": 9,
+    "G": 3,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "trem",
+    "bend",
+    "comp",
+    "octave"
+   ],
+   "norm": [
+    0.4,
+    0.4286,
+    0.5455,
+    0.375,
+    0.9412,
+    0.7143,
+    0.1667,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 36.32,
+   "p1_noise": 0.0002,
+   "p3_noise": 0.0009,
+   "mean_rank_noise": 34.46,
+   "copeland": 11,
+   "consensus": 38.5,
+   "methods": {
+    "Equal · weighted sum": 39,
+    "Equal · geometric": 38,
+    "Equal · TOPSIS": 39,
+    "Entropy (EWM) · weighted sum": 40,
+    "Entropy (EWM) · geometric": 38,
+    "Entropy (EWM) · TOPSIS": 42,
+    "CRITIC · weighted sum": 35,
+    "CRITIC · geometric": 33,
+    "CRITIC · TOPSIS": 33,
+    "PCA-1 · weighted sum": 43,
+    "PCA-1 · geometric": 40,
+    "PCA-1 · TOPSIS": 43,
+    "Borda (per-dimension ranks)": 35
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Allan Holdsworth",
+    "Pat Metheny",
+    "Biréli Lagrène"
+   ]
+  },
+  {
+   "name": "Billy Strings",
+   "genre": "Bluegrass",
+   "raw": {
+    "V": 14,
+    "P": 8.5,
+    "H": 6.5,
+    "I": 5,
+    "M": 8.5,
+    "E": 8.5,
+    "G": 4,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "bend",
+    "comp",
+    "thumb",
+    "cross"
+   ],
+   "norm": [
+    0.4667,
+    0.5714,
+    0.3636,
+    0.375,
+    0.8235,
+    0.5714,
+    0.3333,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 37.78,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0002,
+   "mean_rank_noise": 35.55,
+   "copeland": 10,
+   "consensus": 38.88,
+   "methods": {
+    "Equal · weighted sum": 41,
+    "Equal · geometric": 34,
+    "Equal · TOPSIS": 41,
+    "Entropy (EWM) · weighted sum": 38,
+    "Entropy (EWM) · geometric": 32,
+    "Entropy (EWM) · TOPSIS": 39,
+    "CRITIC · weighted sum": 39,
+    "CRITIC · geometric": 32,
+    "CRITIC · TOPSIS": 37,
+    "PCA-1 · weighted sum": 41,
+    "PCA-1 · geometric": 36,
+    "PCA-1 · TOPSIS": 42,
+    "Borda (per-dimension ranks)": 45
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "John McLaughlin",
+    "Shawn Lane",
+    "Pat Metheny",
+    "Lenny Breau",
+    "Danny Gatton",
+    "George Benson",
+    "Julian Lage",
+    "Biréli Lagrène",
+    "Bryan Sutton"
+   ]
+  },
+  {
+   "name": "Jason Becker",
+   "genre": "Neoclassical metal",
+   "raw": {
+    "V": 17,
+    "P": 9,
+    "H": 7,
+    "I": 4,
+    "M": 6,
+    "E": 9,
+    "G": 3,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "bend",
+    "bar"
+   ],
+   "norm": [
+    0.6667,
+    0.7143,
+    0.4545,
+    0.25,
+    0.5294,
+    0.7143,
+    0.1667,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0003,
+   "mean_rank": 35.78,
+   "p1_noise": 0.0003,
+   "p3_noise": 0.0016,
+   "mean_rank_noise": 34.12,
+   "copeland": 13,
+   "consensus": 39.31,
+   "methods": {
+    "Equal · weighted sum": 38,
+    "Equal · geometric": 36,
+    "Equal · TOPSIS": 38,
+    "Entropy (EWM) · weighted sum": 44,
+    "Entropy (EWM) · geometric": 41,
+    "Entropy (EWM) · TOPSIS": 45,
+    "CRITIC · weighted sum": 40,
+    "CRITIC · geometric": 39,
+    "CRITIC · TOPSIS": 41,
+    "PCA-1 · weighted sum": 40,
+    "PCA-1 · geometric": 37,
+    "PCA-1 · TOPSIS": 40,
+    "Borda (per-dimension ranks)": 36
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía"
+   ]
+  },
+  {
+   "name": "Paul Gilbert",
+   "genre": "Rock/Metal",
+   "raw": {
+    "V": 18,
+    "P": 9,
+    "H": 6,
+    "I": 3.5,
+    "M": 7.5,
+    "E": 8,
+    "G": 4,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "hybrid",
+    "bend"
+   ],
+   "norm": [
+    0.7333,
+    0.7143,
+    0.2727,
+    0.1875,
+    0.7059,
+    0.4286,
+    0.3333,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0022,
+   "mean_rank": 37.48,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0011,
+   "mean_rank_noise": 35.48,
+   "copeland": 9,
+   "consensus": 40.94,
+   "methods": {
+    "Equal · weighted sum": 42,
+    "Equal · geometric": 40,
+    "Equal · TOPSIS": 42,
+    "Entropy (EWM) · weighted sum": 42,
+    "Entropy (EWM) · geometric": 39,
+    "Entropy (EWM) · TOPSIS": 43,
+    "CRITIC · weighted sum": 42,
+    "CRITIC · geometric": 40,
+    "CRITIC · TOPSIS": 47,
+    "PCA-1 · weighted sum": 38,
+    "PCA-1 · geometric": 35,
+    "PCA-1 · TOPSIS": 38,
+    "Borda (per-dimension ranks)": 43
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Doc Watson",
+   "genre": "Bluegrass",
+   "raw": {
+    "V": 12,
+    "P": 9,
+    "H": 5,
+    "I": 6,
+    "M": 7.5,
+    "E": 8,
+    "G": 5,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "finger",
+    "comp",
+    "thumb",
+    "cross"
+   ],
+   "norm": [
+    0.3333,
+    0.7143,
+    0.0909,
+    0.5,
+    0.7059,
+    0.4286,
+    0.5,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 40.67,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0003,
+   "mean_rank_noise": 38.3,
+   "copeland": 8,
+   "consensus": 41.62,
+   "methods": {
+    "Equal · weighted sum": 43,
+    "Equal · geometric": 41,
+    "Equal · TOPSIS": 44,
+    "Entropy (EWM) · weighted sum": 39,
+    "Entropy (EWM) · geometric": 37,
+    "Entropy (EWM) · TOPSIS": 32,
+    "CRITIC · weighted sum": 44,
+    "CRITIC · geometric": 41,
+    "CRITIC · TOPSIS": 44,
+    "PCA-1 · weighted sum": 42,
+    "PCA-1 · geometric": 41,
+    "PCA-1 · TOPSIS": 41,
+    "Borda (per-dimension ranks)": 46
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía",
+    "Pat Metheny",
+    "Tommy Emmanuel",
+    "Danny Gatton",
+    "Julian Lage",
+    "Biréli Lagrène",
+    "Albert Lee",
+    "Brent Mason"
+   ]
+  },
+  {
+   "name": "Jimi Hendrix",
+   "genre": "Rock",
+   "raw": {
+    "V": 11,
+    "P": 6.5,
+    "H": 6.5,
+    "I": 5,
+    "M": 8.5,
+    "E": 9.5,
+    "G": 4,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "bend",
+    "comp",
+    "thumb",
+    "bar"
+   ],
+   "norm": [
+    0.2667,
+    0.0,
+    0.3636,
+    0.375,
+    0.8235,
+    0.8571,
+    0.3333,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 41.11,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0006,
+   "mean_rank_noise": 39.3,
+   "copeland": 6,
+   "consensus": 44.06,
+   "methods": {
+    "Equal · weighted sum": 46,
+    "Equal · geometric": 48,
+    "Equal · TOPSIS": 46,
+    "Entropy (EWM) · weighted sum": 43,
+    "Entropy (EWM) · geometric": 42,
+    "Entropy (EWM) · TOPSIS": 40,
+    "CRITIC · weighted sum": 45,
+    "CRITIC · geometric": 44,
+    "CRITIC · TOPSIS": 42,
+    "PCA-1 · weighted sum": 44,
+    "PCA-1 · geometric": 46,
+    "PCA-1 · TOPSIS": 45,
+    "Borda (per-dimension ranks)": 39
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Lenny Breau"
+   ]
+  },
+  {
+   "name": "Andrés Segovia",
+   "genre": "Classical",
+   "raw": {
+    "V": 11,
+    "P": 8,
+    "H": 7,
+    "I": 9.5,
+    "M": 1.5,
+    "E": 10,
+    "G": 2,
+    "T": 6
+   },
+   "techs": [
+    "finger",
+    "rasg",
+    "trem",
+    "harm",
+    "comp",
+    "thumb"
+   ],
+   "norm": [
+    0.2667,
+    0.4286,
+    0.4545,
+    0.9375,
+    0.0,
+    1.0,
+    0.0,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0009,
+   "p10": 0.0131,
+   "mean_rank": 39.77,
+   "p1_noise": 0.0009,
+   "p3_noise": 0.0046,
+   "mean_rank_noise": 37.96,
+   "copeland": 7,
+   "consensus": 44.44,
+   "methods": {
+    "Equal · weighted sum": 44,
+    "Equal · geometric": 49,
+    "Equal · TOPSIS": 43,
+    "Entropy (EWM) · weighted sum": 45,
+    "Entropy (EWM) · geometric": 49,
+    "Entropy (EWM) · TOPSIS": 41,
+    "CRITIC · weighted sum": 43,
+    "CRITIC · geometric": 49,
+    "CRITIC · TOPSIS": 38,
+    "PCA-1 · weighted sum": 45,
+    "PCA-1 · geometric": 49,
+    "PCA-1 · TOPSIS": 44,
+    "Borda (per-dimension ranks)": 42
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Julian Bream"
+   ]
+  },
+  {
+   "name": "Stevie Ray Vaughan",
+   "genre": "Blues",
+   "raw": {
+    "V": 13,
+    "P": 7.5,
+    "H": 5,
+    "I": 5,
+    "M": 8,
+    "E": 9.5,
+    "G": 3,
+    "T": 6
+   },
+   "techs": [
+    "alt",
+    "slide",
+    "bend",
+    "comp",
+    "thumb",
+    "bar"
+   ],
+   "norm": [
+    0.4,
+    0.2857,
+    0.0909,
+    0.375,
+    0.7647,
+    0.8571,
+    0.1667,
+    0.4
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 42.83,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0007,
+   "mean_rank_noise": 40.62,
+   "copeland": 4,
+   "consensus": 46.38,
+   "methods": {
+    "Equal · weighted sum": 47,
+    "Equal · geometric": 44,
+    "Equal · TOPSIS": 47,
+    "Entropy (EWM) · weighted sum": 46,
+    "Entropy (EWM) · geometric": 45,
+    "Entropy (EWM) · TOPSIS": 46,
+    "CRITIC · weighted sum": 47,
+    "CRITIC · geometric": 43,
+    "CRITIC · TOPSIS": 46,
+    "PCA-1 · weighted sum": 49,
+    "PCA-1 · geometric": 48,
+    "PCA-1 · TOPSIS": 49,
+    "Borda (per-dimension ranks)": 44
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Paco de Lucía",
+    "Lenny Breau"
+   ]
+  },
+  {
+   "name": "David Gilmour",
+   "genre": "Rock",
+   "raw": {
+    "V": 10,
+    "P": 9,
+    "H": 5.5,
+    "I": 3.5,
+    "M": 7.5,
+    "E": 10,
+    "G": 3,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "slide",
+    "bend",
+    "comp",
+    "bar"
+   ],
+   "norm": [
+    0.2,
+    0.7143,
+    0.1818,
+    0.1875,
+    0.7059,
+    1.0,
+    0.1667,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0001,
+   "p10": 0.0051,
+   "mean_rank": 41.37,
+   "p1_noise": 0.0007,
+   "p3_noise": 0.0026,
+   "mean_rank_noise": 39.4,
+   "copeland": 5,
+   "consensus": 46.38,
+   "methods": {
+    "Equal · weighted sum": 45,
+    "Equal · geometric": 46,
+    "Equal · TOPSIS": 45,
+    "Entropy (EWM) · weighted sum": 47,
+    "Entropy (EWM) · geometric": 47,
+    "Entropy (EWM) · TOPSIS": 47,
+    "CRITIC · weighted sum": 46,
+    "CRITIC · geometric": 46,
+    "CRITIC · TOPSIS": 45,
+    "PCA-1 · weighted sum": 48,
+    "PCA-1 · geometric": 47,
+    "PCA-1 · TOPSIS": 48,
+    "Borda (per-dimension ranks)": 47
+   },
+   "pareto": true,
+   "dominated_by": []
+  },
+  {
+   "name": "Yngwie Malmsteen",
+   "genre": "Neoclassical metal",
+   "raw": {
+    "V": 17,
+    "P": 8.5,
+    "H": 5.5,
+    "I": 3.5,
+    "M": 7,
+    "E": 8.5,
+    "G": 3,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "bend",
+    "bar"
+   ],
+   "norm": [
+    0.6667,
+    0.5714,
+    0.1818,
+    0.1875,
+    0.6471,
+    0.5714,
+    0.1667,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 44.47,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0002,
+   "mean_rank_noise": 41.47,
+   "copeland": 3,
+   "consensus": 47.19,
+   "methods": {
+    "Equal · weighted sum": 48,
+    "Equal · geometric": 43,
+    "Equal · TOPSIS": 48,
+    "Entropy (EWM) · weighted sum": 48,
+    "Entropy (EWM) · geometric": 46,
+    "Entropy (EWM) · TOPSIS": 49,
+    "CRITIC · weighted sum": 48,
+    "CRITIC · geometric": 45,
+    "CRITIC · TOPSIS": 48,
+    "PCA-1 · weighted sum": 47,
+    "PCA-1 · geometric": 45,
+    "PCA-1 · TOPSIS": 47,
+    "Borda (per-dimension ranks)": 49
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "Shawn Lane",
+    "Paco de Lucía"
+   ]
+  },
+  {
+   "name": "Eddie Van Halen",
+   "genre": "Rock",
+   "raw": {
+    "V": 15,
+    "P": 7.5,
+    "H": 5.5,
+    "I": 4,
+    "M": 7,
+    "E": 8.5,
+    "G": 3,
+    "T": 7
+   },
+   "techs": [
+    "alt",
+    "legato",
+    "tap",
+    "harm",
+    "bend",
+    "comp",
+    "bar"
+   ],
+   "norm": [
+    0.5333,
+    0.2857,
+    0.1818,
+    0.25,
+    0.6471,
+    0.5714,
+    0.1667,
+    0.5
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0,
+   "mean_rank": 45.71,
+   "p1_noise": 0.0,
+   "p3_noise": 0.0001,
+   "mean_rank_noise": 42.9,
+   "copeland": 2,
+   "consensus": 47.38,
+   "methods": {
+    "Equal · weighted sum": 49,
+    "Equal · geometric": 45,
+    "Equal · TOPSIS": 49,
+    "Entropy (EWM) · weighted sum": 49,
+    "Entropy (EWM) · geometric": 43,
+    "Entropy (EWM) · TOPSIS": 48,
+    "CRITIC · weighted sum": 49,
+    "CRITIC · geometric": 47,
+    "CRITIC · TOPSIS": 49,
+    "PCA-1 · weighted sum": 46,
+    "PCA-1 · geometric": 43,
+    "PCA-1 · TOPSIS": 46,
+    "Borda (per-dimension ranks)": 48
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Guthrie Govan",
+    "John McLaughlin",
+    "Shawn Lane",
+    "Paco de Lucía",
+    "Allan Holdsworth",
+    "Tommy Emmanuel",
+    "Danny Gatton",
+    "Scott Henderson",
+    "Biréli Lagrène",
+    "Vicente Amigo",
+    "Brent Mason",
+    "Eric Johnson",
+    "Steve Vai"
+   ]
+  },
+  {
+   "name": "B.B. King",
+   "genre": "Blues",
+   "raw": {
+    "V": 7,
+    "P": 8,
+    "H": 4.5,
+    "I": 2,
+    "M": 8,
+    "E": 10,
+    "G": 3,
+    "T": 2
+   },
+   "techs": [
+    "alt",
+    "bend"
+   ],
+   "norm": [
+    0.0,
+    0.4286,
+    0.0,
+    0.0,
+    0.7647,
+    1.0,
+    0.1667,
+    0.0
+   ],
+   "p1": 0.0,
+   "p3": 0.0,
+   "p10": 0.0006,
+   "mean_rank": 48.5,
+   "p1_noise": 0.0001,
+   "p3_noise": 0.0005,
+   "mean_rank_noise": 47.01,
+   "copeland": 1,
+   "consensus": 50.19,
+   "methods": {
+    "Equal · weighted sum": 50,
+    "Equal · geometric": 50,
+    "Equal · TOPSIS": 50,
+    "Entropy (EWM) · weighted sum": 50,
+    "Entropy (EWM) · geometric": 50,
+    "Entropy (EWM) · TOPSIS": 50,
+    "CRITIC · weighted sum": 50,
+    "CRITIC · geometric": 50,
+    "CRITIC · TOPSIS": 50,
+    "PCA-1 · weighted sum": 51,
+    "PCA-1 · geometric": 51,
+    "PCA-1 · TOPSIS": 51,
+    "Borda (per-dimension ranks)": 50
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Jeff Beck"
+   ]
+  },
+  {
+   "name": "Michael Angelo Batio",
+   "genre": "Shred",
+   "raw": {
+    "V": 20,
+    "P": 7,
+    "H": 4.5,
+    "I": 2.5,
+    "M": 5,
+    "E": 6.5,
+    "G": 2,
+    "T": 5
+   },
+   "techs": [
+    "alt",
+    "sweep",
+    "legato",
+    "tap",
+    "bend"
+   ],
+   "norm": [
+    0.8667,
+    0.1429,
+    0.0,
+    0.0625,
+    0.4118,
+    0.0,
+    0.0,
+    0.3
+   ],
+   "p1": 0.0,
+   "p3": 0.0001,
+   "p10": 0.0005,
+   "mean_rank": 49.91,
+   "p1_noise": 0.0,
+   "p3_noise": 0.0001,
+   "mean_rank_noise": 49.22,
+   "copeland": 0,
+   "consensus": 50.81,
+   "methods": {
+    "Equal · weighted sum": 51,
+    "Equal · geometric": 51,
+    "Equal · TOPSIS": 51,
+    "Entropy (EWM) · weighted sum": 51,
+    "Entropy (EWM) · geometric": 51,
+    "Entropy (EWM) · TOPSIS": 51,
+    "CRITIC · weighted sum": 51,
+    "CRITIC · geometric": 51,
+    "CRITIC · TOPSIS": 51,
+    "PCA-1 · weighted sum": 50,
+    "PCA-1 · geometric": 50,
+    "PCA-1 · TOPSIS": 50,
+    "Borda (per-dimension ranks)": 51
+   },
+   "pareto": false,
+   "dominated_by": [
+    "Shawn Lane"
+   ]
+  }
+ ],
+ "head2head": {
+  "a": "Guthrie Govan",
+  "b": "Danny Gatton",
+  "p": 0.9002
+ },
+ "N": 200000,
+ "N2": 40000,
+ "stress": {
+  "loo": {
+   "V": [
+    "Guthrie Govan",
+    "Danny Gatton",
+    "Lenny Breau"
+   ],
+   "P": [
+    "Guthrie Govan",
+    "Lenny Breau",
+    "Danny Gatton"
+   ],
+   "H": [
+    "Guthrie Govan",
+    "Danny Gatton",
+    "Tommy Emmanuel"
+   ],
+   "I": [
+    "Guthrie Govan",
+    "Shawn Lane",
+    "Danny Gatton"
+   ],
+   "M": [
+    "Guthrie Govan",
+    "Danny Gatton",
+    "Lenny Breau"
+   ],
+   "E": [
+    "Guthrie Govan",
+    "Danny Gatton",
+    "Shawn Lane"
+   ],
+   "G": [
+    "Guthrie Govan",
+    "Lenny Breau",
+    "Danny Gatton"
+   ],
+   "T": [
+    "Guthrie Govan",
+    "Lenny Breau",
+    "Pat Metheny"
+   ]
+  },
+  "judged": [
+   "Tuck Andress",
+   "Lenny Breau",
+   "Joe Pass"
+  ],
+  "counted": [
+   "Guthrie Govan",
+   "Shawn Lane",
+   "Danny Gatton"
+  ],
+  "margin_sigma": 0.5
+ }
+};
+const $ = s => document.querySelector(s);
+const pct = x => (x*100 < 1 && x > 0) ? "<1%" : Math.round(x*100) + "%";
+const P = D.players, W0 = P[0];
+const nMethods = Object.keys(W0.methods).length;
+const methodWins = Object.values(W0.methods).filter(r => r === 1).length;
+
+$("#heroLine").textContent = `#1 under ${methodWins} of ${nMethods} ranking methods, the only player to win every head-to-head matchup, and #1 in ${pct(W0.p1)} of 200,000 random weightings. The next best, ${P.slice(1).sort((a,b)=>b.p1-a.p1)[0].name}, manages ${pct(P.slice(1).sort((a,b)=>b.p1-a.p1)[0].p1)}.`;
+$("#stats").innerHTML = [
+  [pct(W0.p1), "of all possible weightings put him #1"],
+  [pct(W0.p1_noise), "still #1 after adding measurement error"],
+  [`${W0.copeland}/50`, "head-to-head matchups won (Condorcet winner)"],
+  [`${methodWins}/${nMethods}`, "ranking methods with him at #1"],
+].map(([b,s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+$("#paretoN").textContent = D.pareto.length;
+
+const DESC = {
+  V:"Peak sustained clean notes per second inside real music. Countable with onset detection on recordings.",
+  P:"Timing deviation from the beat, pitch accuracy, and control of unwanted string noise.",
+  H:"Variety of chord types, chromatic density and reharmonisation. Measurable from transcriptions as pitch-set diversity.",
+  I:"How many independent voices (bass, inner parts, melody) the player sustains at once.",
+  M:"Real-time invention, scaled by how hard the chord changes are to navigate.",
+  E:"Pitch control in bends and vibrato, dynamic range, and range of tone colour from the hands.",
+  G:"Genres, from a fixed list of 15, played at a professional recording or touring level.",
+  T:"Techniques, from a fixed checklist of 17, performed at a professional level.",
+};
+$("#dims").innerHTML = D.dims.map(d => `<div class="dim"><div class="k">${d.key}</div><h3>${d.name}</h3><div class="u">${d.unit} · pool range ${d.lo}–${d.hi}</div><p>${DESC[d.key]}</p></div>`).join("");
+
+// ranking table
+const maxP1 = Math.max(...P.map(p=>p.p1));
+const tb = $("#rankT tbody");
+function fmt(k, v){ return k==="V" ? v+" n/s" : (k==="G"||k==="T") ? v : v.toFixed(1); }
+P.slice(0,20).forEach((p,i) => {
+  const tr = document.createElement("tr"); tr.className="row"; tr.tabIndex=0;
+  tr.setAttribute("aria-expanded","false");
+  tr.innerHTML = `<td class="rank">${i+1}</td><td class="who"><b>${p.name}</b><small>${p.genre}</small></td>
+   <td class="barcell"><div class="bar"><div class="track"><div class="fill ${i===0?'hi':''}" style="width:${p.p1/maxP1*100}%"></div></div><span class="v">${pct(p.p1)}</span></div></td>
+   <td class="r num">${pct(p.p1_noise)}</td><td class="r num">${p.mean_rank.toFixed(1)}</td><td class="r num">${p.copeland}</td>`;
+  const det = document.createElement("tr"); det.className="detail"; det.hidden=true;
+  det.innerHTML = `<td colspan="6"><div class="dwrap"><div class="prof">${D.dims.map((d,k)=>`<div class="pr"><span>${d.name}</span><span class="t"><i style="width:${p.norm[k]*100}%"></i></span><span class="num" style="text-align:right">${fmt(d.key,p.raw[d.key])}</span></div>`).join("")}</div>
+   <div class="chips">${p.techs.map(t=>`<span class="chip">${D.tech.find(x=>x.key===t).name}</span>`).join("")}</div>
+   <p class="note" style="margin-top:10px">${p.pareto ? "On the Pareto front: nobody beats this player on every dimension." : "Dominated by " + p.dominated_by.join(", ") + "."}</p></div></td>`;
+  const toggle = () => { det.hidden = !det.hidden; tr.setAttribute("aria-expanded", String(!det.hidden)); };
+  tr.addEventListener("click", toggle);
+  tr.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); }});
+  tb.append(tr, det);
+});
+
+// weight lab
+const keys = D.dims.map(d=>d.key);
+const PRESETS = {
+  "Equal": keys.map(()=>1),
+  "Entropy": D.schemes["Entropy (EWM)"].map(x=>x*8),
+  "CRITIC": D.schemes["CRITIC"].map(x=>x*8),
+  "Pure chops": keys.map(k=>"VPT".includes(k)?1:0),
+  "Musicianship": keys.map(k=>"HIME".includes(k)?1:0),
+  "Speed only": keys.map(k=>k==="V"?1:0),
+};
+let w = PRESETS["Equal"].slice();
+$("#sliders").innerHTML = D.dims.map((d,k)=>`<label class="sl" for="w${d.key}"><span>${d.name}</span><input type="range" id="w${d.key}" min="0" max="2" step="0.05" value="${w[k]}"><output id="o${d.key}">${w[k].toFixed(2)}</output></label>`).join("");
+$("#presets").innerHTML = Object.keys(PRESETS).map(n=>`<button type="button" data-p="${n}" aria-pressed="${n==='Equal'}">${n}</button>`).join("");
+function render(){
+  const tot = w.reduce((a,b)=>a+b,0) || 1;
+  const sc = P.map(p => ({n:p.name, s:p.norm.reduce((a,x,k)=>a+x*w[k],0)/tot})).sort((a,b)=>b.s-a.s).slice(0,10);
+  const mx = sc[0].s || 1;
+  $("#live").innerHTML = sc.map((x,i)=>`<li><span class="rk">${i+1}</span><span class="nm">${x.n}</span><span class="t"><i style="width:${x.s/mx*100}%"></i></span></li>`).join("");
+  keys.forEach((k,i)=>{ $("#w"+k).value = w[i]; $("#o"+k).textContent = w[i].toFixed(2); });
+}
+keys.forEach((k,i)=> $("#w"+k).addEventListener("input", e => { w[i] = +e.target.value; document.querySelectorAll("#presets button").forEach(b=>b.setAttribute("aria-pressed","false")); render(); }));
+document.querySelectorAll("#presets button").forEach(b => b.addEventListener("click", () => {
+  w = PRESETS[b.dataset.p].slice();
+  document.querySelectorAll("#presets button").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+  render();
+}));
+render();
+
+// stress
+const S = D.stress;
+$("#looT tbody").innerHTML = D.dims.map(d => `<tr><td>Without ${d.name.toLowerCase()}</td><td><b>${S.loo[d.key][0]}</b></td></tr>`).join("");
+$("#cntL").innerHTML = S.counted.map(n=>`<li>${n}</li>`).join("");
+$("#jdgL").innerHTML = S.judged.map(n=>`<li>${n}</li>`).join("");
+$("#h2h").textContent = `Closest rival: ${D.head2head.b}. Govan outscores him in ${pct(D.head2head.p)} of weightings. Lowering all eight of Govan's scores by ${S.margin_sigma} of the assumed measurement error is enough to put ${D.head2head.b} first under equal weights.`;
+
+// full data
+$("#fullT thead").innerHTML = `<tr><th>Player</th><th>Style</th>${D.dims.map(d=>`<th class="r" title="${d.name}">${d.key}</th>`).join("")}<th class="r">Consensus</th></tr>`;
+$("#fullT tbody").innerHTML = P.map(p => `<tr><td>${p.name}</td><td>${p.genre}</td>${keys.map(k=>`<td class="num">${p.raw[k]}</td>`).join("")}<td class="num">${p.consensus.toFixed(1)}</td></tr>`).join("");
+</script>

@@ -1,0 +1,298 @@
+<title>The Blob's Petri Dish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,750&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one column lab bench. Dish first, notebook-style controls under it. Single dark look: a slime mold photographed on dark agar. */
+:root {
+  --bench: #12110c;
+  --agar: #1c1a12;
+  --ink: #ece4cc;
+  --muted: #a39a7e;
+  --line: #3a3526;
+  --mold: #f2c018;
+  --mold-deep: #b5740a;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+html, body { background: var(--bench); color: var(--ink); }
+body { font-family: var(--display); padding-inline: 16px; padding-block: 20px 40px; }
+.wrap { max-width: 600px; margin: 0 auto; display: grid; gap: 18px; }
+header { display: grid; gap: 6px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mold); }
+h1 { font-size: clamp(30px, 8vw, 46px); line-height: 1; font-weight: 750; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--mold); }
+.lede { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 0; max-width: 60ch; }
+.dish-wrap { position: relative; width: 100%; max-width: 100%; aspect-ratio: 1; }
+canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; border-radius: 50%; }
+.ring { position: absolute; inset: -6px; border-radius: 50%; border: 1px solid var(--line); pointer-events: none; }
+.readout { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.readout b { color: var(--ink); font-weight: 600; }
+.hint { font-family: var(--mono); font-size: 12px; color: var(--mold); margin: 0; }
+.controls { display: grid; gap: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+.row label { font-size: 14px; font-weight: 500; }
+.row output { font-family: var(--mono); font-size: 12px; color: var(--mold); font-variant-numeric: tabular-nums; }
+.row small { grid-column: 1 / -1; color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--mold); }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font-family: var(--mono); font-size: 12.5px; padding: 9px 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--agar); color: var(--ink); cursor: pointer; }
+button:hover { border-color: var(--mold-deep); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--mold); outline-offset: 2px; }
+button.primary { background: var(--mold); color: var(--bench); border-color: var(--mold); font-weight: 600; }
+.notes { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 14px; line-height: 1.55; display: grid; gap: 10px; }
+.notes h2 { color: var(--ink); font-size: 17px; margin: 0; font-weight: 750; }
+.notes p { margin: 0; max-width: 62ch; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Physarum polycephalum · agent model</div>
+    <h1>A brain&shy;less <em>blob</em> that builds networks</h1>
+    <p class="lede">A slime mold has no neurons, yet it finds short paths between food. Each yellow thread below is made of thousands of tiny agents that follow each other's chemical trail. Tap the dish to drop an oat flake and watch it get connected.</p>
+  </header>
+
+  <div class="dish-wrap">
+    <canvas id="dish" aria-label="Simulated petri dish. Tap to place oat flakes."></canvas>
+    <div class="ring"></div>
+  </div>
+
+  <div class="readout" aria-live="polite">
+    <span>agents <b id="r-agents">0</b></span>
+    <span>oats <b id="r-oats">0</b></span>
+    <span>steps <b id="r-steps">0</b></span>
+  </div>
+  <p class="hint">Tap or drag on the dish to drop oats.</p>
+
+  <div class="buttons">
+    <button class="primary" id="b-pause" type="button">Pause</button>
+    <button id="b-reset" type="button">Re-inoculate</button>
+    <button id="b-clear" type="button">Remove oats</button>
+    <button id="b-ring" type="button">Ring of oats</button>
+    <button id="b-scatter" type="button">Scatter oats</button>
+  </div>
+
+  <div class="controls">
+    <div class="row">
+      <label for="s-angle">Sensor angle</label><output id="o-angle"></output>
+      <input type="range" id="s-angle" min="10" max="90" value="45">
+      <small>How wide each agent "looks" left and right. Narrow angles make long straight veins; wide angles make dense lace.</small>
+    </div>
+    <div class="row">
+      <label for="s-dist">Sensor reach</label><output id="o-dist"></output>
+      <input type="range" id="s-dist" min="2" max="30" value="9">
+      <small>How far ahead it smells. Longer reach merges small branches into thicker trunks.</small>
+    </div>
+    <div class="row">
+      <label for="s-decay">Trail fade</label><output id="o-decay"></output>
+      <input type="range" id="s-decay" min="1" max="30" value="8">
+      <small>How quickly old trail evaporates. Fast fade prunes unused routes; slow fade keeps a dense web.</small>
+    </div>
+  </div>
+
+  <section class="notes">
+    <h2>Why this is remarkable</h2>
+    <p>In 2010, Atsushi Tero and colleagues placed oat flakes on agar in the pattern of cities around Tokyo and let a real Physarum grow between them. Within about a day it built a tube network whose efficiency, cost and fault tolerance were comparable to the actual Tokyo rail system that engineers designed.</p>
+    <p>No part of the organism sees the whole map. Tubes that carry more flow thicken, tubes that carry little shrink, and a good network falls out of that one local rule. This simulation uses a similar idea from Jeff Jones's 2010 agent model: move forward, sniff three directions, turn toward the strongest scent, leave scent behind.</p>
+    <p>Try the ring of oats, then drop one oat in the middle. Watch the spokes appear.</p>
+  </section>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('dish');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Simulation grid (square). Sized for phones; bigger screens get a bit more detail.
+  const G = Math.min(window.innerWidth, 600) < 450 ? 260 : 340;
+  const R = G / 2 - 2, C = G / 2;
+  let trail = new Float32Array(G * G), tmp = new Float32Array(G * G);
+  const inside = new Uint8Array(G * G);
+  for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
+    const dx = x - C + .5, dy = y - C + .5;
+    inside[y * G + x] = dx * dx + dy * dy < R * R ? 1 : 0;
+  }
+
+  const N = Math.round(G * G * 0.45);
+  const ax = new Float32Array(N), ay = new Float32Array(N), aa = new Float32Array(N);
+
+  const params = { SA: 45 * Math.PI / 180, SD: 9, RA: 45 * Math.PI / 180, SS: 1, dep: 5, decay: 0.92 };
+  let oats = [];
+  let paused = false, steps = 0;
+
+  function inoculate() {
+    trail.fill(0);
+    for (let i = 0; i < N; i++) {
+      const r = Math.sqrt(Math.random()) * 14, t = Math.random() * Math.PI * 2;
+      ax[i] = C + Math.cos(t) * r; ay[i] = C + Math.sin(t) * r;
+      aa[i] = Math.random() * Math.PI * 2;
+    }
+    steps = 0;
+  }
+
+  function addOat(x, y) {
+    const dx = x - C, dy = y - C;
+    if (dx * dx + dy * dy > (R - 6) * (R - 6)) return;
+    if (oats.some(o => (o.x - x) ** 2 + (o.y - y) ** 2 < 36)) return;
+    oats.push({ x, y, rot: Math.random() * Math.PI, s: 0.8 + Math.random() * 0.4 });
+  }
+
+  const sense = (x, y) => {
+    const xi = x | 0, yi = y | 0;
+    if (xi < 0 || yi < 0 || xi >= G || yi >= G) return -1;
+    const k = yi * G + xi;
+    return inside[k] ? trail[k] : -1;
+  };
+
+  function step() {
+    const { SA, SD, RA, SS, dep } = params;
+    for (let i = 0; i < N; i++) {
+      let x = ax[i], y = ay[i], a = aa[i];
+      const f = sense(x + Math.cos(a) * SD, y + Math.sin(a) * SD);
+      const l = sense(x + Math.cos(a + SA) * SD, y + Math.sin(a + SA) * SD);
+      const r = sense(x + Math.cos(a - SA) * SD, y + Math.sin(a - SA) * SD);
+      if (f > l && f > r) { /* keep going */ }
+      else if (f < l && f < r) a += (Math.random() < .5 ? 1 : -1) * RA;
+      else if (l > r) a += RA;
+      else if (r > l) a -= RA;
+      const nx = x + Math.cos(a) * SS, ny = y + Math.sin(a) * SS;
+      const k = (ny | 0) * G + (nx | 0);
+      if (nx < 0 || ny < 0 || nx >= G || ny >= G || !inside[k]) {
+        a = Math.random() * Math.PI * 2;
+      } else {
+        x = nx; y = ny; trail[k] += dep;
+      }
+      ax[i] = x; ay[i] = y; aa[i] = a;
+    }
+    // Food keeps releasing attractant.
+    for (const o of oats) {
+      const ox = o.x | 0, oy = o.y | 0;
+      for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) {
+        if (dx * dx + dy * dy > 9) continue;
+        const k = (oy + dy) * G + ox + dx;
+        if (inside[k]) trail[k] += 30;
+      }
+    }
+    // 3x3 diffuse + decay
+    const d = params.decay;
+    for (let y = 1; y < G - 1; y++) {
+      const row = y * G;
+      for (let x = 1; x < G - 1; x++) {
+        const k = row + x;
+        if (!inside[k]) { tmp[k] = 0; continue; }
+        const s = trail[k - G - 1] + trail[k - G] + trail[k - G + 1] +
+                  trail[k - 1] + trail[k] + trail[k + 1] +
+                  trail[k + G - 1] + trail[k + G] + trail[k + G + 1];
+        tmp[k] = (s / 9) * d;
+      }
+    }
+    const t = trail; trail = tmp; tmp = t;
+    steps++;
+  }
+
+  // Colour lookup: agar → dim ochre → slime yellow → pale highlight
+  const LUT = new Uint8ClampedArray(256 * 3);
+  const stops = [[0, [28, 26, 18]], [.18, [70, 52, 14]], [.45, [181, 116, 10]], [.75, [242, 192, 24]], [1, [255, 240, 170]]];
+  for (let i = 0; i < 256; i++) {
+    const v = i / 255;
+    let j = 0; while (j < stops.length - 2 && v > stops[j + 1][0]) j++;
+    const [p0, c0] = stops[j], [p1, c1] = stops[j + 1];
+    const t = (v - p0) / (p1 - p0);
+    for (let c = 0; c < 3; c++) LUT[i * 3 + c] = c0[c] + (c1[c] - c0[c]) * t;
+  }
+
+  const off = document.createElement('canvas'); off.width = off.height = G;
+  const octx = off.getContext('2d');
+  const img = octx.createImageData(G, G);
+  function render() {
+    const p = img.data;
+    for (let k = 0; k < G * G; k++) {
+      const o = k * 4;
+      if (!inside[k]) { p[o] = 18; p[o + 1] = 17; p[o + 2] = 12; p[o + 3] = 255; continue; }
+      let v = Math.sqrt(trail[k] / 60); if (v > 1) v = 1;
+      const li = (v * 255) | 0;
+      p[o] = LUT[li * 3]; p[o + 1] = LUT[li * 3 + 1]; p[o + 2] = LUT[li * 3 + 2]; p[o + 3] = 255;
+    }
+    octx.putImageData(img, 0, 0);
+    const S = canvas.width;
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(off, 0, 0, S, S);
+    const sc = S / G;
+    for (const o of oats) {
+      ctx.save();
+      ctx.translate(o.x * sc, o.y * sc); ctx.rotate(o.rot);
+      ctx.fillStyle = '#d8c79c'; ctx.strokeStyle = '#8a7a52'; ctx.lineWidth = Math.max(1, sc * .5);
+      ctx.beginPath(); ctx.ellipse(0, 0, 4.2 * sc * o.s, 2.6 * sc * o.s, 0, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      ctx.restore();
+    }
+    document.getElementById('r-agents').textContent = N.toLocaleString();
+    document.getElementById('r-oats').textContent = oats.length;
+    document.getElementById('r-steps').textContent = steps.toLocaleString();
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = canvas.getBoundingClientRect().width;
+    canvas.width = canvas.height = Math.max(200, Math.round(w * dpr));
+    render();
+  }
+
+  function loop() {
+    if (!paused) { step(); if (!reduceMotion) step(); }
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // Pointer: tap or drag to drop oats
+  let drawing = false;
+  const toSim = e => {
+    const r = canvas.getBoundingClientRect();
+    return [(e.clientX - r.left) / r.width * G, (e.clientY - r.top) / r.height * G];
+  };
+  canvas.addEventListener('pointerdown', e => { drawing = true; canvas.setPointerCapture(e.pointerId); addOat(...toSim(e)); });
+  canvas.addEventListener('pointermove', e => { if (drawing) addOat(...toSim(e)); });
+  canvas.addEventListener('pointerup', () => drawing = false);
+  canvas.addEventListener('pointercancel', () => drawing = false);
+
+  // Controls
+  const bind = (id, out, fn, fmt) => {
+    const el = document.getElementById(id), o = document.getElementById(out);
+    const upd = () => { fn(+el.value); o.textContent = fmt(+el.value); };
+    el.addEventListener('input', upd); upd();
+  };
+  bind('s-angle', 'o-angle', v => { params.SA = params.RA = v * Math.PI / 180; }, v => v + '°');
+  bind('s-dist', 'o-dist', v => { params.SD = v; }, v => v + ' cells');
+  bind('s-decay', 'o-decay', v => { params.decay = 1 - v / 100; }, v => v + '% / step');
+
+  const pauseBtn = document.getElementById('b-pause');
+  pauseBtn.onclick = () => { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; };
+  document.getElementById('b-reset').onclick = inoculate;
+  document.getElementById('b-clear').onclick = () => { oats = []; };
+  document.getElementById('b-ring').onclick = () => {
+    oats = [];
+    const n = 9, rr = R * 0.72;
+    for (let i = 0; i < n; i++) { const t = i / n * Math.PI * 2 - Math.PI / 2; addOat(C + Math.cos(t) * rr, C + Math.sin(t) * rr); }
+  };
+  document.getElementById('b-scatter').onclick = () => {
+    oats = [];
+    let tries = 0;
+    while (oats.length < 14 && tries++ < 500) {
+      const r = Math.sqrt(Math.random()) * (R - 12), t = Math.random() * Math.PI * 2;
+      const before = oats.length;
+      addOat(C + Math.cos(t) * r, C + Math.sin(t) * r);
+      if (oats.length > before && oats.some((o, i) => i < oats.length - 1 && (o.x - oats.at(-1).x) ** 2 + (o.y - oats.at(-1).y) ** 2 < 400)) oats.pop();
+    }
+  };
+
+  inoculate();
+  document.getElementById('b-scatter').onclick();
+  window.addEventListener('resize', resize);
+  resize();
+  // Warm up so the first frame already shows a network.
+  for (let i = 0; i < 60; i++) step();
+  render();
+  requestAnimationFrame(loop);
+})();
+</script>
