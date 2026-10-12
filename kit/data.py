@@ -47,6 +47,7 @@ def fred(series: str, start: str | None = None) -> pd.DataFrame:
     df.columns = ["date", "value"]
     df["date"] = pd.to_datetime(df["date"])
     df.attrs.update(series=series, source=f"https://fred.stlouisfed.org/series/{series}")
+    http.cite(df.attrs["source"], f"FRED: {series}")
     return df[df["date"] >= start] if start else df
 
 
@@ -58,6 +59,7 @@ def treasury(endpoint: str, sort: str = "-record_date", size: int = 100, **filte
         params["filter"] = ",".join(f"{k}:eq:{v}" for k, v in filters.items())
     j = http.get_json(f"https://api.fiscaldata.treasury.gov/services/api/fiscal_service/{endpoint.strip('/')}", params)
     df = pd.DataFrame(j["data"])
+    http.cite(f"https://fiscaldata.treasury.gov/api-documentation/", f"US Treasury Fiscal Data: {endpoint}")
     for c in df.columns:
         if c.endswith(("_amt", "_rate", "_pct")):
             df[c] = pd.to_numeric(df[c], errors="coerce")
@@ -77,6 +79,7 @@ def worldbank(indicator: str, countries: str = "all", start: int | None = None, 
                         "value": r["value"]} for r in j[1]])
     df.attrs.update(indicator=j[1][0]["indicator"]["value"], updated=j[0].get("lastupdated"),
                     source=f"https://data.worldbank.org/indicator/{indicator}")
+    http.cite(df.attrs["source"], f"World Bank: {df.attrs['indicator']}")
     return df.sort_values(["country", "year"]).reset_index(drop=True)
 
 
@@ -87,6 +90,7 @@ def owid(slug: str, countries: list[str] | None = None) -> pd.DataFrame:
     if countries:
         df = df[df["code"].isin(countries) | df["entity"].isin(countries)]
     df.attrs["source"] = f"https://ourworldindata.org/grapher/{slug}"
+    http.cite(df.attrs["source"], f"Our World in Data: {slug}")
     return df.reset_index(drop=True)
 
 
@@ -105,6 +109,7 @@ def imf(indicator: str, countries: list[str] | None = None) -> pd.DataFrame:
     if countries:
         df = df[df["iso3"].isin(countries)]
     df.attrs["source"] = f"https://www.imf.org/external/datamapper/{indicator}"
+    http.cite(df.attrs["source"], f"IMF DataMapper: {indicator}")
     return df.sort_values(["iso3", "year"]).reset_index(drop=True)
 
 
@@ -132,6 +137,7 @@ def eurostat(dataset: str, **filters) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     df.attrs.update(label=j.get("label"), updated=j.get("updated"),
                     source=f"https://ec.europa.eu/eurostat/databrowser/view/{dataset}/default/table")
+    http.cite(df.attrs["source"], f"Eurostat: {j.get('label') or dataset}")
     return df
 
 
@@ -144,6 +150,7 @@ def ecb(key: str, last: int | None = None, start: str | None = None) -> pd.DataF
     if start:
         params["startPeriod"] = start
     df = _csv(f"https://data-api.ecb.europa.eu/service/data/{key}", params)
+    http.cite(f"https://data.ecb.europa.eu/data/datasets/{key.split('/')[0]}/{key.replace('/', '.')}", f"ECB: {key}")
     return df[["KEY", "TIME_PERIOD", "OBS_VALUE"] + [c for c in ("TITLE", "UNIT") if c in df]]
 
 

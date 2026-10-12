@@ -97,6 +97,7 @@ def doi(d: str, abstract: bool = True) -> Paper:
     """One paper by DOI from Crossref; fills the abstract from Europe PMC when Crossref lacks it."""
     d = re.sub(r"^(https?://(dx\.)?doi\.org/|doi:)", "", d.strip(), flags=re.I)
     p = _cr_item(http.get_json(f"https://api.crossref.org/works/{d}")["message"])
+    http.cite(f"https://doi.org/{p.doi or d}", f"{p.byline}. {p.title}")
     if abstract and not p.abstract:
         try:
             hits = europepmc(f'DOI:"{d}"', n=1)

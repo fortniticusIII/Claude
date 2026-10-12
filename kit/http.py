@@ -144,6 +144,13 @@ def _log(resp: Response, title: str | None = None) -> None:
                             "cached": resp.from_cache, "title": title}) + "\n")
 
 
+def cite(url: str, title: str) -> None:
+    """Record a human-readable source page (a series page, a DOI) for the Sources list."""
+    LEDGER.parent.mkdir(parents=True, exist_ok=True)
+    with open(LEDGER, "a") as f:
+        f.write(json.dumps({"url": url, "title": title, "t": time.time(), "status": 200, "cite": True}) + "\n")
+
+
 def note_title(url: str, title: str) -> None:
     """Attach a human title to a ledger URL (web.text does this for pages)."""
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
@@ -209,7 +216,7 @@ def get_json(url: str, params: dict | None = None, **kw):
     return r.json()
 
 
-def ledger(since: float | None = None) -> list[dict]:
+def ledger(since: float | None = None, raw: bool = True) -> list[dict]:
     """Ledger rows since a time (default: this Python session), newest title per URL merged in."""
     since = SESSION_START if since is None else since
     if not LEDGER.exists():
@@ -230,15 +237,18 @@ def ledger(since: float | None = None) -> list[dict]:
     for j in rows:
         if j["url"] in seen or not (200 <= j.get("status", 0) < 300):
             continue
+        if not raw and not j.get("cite") and j["url"] not in titles:
+            continue  # a raw API call; its citable page was recorded with cite()
         seen.add(j["url"])
         j["title"] = titles.get(j["url"]) or j.get("title")
         out.append(j)
     return out
 
 
-def sources_md(since: float | None = None, only: list[str] | None = None) -> str:
-    """Markdown 'Sources:' list of what this session fetched. Pass `only` (substrings) to filter."""
-    rows = ledger(since)
+def sources_md(since: float | None = None, only: list[str] | None = None, raw: bool = False) -> str:
+    """Markdown 'Sources:' list: pages read and the citable pages behind data and papers used this
+    session. raw=True also lists every API call. Pass `only` (substrings) to filter."""
+    rows = ledger(since, raw=raw)
     if only:
         rows = [r for r in rows if any(s in r["url"] for s in only)]
     lines = []

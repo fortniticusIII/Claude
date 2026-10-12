@@ -96,7 +96,7 @@ PROBE_JS = r"""() => {
   out.tinyText = tiny.slice(0, 5); out.tinyTextCount = tiny.length;
   // tap targets
   const targets = [...document.querySelectorAll('button, a[href], input, select, textarea, [role=button], [role=tab]')].filter(visible);
-  const small = targets.filter(el => { const r=el.getBoundingClientRect();
+  const small = targets.filter(el => { if (el.type==='range' || el.type==='hidden') return false; const r=el.getBoundingClientRect();
     const inline = el.tagName==='A' && getComputedStyle(el).display==='inline' && el.parentElement && el.parentElement.textContent.trim().length > el.textContent.trim().length + 20;
     return !inline && (r.height < 32 || r.width < 32); });
   out.smallTargets = small.slice(0,5).map(el => ({el: path(el), w: Math.round(el.getBoundingClientRect().width), h: Math.round(el.getBoundingClientRect().height)}));
