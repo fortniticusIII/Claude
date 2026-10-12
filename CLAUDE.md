@@ -23,5 +23,6 @@ short retry on 429. A refusal (403, proxy block, a site WebFetch declined) is po
 
 ## Commits
 
-Commit as `fortniticusIII` / `341542600+fortniticusIII@users.noreply.github.com`, with the
-session's Co-Authored-By trailer. Never commit anything about the user (that stays in the log).
+Commit as `Claude` / `noreply@anthropic.com` (`git config user.name Claude && git config user.email
+noreply@anthropic.com`): sessions sign commits for that identity, and the stop hook flags anything else
+as Unverified. Keep the session's Co-Authored-By and Claude-Session trailers. Never commit anything about the user (that stays in the log).
