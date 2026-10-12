@@ -1,0 +1,692 @@
+{
+ "jr": {
+  "connected": true,
+  "TL": 1036.6822846680889,
+  "MD": 67.49895466779793,
+  "FT_len": 0.8510288248022279,
+  "FT_link": 0.9620915032679739,
+  "links": 765,
+  "junctions": 480,
+  "bridges": 29,
+  "variant": "jr",
+  "snaps": [
+   {
+    "fs": "Tokyo Station",
+    "station": "東京",
+    "line": "東海道線",
+    "snap_km": 0.027604926268430616
+   },
+   {
+    "fs": "Shinjuku",
+    "station": "新宿",
+    "line": "山手線",
+    "snap_km": 0.05451627137728427
+   },
+   {
+    "fs": "Ikebukuro",
+    "station": "池袋",
+    "line": "赤羽線",
+    "snap_km": 0.009669341558928797
+   },
+   {
+    "fs": "Shibuya",
+    "station": "渋谷",
+    "line": "山手線",
+    "snap_km": 0.05958405037711125
+   },
+   {
+    "fs": "Shinagawa",
+    "station": "品川",
+    "line": "東海道線",
+    "snap_km": 0.01720318205502459
+   },
+   {
+    "fs": "Ueno",
+    "station": "上野",
+    "line": "東北線",
+    "snap_km": 0.04905844339015177
+   },
+   {
+    "fs": "Kinshicho",
+    "station": "錦糸町",
+    "line": "総武線",
+    "snap_km": 0.0994351358387878
+   },
+   {
+    "fs": "Yokohama",
+    "station": "関内",
+    "line": "根岸線",
+    "snap_km": 0.18704794788450094
+   },
+   {
+    "fs": "Kawasaki",
+    "station": "川崎新町",
+    "line": "南武線",
+    "snap_km": 0.19518361823856875
+   },
+   {
+    "fs": "Yokosuka",
+    "station": "横須賀",
+    "line": "横須賀線",
+    "snap_km": 1.6028358457968062
+   },
+   {
+    "fs": "Fujisawa",
+    "station": "藤沢",
+    "line": "東海道線",
+    "snap_km": 2.1890667166492976
+   },
+   {
+    "fs": "Hiratsuka",
+    "station": "平塚",
+    "line": "東海道線",
+    "snap_km": 1.2013531713389924
+   },
+   {
+    "fs": "Odawara",
+    "station": "小田原",
+    "line": "東海道線",
+    "snap_km": 0.8529427493884866
+   },
+   {
+    "fs": "Atsugi",
+    "station": "厚木",
+    "line": "相模線",
+    "snap_km": 1.5840523965843663
+   },
+   {
+    "fs": "Sagamihara",
+    "station": "上溝",
+    "line": "相模線",
+    "snap_km": 1.0499455017034844
+   },
+   {
+    "fs": "Hachioji",
+    "station": "西八王子",
+    "line": "中央線",
+    "snap_km": 1.181010240586042
+   },
+   {
+    "fs": "Tachikawa",
+    "station": "西国立",
+    "line": "南武線",
+    "snap_km": 0.38611882936373754
+   },
+   {
+    "fs": "Ome",
+    "station": "東青梅",
+    "line": "青梅線",
+    "snap_km": 0.3412675968549906
+   },
+   {
+    "fs": "Saitama",
+    "station": "浦和",
+    "line": "東北線",
+    "snap_km": 1.0932358185903819
+   },
+   {
+    "fs": "Kawagoe",
+    "station": "川越",
+    "line": "川越線",
+    "snap_km": 2.0431595738042985
+   },
+   {
+    "fs": "Tokorozawa",
+    "station": "新秋津",
+    "line": "武蔵野線",
+    "snap_km": 3.2732187764605083
+   },
+   {
+    "fs": "Kumagaya",
+    "station": "熊谷",
+    "line": "高崎線",
+    "snap_km": 0.846024919065232
+   },
+   {
+    "fs": "Kasukabe",
+    "station": "蓮田",
+    "line": "東北線",
+    "snap_km": 9.00177865876244
+   },
+   {
+    "fs": "Hanno",
+    "station": "東飯能",
+    "line": "八高線",
+    "snap_km": 0.32612544936826965
+   },
+   {
+    "fs": "Tsukuba",
+    "station": "荒川沖",
+    "line": "常磐線",
+    "snap_km": 9.985247693572514
+   },
+   {
+    "fs": "Tsuchiura",
+    "station": "土浦",
+    "line": "常磐線",
+    "snap_km": 1.4344860645659303
+   },
+   {
+    "fs": "Toride",
+    "station": "取手",
+    "line": "常磐線",
+    "snap_km": 2.081333061871119
+   },
+   {
+    "fs": "Koga",
+    "station": "古河",
+    "line": "東北線",
+    "snap_km": 4.5038396832427825
+   },
+   {
+    "fs": "Chiba",
+    "station": "千葉みなと",
+    "line": "京葉線",
+    "snap_km": 0.32843626724622443
+   },
+   {
+    "fs": "Funabashi",
+    "station": "船橋",
+    "line": "総武線",
+    "snap_km": 0.8118540833336109
+   },
+   {
+    "fs": "Kashiwa",
+    "station": "柏",
+    "line": "常磐線",
+    "snap_km": 0.733536068419708
+   },
+   {
+    "fs": "Narita",
+    "station": "成田",
+    "line": "成田線",
+    "snap_km": 0.4510145542980209
+   },
+   {
+    "fs": "Sakura",
+    "station": "佐倉",
+    "line": "総武線",
+    "snap_km": 1.1909293557711393
+   },
+   {
+    "fs": "Ichihara",
+    "station": "五井",
+    "line": "内房線",
+    "snap_km": 2.8595779950604623
+   },
+   {
+    "fs": "Kisarazu",
+    "station": "木更津",
+    "line": "久留里線",
+    "snap_km": 1.0560148862815038
+   },
+   {
+    "fs": "Mobara",
+    "station": "茂原",
+    "line": "外房線",
+    "snap_km": 1.4598437445844121
+   }
+  ],
+  "raw_km": 1560.143357015292
+ },
+ "jr_shinkansen": {
+  "connected": true,
+  "TL": 1286.761392651658,
+  "MD": 66.70068165560158,
+  "FT_len": 0.9229830177445632,
+  "FT_link": 0.9835809225957779,
+  "links": 1279,
+  "junctions": 792,
+  "bridges": 21,
+  "variant": "jr_shinkansen",
+  "snaps": [
+   {
+    "fs": "Tokyo Station",
+    "station": "東京",
+    "line": "東海道線",
+    "snap_km": 0.027604926268430616
+   },
+   {
+    "fs": "Shinjuku",
+    "station": "新宿",
+    "line": "山手線",
+    "snap_km": 0.05451627137728427
+   },
+   {
+    "fs": "Ikebukuro",
+    "station": "池袋",
+    "line": "赤羽線",
+    "snap_km": 0.009669341558928797
+   },
+   {
+    "fs": "Shibuya",
+    "station": "渋谷",
+    "line": "山手線",
+    "snap_km": 0.05958405037711125
+   },
+   {
+    "fs": "Shinagawa",
+    "station": "品川",
+    "line": "東海道線",
+    "snap_km": 0.01720318205502459
+   },
+   {
+    "fs": "Ueno",
+    "station": "上野",
+    "line": "東北線",
+    "snap_km": 0.04905844339015177
+   },
+   {
+    "fs": "Kinshicho",
+    "station": "錦糸町",
+    "line": "総武線",
+    "snap_km": 0.0994351358387878
+   },
+   {
+    "fs": "Yokohama",
+    "station": "関内",
+    "line": "根岸線",
+    "snap_km": 0.18704794788450094
+   },
+   {
+    "fs": "Kawasaki",
+    "station": "川崎新町",
+    "line": "南武線",
+    "snap_km": 0.19518361823856875
+   },
+   {
+    "fs": "Yokosuka",
+    "station": "横須賀",
+    "line": "横須賀線",
+    "snap_km": 1.6028358457968062
+   },
+   {
+    "fs": "Fujisawa",
+    "station": "藤沢",
+    "line": "東海道線",
+    "snap_km": 2.1890667166492976
+   },
+   {
+    "fs": "Hiratsuka",
+    "station": "平塚",
+    "line": "東海道線",
+    "snap_km": 1.2013531713389924
+   },
+   {
+    "fs": "Odawara",
+    "station": "小田原",
+    "line": "東海道新幹線",
+    "snap_km": 0.8105735510527091
+   },
+   {
+    "fs": "Atsugi",
+    "station": "厚木",
+    "line": "相模線",
+    "snap_km": 1.5840523965843663
+   },
+   {
+    "fs": "Sagamihara",
+    "station": "上溝",
+    "line": "相模線",
+    "snap_km": 1.0499455017034844
+   },
+   {
+    "fs": "Hachioji",
+    "station": "西八王子",
+    "line": "中央線",
+    "snap_km": 1.181010240586042
+   },
+   {
+    "fs": "Tachikawa",
+    "station": "西国立",
+    "line": "南武線",
+    "snap_km": 0.38611882936373754
+   },
+   {
+    "fs": "Ome",
+    "station": "東青梅",
+    "line": "青梅線",
+    "snap_km": 0.3412675968549906
+   },
+   {
+    "fs": "Saitama",
+    "station": "浦和",
+    "line": "東北線",
+    "snap_km": 1.0932358185903819
+   },
+   {
+    "fs": "Kawagoe",
+    "station": "川越",
+    "line": "川越線",
+    "snap_km": 2.0431595738042985
+   },
+   {
+    "fs": "Tokorozawa",
+    "station": "新秋津",
+    "line": "武蔵野線",
+    "snap_km": 3.2732187764605083
+   },
+   {
+    "fs": "Kumagaya",
+    "station": "熊谷",
+    "line": "高崎線",
+    "snap_km": 0.846024919065232
+   },
+   {
+    "fs": "Kasukabe",
+    "station": "蓮田",
+    "line": "東北線",
+    "snap_km": 9.00177865876244
+   },
+   {
+    "fs": "Hanno",
+    "station": "東飯能",
+    "line": "八高線",
+    "snap_km": 0.32612544936826965
+   },
+   {
+    "fs": "Tsukuba",
+    "station": "荒川沖",
+    "line": "常磐線",
+    "snap_km": 9.985247693572514
+   },
+   {
+    "fs": "Tsuchiura",
+    "station": "土浦",
+    "line": "常磐線",
+    "snap_km": 1.4344860645659303
+   },
+   {
+    "fs": "Toride",
+    "station": "取手",
+    "line": "常磐線",
+    "snap_km": 2.081333061871119
+   },
+   {
+    "fs": "Koga",
+    "station": "古河",
+    "line": "東北線",
+    "snap_km": 4.5038396832427825
+   },
+   {
+    "fs": "Chiba",
+    "station": "千葉みなと",
+    "line": "京葉線",
+    "snap_km": 0.32843626724622443
+   },
+   {
+    "fs": "Funabashi",
+    "station": "船橋",
+    "line": "総武線",
+    "snap_km": 0.8118540833336109
+   },
+   {
+    "fs": "Kashiwa",
+    "station": "柏",
+    "line": "常磐線",
+    "snap_km": 0.733536068419708
+   },
+   {
+    "fs": "Narita",
+    "station": "成田",
+    "line": "成田線",
+    "snap_km": 0.4510145542980209
+   },
+   {
+    "fs": "Sakura",
+    "station": "佐倉",
+    "line": "総武線",
+    "snap_km": 1.1909293557711393
+   },
+   {
+    "fs": "Ichihara",
+    "station": "五井",
+    "line": "内房線",
+    "snap_km": 2.8595779950604623
+   },
+   {
+    "fs": "Kisarazu",
+    "station": "木更津",
+    "line": "久留里線",
+    "snap_km": 1.0560148862815038
+   },
+   {
+    "fs": "Mobara",
+    "station": "茂原",
+    "line": "外房線",
+    "snap_km": 1.4598437445844121
+   }
+  ],
+  "raw_km": 1786.0453632438623
+ },
+ "all_heavy_rail": {
+  "connected": true,
+  "TL": 2843.125069957072,
+  "MD": 63.65798821753294,
+  "FT_len": 0.9732547817165498,
+  "FT_link": 0.9976736457294783,
+  "links": 3009,
+  "junctions": 1810,
+  "bridges": 7,
+  "variant": "all_heavy_rail",
+  "snaps": [
+   {
+    "fs": "Tokyo Station",
+    "station": "東京",
+    "line": "東海道線",
+    "snap_km": 0.027604926268430616
+   },
+   {
+    "fs": "Shinjuku",
+    "station": "新宿",
+    "line": "山手線",
+    "snap_km": 0.05451627137728427
+   },
+   {
+    "fs": "Ikebukuro",
+    "station": "池袋",
+    "line": "赤羽線",
+    "snap_km": 0.009669341558928797
+   },
+   {
+    "fs": "Shibuya",
+    "station": "渋谷",
+    "line": "山手線",
+    "snap_km": 0.05958405037711125
+   },
+   {
+    "fs": "Shinagawa",
+    "station": "品川",
+    "line": "東海道線",
+    "snap_km": 0.01720318205502459
+   },
+   {
+    "fs": "Ueno",
+    "station": "上野",
+    "line": "東北線",
+    "snap_km": 0.04905844339015177
+   },
+   {
+    "fs": "Kinshicho",
+    "station": "錦糸町",
+    "line": "総武線",
+    "snap_km": 0.0994351358387878
+   },
+   {
+    "fs": "Yokohama",
+    "station": "関内",
+    "line": "根岸線",
+    "snap_km": 0.18704794788450094
+   },
+   {
+    "fs": "Kawasaki",
+    "station": "川崎新町",
+    "line": "南武線",
+    "snap_km": 0.19518361823856875
+   },
+   {
+    "fs": "Yokosuka",
+    "station": "横須賀中央",
+    "line": "本線",
+    "snap_km": 0.3575243521740449
+   },
+   {
+    "fs": "Fujisawa",
+    "station": "藤沢本町",
+    "line": "江ノ島線",
+    "snap_km": 0.852570753567857
+   },
+   {
+    "fs": "Hiratsuka",
+    "station": "平塚",
+    "line": "東海道線",
+    "snap_km": 1.2013531713389924
+   },
+   {
+    "fs": "Odawara",
+    "station": "箱根板橋",
+    "line": "鉄道線",
+    "snap_km": 0.6902586031420699
+   },
+   {
+    "fs": "Atsugi",
+    "station": "本厚木",
+    "line": "小田原線",
+    "snap_km": 0.6820100459485225
+   },
+   {
+    "fs": "Sagamihara",
+    "station": "上溝",
+    "line": "相模線",
+    "snap_km": 1.0499455017034844
+   },
+   {
+    "fs": "Hachioji",
+    "station": "西八王子",
+    "line": "中央線",
+    "snap_km": 1.181010240586042
+   },
+   {
+    "fs": "Tachikawa",
+    "station": "西国立",
+    "line": "南武線",
+    "snap_km": 0.38611882936373754
+   },
+   {
+    "fs": "Ome",
+    "station": "東青梅",
+    "line": "青梅線",
+    "snap_km": 0.3412675968549906
+   },
+   {
+    "fs": "Saitama",
+    "station": "浦和",
+    "line": "東北線",
+    "snap_km": 1.0932358185903819
+   },
+   {
+    "fs": "Kawagoe",
+    "station": "本川越",
+    "line": "新宿線",
+    "snap_km": 1.3319391204407638
+   },
+   {
+    "fs": "Tokorozawa",
+    "station": "航空公園",
+    "line": "新宿線",
+    "snap_km": 0.3071537103721843
+   },
+   {
+    "fs": "Kumagaya",
+    "station": "熊谷",
+    "line": "高崎線",
+    "snap_km": 0.846024919065232
+   },
+   {
+    "fs": "Kasukabe",
+    "station": "春日部",
+    "line": "野田線",
+    "snap_km": 0.5247360233789943
+   },
+   {
+    "fs": "Hanno",
+    "station": "東飯能",
+    "line": "八高線",
+    "snap_km": 0.32612544936826965
+   },
+   {
+    "fs": "Tsukuba",
+    "station": "研究学園",
+    "line": "常磐新線",
+    "snap_km": 0.5469839130630675
+   },
+   {
+    "fs": "Tsuchiura",
+    "station": "土浦",
+    "line": "常磐線",
+    "snap_km": 1.4344860645659303
+   },
+   {
+    "fs": "Toride",
+    "station": "寺原",
+    "line": "常総線",
+    "snap_km": 0.40246850641809356
+   },
+   {
+    "fs": "Koga",
+    "station": "古河",
+    "line": "東北線",
+    "snap_km": 4.5038396832427825
+   },
+   {
+    "fs": "Chiba",
+    "station": "千葉みなと",
+    "line": "京葉線",
+    "snap_km": 0.32843626724622443
+   },
+   {
+    "fs": "Funabashi",
+    "station": "京成船橋",
+    "line": "本線",
+    "snap_km": 0.6355028398923186
+   },
+   {
+    "fs": "Kashiwa",
+    "station": "柏",
+    "line": "常磐線",
+    "snap_km": 0.733536068419708
+   },
+   {
+    "fs": "Narita",
+    "station": "京成成田",
+    "line": "本線",
+    "snap_km": 0.26298350923226715
+   },
+   {
+    "fs": "Sakura",
+    "station": "佐倉",
+    "line": "成田線",
+    "snap_km": 1.1909293557711393
+   },
+   {
+    "fs": "Ichihara",
+    "station": "上総村上",
+    "line": "小湊鐵道線",
+    "snap_km": 1.3802702008313894
+   },
+   {
+    "fs": "Kisarazu",
+    "station": "木更津",
+    "line": "久留里線",
+    "snap_km": 1.0560148862815038
+   },
+   {
+    "fs": "Mobara",
+    "station": "茂原",
+    "line": "外房線",
+    "snap_km": 1.4598437445844121
+   }
+  ],
+  "raw_km": 3593.437040142321
+ }
+}

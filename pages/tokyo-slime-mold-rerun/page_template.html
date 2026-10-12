@@ -1,0 +1,369 @@
+<title>Tokyo Slime Mold Rerun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lab notebook on an agar-plate ground. One reading column; the six network maps break out into a
+   wider grid because the comparison between them is the point; two charts share one cost axis. */
+:root {
+  --bg: #eef1ed;          /* agar */
+  --surface: #fafbf8;     /* plate */
+  --ink: #161b17;
+  --ink-2: #4b5550;
+  --muted: #6c7770;
+  --line: #d4dad4;
+  --land: #e4e9e2;
+  --water: #fafbf8;
+  --slime: #eb6834;       /* chart slot 2: the slime model */
+  --eng: #2a78d6;         /* chart slot 1: engineered constructions */
+  --rail: #1baf7a;        /* chart slot 3: the real railway */
+  --ref: #8a938d;         /* reference marks from the 2010 paper */
+  --display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111512; --surface: #181d19; --ink: #e6ebe6; --ink-2: #b2bcb5; --muted: #8b968f; --line: #2c342e;
+  --land: #232a25; --water: #181d19; --slime: #d95926; --eng: #3987e5; --rail: #199e70; --ref: #7d877f; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111512; --surface: #181d19; --ink: #e6ebe6; --ink-2: #b2bcb5; --muted: #8b968f; --line: #2c342e;
+  --land: #232a25; --water: #181d19; --slime: #d95926; --eng: #3987e5; --rail: #199e70; --ref: #7d877f; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6;
+  padding-inline: 16px; padding-block: 40px 72px; }
+.col { max-width: 680px; margin-inline: auto; display: grid; gap: 22px; }
+.wide { max-width: 1040px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.12; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(34px, 7vw, 54px); font-weight: 700; }
+h2 { font-size: clamp(22px, 4vw, 28px); font-weight: 700; margin-top: 18px; }
+h3 { font-size: 17px; font-weight: 600; }
+p { margin: 0; max-width: 66ch; }
+a { color: var(--ink); text-decoration-color: var(--slime); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--slime); outline-offset: 2px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 20px; line-height: 1.5; color: var(--ink-2); }
+.num { font-family: var(--mono); font-size: 0.86em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+em { font-style: italic; }
+.small { font-size: 15px; color: var(--ink-2); }
+
+/* the three measures, as a definition strip */
+.measures { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px 22px;
+  border-block: 1px solid var(--line); padding-block: 16px; }
+.measures div { display: grid; gap: 4px; min-width: 0; }
+.measures b { font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: 0.04em; }
+.measures span { font-size: 15px; color: var(--ink-2); line-height: 1.45; }
+
+/* maps */
+.maps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-block: 8px; }
+@media (max-width: 760px) { .maps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .map svg text { display: none; } }
+.map { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 10px 12px; display: grid; gap: 6px; min-width: 0; }
+.map svg { width: 100%; height: auto; display: block; }
+.map .t { font-family: var(--display); font-weight: 600; font-size: 15px; line-height: 1.2; display: flex; gap: 7px; align-items: center; }
+.map .t i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.map .s { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+.map dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin: 2px 0 0; }
+.map dl div { display: grid; gap: 0; }
+.map dt { font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.map dd { margin: 0; font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.mapkey { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); align-items: center; }
+.mapkey svg { vertical-align: middle; margin-right: 6px; }
+
+/* charts */
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px 8px; display: grid; gap: 6px; position: relative; }
+.chart h3 { padding-inline: 4px; }
+.chart .sub { font-size: 14px; color: var(--ink-2); padding-inline: 4px; }
+.chart .plot { width: 100%; }
+.chart svg text { font-family: var(--mono); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); padding-inline: 4px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--surface); font-family: var(--mono); font-size: 12px;
+  line-height: 1.45; padding: 7px 9px; border-radius: 6px; max-width: 240px; z-index: 2; }
+
+/* findings */
+.finding { display: grid; gap: 6px; padding-left: 16px; border-left: 2px solid var(--line); }
+.finding h3 { font-size: 18px; }
+
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+summary { cursor: pointer; font-family: var(--display); font-weight: 600; }
+.tablewrap { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; min-width: 520px; width: 100%; }
+th, td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+th { color: var(--muted); font-weight: 500; }
+ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; max-width: 66ch; }
+.eq { font-family: var(--mono); font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: nowrap; }
+footer { color: var(--muted); font-size: 14px; }
+@media (prefers-reduced-motion: no-preference) { .map path.net { transition: opacity .2s; } }
+</style>
+
+<main>
+<div class="col">
+  <div class="eyebrow">Replication notebook · October 12, 2026</div>
+  <h1>Tokyo Slime Mold Rerun</h1>
+  <p class="lede">In 2010, Tero and colleagues set oat flakes on a map of 36 places around Tokyo and let the slime mold <em>Physarum polycephalum</em> connect them. They reported a network about as cheap, efficient and fault tolerant as the region's railway, and a simple flow model that does the same. I rebuilt that model on a real coastline and terrain. I measured the actual JR network from Japan's national rail dataset on the same map, and set both against textbook ways of designing a network.</p>
+  <p>The model reproduces the paper's behaviour. On the paper's three measures, it beats the real JR network outright at several settings. So do two plain engineering heuristics. That says less about the slime than about the measures. They leave out what a railway is for. Against the heuristics, though, the slime model holds its own.</p>
+
+  <div class="measures" aria-label="The three measures">
+    <div><b>COST · TL / MST</b><span>Total track length, as a multiple of the minimum spanning tree (the shortest network joining all 36 points). <span class="num" id="mstkm"></span> here.</span></div>
+    <div><b>TRANSPORT · MD / MST</b><span>Mean shortest route between every pair of points, relative to the same tree. Lower is better.</span></div>
+    <div><b>FAULT TOLERANCE · FT</b><span>Chance that a break at a random point on the track does not cut any place off. 1 means every km sits on a loop.</span></div>
+  </div>
+</div>
+
+<section class="wide" aria-labelledby="maps-h" style="margin-top:34px; display:grid; gap:12px;">
+  <div class="col" style="gap:10px;">
+    <h2 id="maps-h">Six networks on one map</h2>
+    <p class="small">Same 36 food sources in each: seven hubs in central Tokyo plus 29 surrounding cities. Water is blank; ground above 250 m is excluded, as the paper did with light. Dashed track is a single point of failure: one break there cuts something off.</p>
+    <div class="mapkey" id="mapkey"></div>
+  </div>
+  <div class="maps" id="maps"></div>
+</section>
+
+<div class="col" style="margin-top:30px;">
+  <h2>Cost against the other two</h2>
+  <p class="small">Every network I scored, plotted against cost. Each dot of the slime model is one simulation; its lines join runs with the same γ as the inflow I₀ rises. Each blue line is one engineered family, from sparse to dense. Hover or tap any point for its numbers.</p>
+  <div class="chart" id="c-ft">
+    <h3>Fault tolerance</h3>
+    <div class="sub">Higher is better. Cost axis cut at 3.2× MST; all-operator heavy rail sits at 6.2× (FT 0.97).</div>
+    <div class="legend" id="lg-ft"></div>
+    <div class="plot" id="p-ft"></div>
+  </div>
+  <div class="chart" id="c-md">
+    <h3>Transport: mean route length</h3>
+    <div class="sub">Lower is better. The cheapest fault-proof ring is off the top at 1.72.</div>
+    <div class="legend" id="lg-md"></div>
+    <div class="plot" id="p-md"></div>
+  </div>
+
+  <h2>What came out</h2>
+  <div class="finding">
+    <h3>The model behaves as the paper says</h3>
+    <p>More inflow (I₀) grows loops: cost and fault tolerance rise, routes shorten. A stronger feedback nonlinearity (γ) pushes the network toward a tree. At γ = 2.2 with low inflow it settles on a tree <span class="num">0.6%</span> shorter than the minimum spanning tree, by meeting at junctions between cities, as a Steiner tree does. Across three random seeds the cost varies by up to 8%, and the paper's own one-pair-per-step dynamics land within about 10% of my averaged version on every measure.</p>
+  </div>
+  <div class="finding">
+    <h3>Measured honestly, JR scores worse than the paper's rail map</h3>
+    <p>The paper put the rail network at <span class="num">1.8</span> cost, <span class="num">0.85</span> transport and <span class="num">0.96</span> fault tolerance. Measured from the government track data on my map, the conventional JR lines that serve these places come to <span class="num" id="jr-num"></span>. Adding the Shinkansen raises fault tolerance to <span class="num" id="jrs-ft"></span>; all heavy rail, private lines included, reaches <span class="num" id="all-ft"></span> at <span class="num" id="all-tl"></span> the cost. The paper's map was a selection of lines. Which selection you draw moves every number.</p>
+  </div>
+  <div class="finding">
+    <h3>Several slime networks beat JR on all three at once</h3>
+    <p>Five of the 28 masked runs are cheaper, shorter to travel and better protected than the JR lines. The closest in spirit, at γ = 1.2 and I₀ = 0.6, costs <span class="num">1.54×</span> the tree against JR's <span class="num">2.25×</span>, with routes <span class="num">0.74</span> against <span class="num">0.80</span> and fault tolerance <span class="num">0.93</span> against <span class="num">0.85</span>.</p>
+  </div>
+  <div class="finding">
+    <h3>So do textbook heuristics, which is the real lesson</h3>
+    <p>A greedy spanner (add a direct link whenever the network detour exceeds 1.5× or 1.75×) also beats JR on all three, and so does the paper's own MST-plus-shortest-links family once it is dense enough. Beating a railway on length, average distance and single-break tolerance is easy. Those numbers do not see ridership, where people live, stations between the 36 points, gradients, speed, or a century of history. JR is built for those.</p>
+  </div>
+  <div class="finding">
+    <h3>Against the heuristics, the slime model is strong</h3>
+    <p>Below <span class="num">3×</span> the tree, 18 of 20 masked slime networks are beaten on all three measures by none of the 58 engineered networks. The exceptions are one degenerate tree and one high-γ run. The slime beats 11 engineered networks outright, mostly the MST-plus-links family. At equal cost it is far more robust: <span class="num">0.93</span> fault tolerance against <span class="num">0.71</span> at <span class="num">1.54×</span>.</p>
+  </div>
+  <div class="finding">
+    <h3>The paper's single score rewards a ring</h3>
+    <p>The paper summed up benefit per cost as α = FT ÷ cost. Its best simulation reached <span class="num">0.7</span>. The exact cheapest network that survives any single break, which I solved as an integer program, is essentially one loop through all 36 points: <span class="num">1.26×</span> the tree, α = <span class="num">0.79</span>, the highest of any network here. Routes on it are <span class="num">72%</span> longer than on the tree. Robustness per km means little without transport beside it, which is why the charts above keep all three. My bridge-covering heuristic adds, one at a time, the link that protects the most unprotected track per km. It reaches full fault tolerance at <span class="num">1.51×</span> with transport <span class="num">0.85</span>, beating both the paper's rail point and its best simulation.</p>
+  </div>
+
+  <h2>How it was built</h2>
+  <ul class="plain">
+    <li><b>Map.</b> A 1.5 km grid over the Kanto plain, 6,580 land nodes with links to their eight neighbours. Coastline from Natural Earth 10 m land. Lakes such as Kasumigaura come from bathymetry in the AWS terrain tiles (mean elevation below −1.5 m), since Natural Earth's lake layer has none here. Ground above 250 m is excluded. Runs without that mask came out nearly the same.</li>
+    <li><b>Food sources.</b> The paper does not list its 36 points, so these are my reconstruction. Tokyo is seven hubs, as in the paper's model (Tokyo, Shinjuku, Ikebukuro, Shibuya, Shinagawa, Ueno, Kinshichō stations), plus 29 cities from Odawara to Narita and Kumagaya to Kisarazu. Coordinates are from Wikipedia.</li>
+    <li><b>Model.</b> Flux through each tube follows the pressure drop, and each tube's conductivity relaxes toward a sigmoid of its flux:</li>
+  </ul>
+  <div class="eq">Q<sub>ij</sub> = D<sub>ij</sub>(p<sub>i</sub> − p<sub>j</sub>) / L<sub>ij</sub> &nbsp;·&nbsp; dD<sub>ij</sub>/dt = f(|Q<sub>ij</sub>|) − D<sub>ij</sub> &nbsp;·&nbsp; f(q) = q<sup>γ</sup> / (1 + q<sup>γ</sup>)</div>
+  <ul class="plain">
+    <li>The paper picks one random source and sink per step. With a small step that averages to the mean of f over all 630 pairs, which one sparse factorisation per step gives exactly. I checked three settings against the stochastic version. I swept γ over 1.2, 1.5, 1.8 and 2.2, and I₀ from 0.3 to 16, with and without the high-ground mask: 56 runs in all.</li>
+    <li><b>Railway.</b> MLIT National Land Numerical Information, railway sections N02 (2023). Lines drawn separately on a shared corridor are merged on a 100 m grid. Each food source snaps to its nearest station on the network being scored. Kasukabe and Tsukuba have no JR station; they snap 9 km and 10 km away for the JR variants. Spurs and loops that serve none of the 36 points are trimmed before scoring.</li>
+    <li><b>Fairness.</b> Grid paths run 5% longer than straight lines on average (measured over 448 land pairs), so rail figures, measured on true track geometry, are scaled up 5% to match. Engineered networks link city to city along land routes. The slime model and the railway can also join at junctions between cities, which helps them.</li>
+  </ul>
+
+  <h2>Limits</h2>
+  <ul class="plain">
+    <li>The point set differs from the paper's, so its numbers and mine are comparable in kind, not to the decimal. I₀ depends on mesh spacing and does not transfer from the paper.</li>
+    <li>Fault tolerance here counts one break at a random point on the track. The paper counts by link, a number that depends on how junctions are drawn. Both are in the table.</li>
+    <li>Mesh spacing barely matters: on a 1.0 km grid, the γ 1.2, I₀ 1 network comes out at <span class="num">1.76× · 0.71 · 0.99</span> against <span class="num">1.75× · 0.73 · 0.98</span> at 1.5 km. Three seeds at that setting span <span class="num">1.75–1.89×</span> in cost.</li>
+  </ul>
+
+  <details>
+    <summary>Every network, as a table</summary>
+    <div class="tablewrap"><table id="tbl"><thead><tr><th>Network</th><th>Setting</th><th>Cost</th><th>Transport</th><th>FT</th></tr></thead><tbody></tbody></table></div>
+  </details>
+
+  <footer>
+    <h3 style="margin-bottom:8px;">Sources</h3>
+    <ul class="plain small">
+      <li>Tero A. et al., <a href="https://doi.org/10.1126/science.1177894">Rules for biologically inspired adaptive network design</a>, Science 327, 439–442 (2010), and its supplementary figures S1–S2.</li>
+      <li>Ministry of Land, Infrastructure, Transport and Tourism, <a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N02-2023.html">National Land Numerical Information: railways (N02), 2023</a>.</li>
+      <li><a href="https://www.naturalearthdata.com/">Natural Earth</a> 10 m land; <a href="https://registry.opendata.aws/terrain-tiles/">AWS Terrain Tiles</a> (Terrarium) for elevation and lake bathymetry.</li>
+      <li>Code and data: <a href="https://github.com/fortniticusIII/Claude/tree/main/experiments/physarum-tokyo">fortniticusIII/Claude, experiments/physarum-tokyo</a>.</li>
+    </ul>
+  </footer>
+</div>
+</main>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+(() => {
+  const DATA = JSON.parse(document.getElementById("data").textContent);
+  const $ = id => document.getElementById(id);
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const f2 = v => v.toFixed(2);
+  const color = { physarum: "var(--slime)", engineered: "var(--eng)", rail: "var(--rail)" };
+
+  $("mstkm").textContent = `${DATA.mst_km} km`;
+  const P = DATA.points;
+  const rail = v => P.find(p => p.kind === "rail" && p.variant === v);
+  const jr = rail("jr"), jrs = rail("jr_shinkansen"), all = rail("all_heavy_rail");
+  $("jr-num").textContent = `${f2(jr.TL)}× · ${f2(jr.MD)} · ${f2(jr.FT)}`;
+  $("jrs-ft").textContent = f2(jrs.FT); $("all-ft").textContent = f2(all.FT); $("all-tl").textContent = `${f2(all.TL)}×`;
+
+  /* ---------- maps ---------- */
+  const X0 = -74, X1 = 78, Y0 = -68, Y1 = 74;   // km, projection centred on 35.70N 139.75E
+  const landD = DATA.land.map(r => "M" + r.map(([x, y]) => `${x},${-y}`).join("L") + "Z").join("");
+  const LABEL = { "Tokyo Station": "Tokyo", Yokohama: "Yokohama", Chiba: "Chiba", Odawara: "Odawara", Narita: "Narita", Kumagaya: "Kumagaya", Hachioji: "Hachiōji", Tsukuba: "Tsukuba", Kisarazu: "Kisarazu" };
+  const key = $("mapkey");
+  key.innerHTML = `<span><svg width="26" height="8"><line x1="1" y1="4" x2="25" y2="4" stroke="var(--ink-2)" stroke-width="2.4" stroke-linecap="round"/></svg>protected by a loop</span>
+    <span><svg width="26" height="8"><line x1="1" y1="4" x2="25" y2="4" stroke="var(--ink-2)" stroke-width="2.4" stroke-dasharray="4 3"/></svg>single point of failure</span>
+    <span><svg width="10" height="10"><circle cx="5" cy="5" r="3.5" fill="var(--ink)" stroke="var(--surface)" stroke-width="1.5"/></svg>food source</span>`;
+  DATA.maps.forEach((m, idx) => {
+    const card = document.createElement("figure"); card.className = "map"; card.style.margin = "0";
+    const svg = el("svg", { viewBox: `${X0} ${-Y1} ${X1 - X0} ${Y1 - Y0}`, role: "img", "aria-label": `${m.title}: network map` });
+    el("rect", { x: X0, y: -Y1, width: X1 - X0, height: Y1 - Y0, fill: "var(--water)" }, svg);
+    el("path", { d: landD, fill: "var(--land)", "fill-rule": "evenodd", stroke: "none" }, svg);
+    const c = color[m.kind];
+    for (const ln of m.lines) {
+      const d = "M" + ln.p.map(([x, y]) => `${x},${-y}`).join("L");
+      el("path", { d, class: "net", fill: "none", stroke: c, "stroke-width": m.kind === "rail" ? 1.7 : 2.1, "stroke-linecap": "round",
+        "stroke-linejoin": "round", "vector-effect": "non-scaling-stroke", ...(ln.b ? { "stroke-dasharray": "3 2.5" } : {}) }, svg);
+    }
+    for (const f of DATA.fs) {
+      const dot = el("circle", { cx: f.x, cy: -f.y, r: 1.5, fill: "var(--ink)", stroke: "var(--surface)", "stroke-width": 0.7 }, svg);
+      el("title", {}, dot).textContent = f.n;
+      if (idx === 0 && LABEL[f.n]) {
+        const t = el("text", { x: f.x + 2.4, y: -f.y + 1.2, "font-size": 4.6, fill: "var(--ink-2)", "font-family": "var(--mono)" }, svg);
+        t.textContent = LABEL[f.n];
+      }
+    }
+    card.appendChild(svg);
+    const cap = document.createElement("figcaption"); cap.style.display = "grid"; cap.style.gap = "4px";
+    cap.innerHTML = `<div class="t"><i style="background:${c}"></i>${m.title}</div><div class="s">${m.sub} · ${m.km.toLocaleString()} km</div>
+      <dl><div><dt>Cost</dt><dd>${f2(m.TL)}×</dd></div><div><dt>Transp.</dt><dd>${f2(m.MD)}</dd></div><div><dt>FT</dt><dd>${f2(m.FT)}</dd></div></dl>`;
+    card.appendChild(cap);
+    $("maps").appendChild(card);
+  });
+
+  /* ---------- charts ---------- */
+  const fam = p => p.kind === "physarum" ? "physarum" : p.kind === "rail" ? "rail" : "engineered";
+  const label = p => p.kind === "physarum" ? `Slime model · γ ${p.gamma}, I₀ ${p.I0}`
+    : p.kind === "rail" ? ({ jr: "Real JR lines", jr_shinkansen: "JR + Shinkansen", all_heavy_rail: "All heavy rail" })[p.variant]
+    : p.kind === "spanner" ? `Greedy spanner · detour ≤ ${p.t}×` : p.kind === "bridge_cover" ? `Bridge-covering · step ${p.step}`
+    : p.kind === "mst_plus" ? `MST + ${p.k} shortest links` : p.kind === "min_2ec" ? "Cheapest fault-proof ring"
+    : p.kind === "delaunay" ? "Delaunay triangulation" : "Minimum spanning tree";
+  const series = [];
+  for (const g of [1.2, 1.5, 1.8, 2.2]) series.push({ fam: "physarum", name: `γ ${g}`, pts: P.filter(p => p.kind === "physarum" && p.gamma === g).sort((a, b) => a.I0 - b.I0) });
+  series.push({ fam: "engineered", name: "spanner", pts: P.filter(p => p.kind === "spanner").sort((a, b) => a.TL - b.TL) });
+  series.push({ fam: "engineered", name: "bridge-covering", pts: P.filter(p => p.kind === "bridge_cover").sort((a, b) => a.TL - b.TL) });
+  series.push({ fam: "engineered", name: "MST + links", pts: P.filter(p => p.kind === "mst_plus").sort((a, b) => a.TL - b.TL) });
+  const singles = P.filter(p => ["min_2ec", "mst", "delaunay"].includes(p.kind));
+
+  function legend(id) {
+    $(id).innerHTML = `<span><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--slime)"/></svg>Slime model</span>
+      <span><svg width="12" height="12"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="var(--eng)"/></svg>Engineered</span>
+      <span><svg width="12" height="12"><path d="M6 1 L11 6 L6 11 L1 6Z" fill="var(--rail)"/></svg>Real railway</span>
+      <span><svg width="12" height="12"><path d="M6 1 L11 6 L6 11 L1 6Z" fill="none" stroke="var(--ref)" stroke-width="1.6"/></svg>Paper's figures</span>`;
+  }
+  function mark(svg, fam, x, y, r, extra = {}) {
+    if (fam === "physarum") return el("circle", { cx: x, cy: y, r, fill: color.physarum, stroke: "var(--surface)", "stroke-width": 2, ...extra }, svg);
+    if (fam === "engineered") return el("rect", { x: x - r, y: y - r, width: 2 * r, height: 2 * r, rx: 1.5, fill: color.engineered, stroke: "var(--surface)", "stroke-width": 2, ...extra }, svg);
+    const d = `M${x} ${y - r - 1.5}L${x + r + 1.5} ${y}L${x} ${y + r + 1.5}L${x - r - 1.5} ${y}Z`;
+    if (fam === "rail") return el("path", { d, fill: color.rail, stroke: "var(--surface)", "stroke-width": 2, ...extra }, svg);
+    return el("path", { d, fill: "var(--surface)", stroke: "var(--ref)", "stroke-width": 1.8, ...extra }, svg);
+  }
+
+  function draw(plotId, chartId, yKey, yMin, yMax, yTicks, yFmt, labels) {
+    const host = $(plotId); host.innerHTML = "";
+    const W = Math.max(300, host.clientWidth), H = Math.round(Math.min(420, Math.max(270, W * 0.62)));
+    const m = { l: 44, r: 14, t: 12, b: 38 }, xMin = 0.9, xMax = 3.2;
+    const sx = v => m.l + (v - xMin) / (xMax - xMin) * (W - m.l - m.r);
+    const sy = v => m.t + (1 - (v - yMin) / (yMax - yMin)) * (H - m.t - m.b);
+    const inX = p => p.TL >= xMin && p.TL <= xMax && p[yKey] >= yMin && p[yKey] <= yMax;
+    const svg = el("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": `${yKey} against cost` }, host);
+    for (const v of yTicks) {
+      el("line", { x1: m.l, x2: W - m.r, y1: sy(v), y2: sy(v), stroke: "var(--line)", "stroke-width": 1 }, svg);
+      el("text", { x: m.l - 7, y: sy(v) + 4, "text-anchor": "end", "font-size": 11, fill: "var(--muted)" }, svg).textContent = yFmt(v);
+    }
+    for (const v of [1, 1.5, 2, 2.5, 3]) {
+      el("line", { x1: sx(v), x2: sx(v), y1: H - m.b, y2: H - m.b + 4, stroke: "var(--muted)", "stroke-width": 1 }, svg);
+      el("text", { x: sx(v), y: H - m.b + 17, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)" }, svg).textContent = v + "×";
+    }
+    el("text", { x: W - m.r, y: H - 4, "text-anchor": "end", "font-size": 11, fill: "var(--muted)" }, svg).textContent = "cost, × minimum spanning tree";
+    // lines first, then marks
+    for (const s of series) {
+      const pts = s.pts.filter(inX); if (pts.length < 2) continue;
+      el("path", { d: "M" + pts.map(p => `${sx(p.TL)},${sy(p[yKey])}`).join("L"), fill: "none", stroke: color[s.fam],
+        "stroke-width": s.fam === "physarum" ? 1.5 : 2, "stroke-opacity": s.fam === "physarum" ? 0.55 : 0.8, "stroke-linejoin": "round" }, svg);
+    }
+    const hits = [];
+    const addHit = (p, x, y, famName) => hits.push({ p, x, y, fam: famName });
+    for (const s of series) for (const p of s.pts) if (inX(p)) { const x = sx(p.TL), y = sy(p[yKey]); mark(svg, s.fam, x, y, s.fam === "physarum" ? 4 : 3.5); addHit(p, x, y, s.fam); }
+    for (const p of singles) if (inX(p)) { const x = sx(p.TL), y = sy(p[yKey]); mark(svg, "engineered", x, y, 4); addHit(p, x, y, "engineered"); }
+    for (const p of P.filter(p => p.kind === "rail")) if (inX(p)) { const x = sx(p.TL), y = sy(p[yKey]); mark(svg, "rail", x, y, 5); addHit(p, x, y, "rail"); }
+    const paper = DATA.paper.rail; { const x = sx(paper.TL), y = sy(paper[yKey]); mark(svg, "ref", x, y, 5);
+      hits.push({ p: { ...paper, kind: "paper" }, x, y, fam: "ref" }); }
+    // direct labels (text tokens, never series color)
+    for (const [txt, x, y, anchor, dy] of labels(sx, sy, W < 520)) {
+      el("text", { x, y: y + (dy || 0), "text-anchor": anchor || "start", "font-size": 11, fill: "var(--ink-2)", "paint-order": "stroke",
+        stroke: "var(--surface)", "stroke-width": 3, "stroke-linejoin": "round" }, svg).textContent = txt;
+    }
+    // hover / tap
+    const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; $(chartId).appendChild(tip);
+    const overlay = el("rect", { x: 0, y: 0, width: W, height: H, fill: "transparent" }, svg);
+    const ring = el("circle", { r: 8, fill: "none", stroke: "var(--ink)", "stroke-width": 1.5, visibility: "hidden" }, svg);
+    function show(ev) {
+      const b = svg.getBoundingClientRect(); const mx = (ev.clientX - b.left) * W / b.width, my = (ev.clientY - b.top) * H / b.height;
+      let best = null, bd = 22 * 22;
+      for (const h of hits) { const d = (h.x - mx) ** 2 + (h.y - my) ** 2; if (d < bd) { bd = d; best = h; } }
+      if (!best) { tip.hidden = true; ring.setAttribute("visibility", "hidden"); return; }
+      const p = best.p; ring.setAttribute("cx", best.x); ring.setAttribute("cy", best.y); ring.setAttribute("visibility", "visible");
+      const name = p.kind === "paper" ? "Paper's rail map (2010)" : label(p);
+      tip.innerHTML = `${name}<br>cost ${f2(p.TL)}× · transport ${f2(p.MD)} · FT ${f2(p.FT)}`;
+      tip.hidden = false;
+      const cb = $(chartId).getBoundingClientRect();
+      const px = b.left - cb.left + best.x * b.width / W, py = b.top - cb.top + best.y * b.height / H;
+      const tw = tip.offsetWidth; tip.style.left = Math.max(6, Math.min(cb.width - tw - 6, px - tw / 2)) + "px";
+      tip.style.top = (py - tip.offsetHeight - 12 < 0 ? py + 14 : py - tip.offsetHeight - 12) + "px";
+    }
+    overlay.addEventListener("pointermove", show); overlay.addEventListener("pointerdown", show);
+    overlay.addEventListener("pointerleave", () => { tip.hidden = true; ring.setAttribute("visibility", "hidden"); });
+  }
+
+  const ring = P.find(p => p.kind === "min_2ec"), bc = P.filter(p => p.kind === "bridge_cover").sort((a, b) => b.step - a.step)[0];
+  const sp15 = P.find(p => p.kind === "spanner" && p.t === 1.5);
+  const g12 = P.find(p => p.kind === "physarum" && p.gamma === 1.2 && p.I0 === 1.0);
+  function render() {
+    legend("lg-ft"); legend("lg-md");
+    draw("p-ft", "c-ft", "FT", 0, 1.02, [0, 0.25, 0.5, 0.75, 1], v => v.toFixed(2), (sx, sy, narrow) => [
+      ["JR", sx(jr.TL) + 9, sy(jr.FT) + 4], ["JR + Shinkansen", sx(jrs.TL), sy(jrs.FT) + 18, "middle"],
+      ...(narrow ? [] : [["paper's rail map", sx(1.8) + 9, sy(0.96) + 16], ["ring", sx(ring.TL) - 8, sy(ring.FT) - 8, "end"]]),
+      ["bridge-covering", sx(1.27) - 8, sy(0.86) + 4, "end"], ["MST + links", sx(1.63) + 8, sy(0.73) + 16],
+      ["slime γ 1.2", sx(g12.TL) + 8, sy(g12.FT) - 9, "middle"]]);
+    draw("p-md", "c-md", "MD", 0.6, 1.2, [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2], v => v.toFixed(1), (sx, sy, narrow) => [
+      ["JR", sx(jr.TL) + 9, sy(jr.MD) + 4], ["JR + Shinkansen", sx(jrs.TL), sy(jrs.MD) - 10, "middle"],
+      ...(narrow ? [] : [["paper's rail map", sx(1.8) + 9, sy(0.85) - 8]]),
+      ["bridge-covering", sx(1.3), sy(0.86) - 9, "middle"], ["slime γ 1.2", sx(1.58), sy(0.715) + 4, "middle"]]);
+  }
+  render();
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
+
+  /* ---------- table ---------- */
+  const tb = document.querySelector("#tbl tbody");
+  const order = { rail: 0, physarum: 1, spanner: 2, bridge_cover: 3, mst_plus: 4, min_2ec: 5, mst: 6, delaunay: 7 };
+  const rows = [...P].sort((a, b) => (order[a.kind] - order[b.kind]) || (a.TL - b.TL));
+  for (const p of rows) {
+    const name = p.kind === "physarum" ? "Slime model" : label(p).split(" · ")[0];
+    const set = p.kind === "physarum" ? `γ ${p.gamma}, I₀ ${p.I0}` : p.kind === "spanner" ? `detour ≤ ${p.t}×` : p.kind === "bridge_cover" ? `step ${p.step}` : p.kind === "mst_plus" ? `+${p.k} links` : "";
+    const tr = document.createElement("tr"); tr.innerHTML = `<td>${name}</td><td>${set}</td><td>${f2(p.TL)}×</td><td>${f2(p.MD)}</td><td>${f2(p.FT)}</td>`; tb.appendChild(tr);
+  }
+  const tr = document.createElement("tr"); tr.innerHTML = `<td>Paper's rail map</td><td>Tero 2010</td><td>1.80×</td><td>0.85</td><td>0.96</td>`; tb.appendChild(tr);
+  if (DATA.mesh_check) $("meshnote").textContent = DATA.mesh_check;
+})();
+</script>
