@@ -102,7 +102,7 @@ footer { color: var(--muted); font-size: 14px; }
   <div class="eyebrow">Replication notebook · October 12, 2026</div>
   <h1>Tokyo Slime Mold Rerun</h1>
   <p class="lede">In 2010, Tero and colleagues set oat flakes on a map of 36 places around Tokyo and let the slime mold <em>Physarum polycephalum</em> connect them. They reported a network about as cheap, efficient and fault tolerant as the region's railway, and a simple flow model that does the same. I rebuilt that model on a real coastline and terrain. I measured the actual JR network from Japan's national rail dataset on the same map, and set both against textbook ways of designing a network.</p>
-  <p>The model reproduces the paper's behaviour. On the paper's three measures, it beats the real JR network outright at several settings. So do two plain engineering heuristics. That says less about the slime than about the measures. They leave out what a railway is for. Against the heuristics, though, the slime model holds its own.</p>
+  <p>The model reproduces the paper's behaviour. On the paper's three measures, it beats the real JR network outright at several settings. So do two plain engineering heuristics. That says less about the slime than about the measures. They leave out what a railway is for, and a follow-up pins that down: the people living along the track, not the trips between the 36 points. Against the heuristics, the slime model holds its own.</p>
 
   <div class="measures" aria-label="The three measures">
     <div><b>COST · TL / MST</b><span>Total track length, as a multiple of the minimum spanning tree (the shortest network joining all 36 points). <span class="num" id="mstkm"></span> here.</span></div>
@@ -151,7 +151,7 @@ footer { color: var(--muted); font-size: 14px; }
   </div>
   <div class="finding">
     <h3>So do textbook heuristics, which is the real lesson</h3>
-    <p>A greedy spanner (add a direct link whenever the network detour exceeds 1.5× or 1.75×) also beats JR on all three, and so does the paper's own MST-plus-shortest-links family once it is dense enough. Beating a railway on length, average distance and single-break tolerance is easy. Those numbers do not see ridership, where people live, stations between the 36 points, gradients, speed, or a century of history. JR is built for those.</p>
+    <p>A greedy spanner (add a direct link whenever the network detour exceeds 1.5× or 1.75×) also beats JR on all three, and so does the paper's own MST-plus-shortest-links family once it is dense enough. Beating a railway on length, average distance and single-break tolerance is easy. Those numbers leave out what a railway is built for; the follow-up below tests what that is.</p>
   </div>
   <div class="finding">
     <h3>Against the heuristics, the slime model is strong</h3>
@@ -161,6 +161,27 @@ footer { color: var(--muted); font-size: 14px; }
     <h3>The paper's single score rewards a ring</h3>
     <p>The paper summed up benefit per cost as α = FT ÷ cost. Its best simulation reached <span class="num">0.7</span>. The exact cheapest network that survives any single break, which I solved as an integer program, is essentially one loop through all 36 points: <span class="num">1.26×</span> the tree, α = <span class="num">0.79</span>, the highest of any network here. Routes on it are <span class="num">72%</span> longer than on the tree. Robustness per km means little without transport beside it, which is why the charts above keep all three. My bridge-covering heuristic adds, one at a time, the link that protects the most unprotected track per km. It reaches full fault tolerance at <span class="num">1.51×</span> with transport <span class="num">0.85</span>. That beats the paper's rail point on all three measures and comes close to its best simulation: α = <span class="num">0.66</span> against <span class="num">0.7</span> at the same transport.</p>
   </div>
+
+  <h2>Follow-up: what the measures miss</h2>
+  <p class="small">I gave each food source a catchment from the 2015 census and reran the model with traffic weighted by population, then measured three more things: how much of each network runs within 2.5 km of real JR track, average trip length weighted by how many people make each trip, and how many people live within 2 km of the track.</p>
+  <div class="finding">
+    <h3>Weighting by population does not make the slime more like JR</h3>
+    <p>Drawing source and sink in proportion to their catchments, with or without a distance penalty, barely changes the networks. Their overlap with JR track falls slightly, to <span class="num">0.56–0.59</span> against <span class="num">0.58–0.63</span> unweighted over the same cost range (overlap here is the F1 score of track within 2.5 km either way). Most overlap is geography: even the minimum spanning tree runs within 2.5 km of JR track for two-thirds of its length.</p>
+  </div>
+  <div class="finding">
+    <h3>Trips weighted by population do not favour JR either</h3>
+    <p>Counting each trip by the number of people at both ends, JR's mean route improves from <span class="num">0.80</span> to <span class="num">0.77</span> of the tree's. The slime and spanner networks improve by <span class="num">0.01–0.02</span>, so their lead narrows a little but stands (<span class="num">0.73</span> for the rail-like slime run).</p>
+  </div>
+  <div class="finding">
+    <h3>JR wins on the people along the way</h3>
+    <p>Of the 39.1 million people inside the map, <span class="num">20.8 million</span> (53%) live within 2 km of the JR lines. A slime network of the same length reaches <span class="num">16.0 million</span> (41%). The JR lines follow the dense corridors between the 36 points, and the paper's measures only count the points.</p>
+  </div>
+  <div class="tablewrap"><table style="min-width:420px"><thead><tr><th>Network near JR's length</th><th></th><th>Cost</th><th>People within 2 km</th><th>Share</th></tr></thead><tbody>
+    <tr><td>Real JR lines</td><td></td><td>2.25×</td><td>20.8 M</td><td>53%</td></tr>
+    <tr><td>Greedy spanner</td><td>detour ≤ 1.4×</td><td>2.53×</td><td>20.1 M</td><td>51%</td></tr>
+    <tr><td>Slime model</td><td>γ 1.5, I₀ 4</td><td>2.27×</td><td>16.0 M</td><td>41%</td></tr>
+    <tr><td>Greedy spanner</td><td>detour ≤ 1.5×</td><td>2.16×</td><td>16.9 M</td><td>43%</td></tr>
+  </tbody></table></div>
 
   <h2>How it was built</h2>
   <ul class="plain">
@@ -172,6 +193,7 @@ footer { color: var(--muted); font-size: 14px; }
   <ul class="plain">
     <li>The paper picks one random source and sink per step. With a small step that averages to the mean of f over all 630 pairs, which one sparse factorisation per step gives exactly. I checked three settings against the stochastic version. I swept γ over 1.2, 1.5, 1.8 and 2.2, and I₀ from 0.3 to 16, with and without the high-ground mask: 56 runs in all.</li>
     <li><b>Railway.</b> MLIT National Land Numerical Information, railway sections N02 (2023). Lines drawn separately on a shared corridor are merged on a 100 m grid. Each food source snaps to its nearest station on the network being scored. Kasukabe and Tsukuba have no JR station; they snap 9 km and 10 km away for the JR variants. Spurs and loops that serve none of the 36 points are trimmed before scoring.</li>
+    <li><b>Population.</b> The 2015 census on the national 1 km grid (MLIT mesh1000h30, field PTN_2015). Each populated cell joins its nearest food source by land distance, up to 20 km away: 37.2 million of the 39.1 million people inside the map. Weighted runs average over source–sink pairs in proportion to the product of their catchments, or that product divided by land distance.</li>
     <li><b>Fairness.</b> Grid paths run 5% longer than straight lines on average (measured over 448 land pairs), so rail figures, measured on true track geometry, are scaled up 5% to match. Without that correction JR comes to <span class="num">2.14× · 0.76 · 0.85</span>, and four of the five slime runs still beat it on all three. Engineered networks link city to city along land routes. The slime model and the railway can also join at junctions between cities, which helps them.</li>
   </ul>
 
@@ -192,6 +214,7 @@ footer { color: var(--muted); font-size: 14px; }
     <ul class="plain small">
       <li>Tero A. et al., <a href="https://doi.org/10.1126/science.1177894">Rules for biologically inspired adaptive network design</a>, Science 327, 439–442 (2010), and its supplementary figures S1–S2.</li>
       <li>Ministry of Land, Infrastructure, Transport and Tourism, <a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N02-2023.html">National Land Numerical Information: railways (N02), 2023</a>.</li>
+      <li>MLIT, <a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-mesh1000h30.html">1 km mesh population estimates (2018), 2015 census base</a>.</li>
       <li><a href="https://www.naturalearthdata.com/">Natural Earth</a> 10 m land; <a href="https://registry.opendata.aws/terrain-tiles/">AWS Terrain Tiles</a> (Terrarium) for elevation and lake bathymetry.</li>
       <li>Code and data: <a href="https://github.com/fortniticusIII/Claude/tree/main/experiments/physarum-tokyo">fortniticusIII/Claude, experiments/physarum-tokyo</a>.</li>
     </ul>

@@ -92,7 +92,7 @@ def evaluate(G, terminals, return_graph=False):
         out["graph"] = G; out["bridge_links"] = bridges; out["links_graph"] = H
     return out
 
-def physarum_graph(m, D, thr=1e-3):
+def physarum_graph(m, D, thr=1e-3):  # thr: conductance below which a tube counts as gone
     e = m["edges"]; alive = D > thr
     G = nx.Graph()
     G.add_weighted_edges_from((int(a), int(b), float(l)) for (a, b), l in zip(e[alive], m["L"][alive]))

@@ -16,6 +16,14 @@ The paper says *Physarum* and its flow model build networks comparable to the To
 - The paper's alpha = FT/TL is gamed by the exact min-cost 2-edge-connected network (a near-ring: 1.26, MD 1.72, FT 1, alpha 0.79, best of all). Greedy bridge-covering reaches FT 1 at TL 1.51 with MD 0.85: it beats the paper's rail point on all three and comes close to the paper's best simulation (alpha 0.66 vs 0.7 at the same MD).
 - Robustness: 3 seeds vary TL by up to 8%; the stochastic one-pair-per-step dynamics land within ~10% on every measure; a 1.0 km mesh gives 1.76/0.71/0.99 vs 1.75/0.73/0.98 at 1.5 km.
 
+## Follow-up (same day): what do the measures miss?
+
+- Catchments: 2015 census 1 km grid (MLIT mesh1000h30, PTN_2015), each cell to its nearest food source by land distance up to 20 km (`catchment.py`, `catchments.json`; 37.2M of 39.1M people in the box).
+- Population-weighted runs (`wsweep.py`; pairs weighted by P_s*P_t, or divided by land distance) barely change the networks and do not raise overlap with JR (F1 within 2.5 km: 0.56-0.59 weighted vs 0.58-0.63 unweighted at 1.4-2.0x). Even the MST runs within 2.5 km of JR for 66% of its length.
+- Demand-weighted mean route (`analyze2.py`): JR 0.80 -> 0.77, slime and spanners improve 0.01-0.02; their lead stands.
+- Coverage (`coverage.py`, `cov2.py`): people within 2 km of track. JR 20.8M (53%) at 2.25x; slime 16.0M (41%) at 2.27x; spanner t=1.4 20.1M at 2.53x. The paper's measures miss the corridors between the 36 points.
+- `pip install pyshp` (via the proxy, see the work log lessons) to read the census DBFs. Wikidata/Wikipedia APIs were rate-limited (429) from this IP; MLIT's own grid was the better source anyway.
+
 ## Files
 
 - `mesh.py` land mesh (Natural Earth land, lakes from bathymetry < -1.5 m, optional elevation mask); `cities.py`, `cities.json` the 36 food sources (7 Tokyo hubs + 29 cities, my reconstruction).

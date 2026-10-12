@@ -12,7 +12,8 @@ def incidence(edges, n):
     r = np.repeat(np.arange(E), 2); c = edges.ravel(); v = np.tile([1.0, -1.0], E)
     return sp.csr_matrix((v, (r, c)), shape=(E, n))
 
-def run(m, I0=1.0, gamma=1.8, dt=0.2, T=300.0, seed=0, Dmin=1e-9, noise=0.2, log_every=None, tol=1e-6):
+def run(m, I0=1.0, gamma=1.8, dt=0.2, T=300.0, seed=0, Dmin=1e-9, noise=0.2, log_every=None, tol=1e-6, w=None):
+    """w: optional FS x FS pair weights (e.g. population products); default treats every pair equally."""
     rng = np.random.default_rng(seed)
     n = len(m["xy"]); edges = m["edges"]; L = m["L"]; fs = np.asarray(m["fs"])
     B = incidence(edges, n); BT = B.T.tocsr()
@@ -23,6 +24,8 @@ def run(m, I0=1.0, gamma=1.8, dt=0.2, T=300.0, seed=0, Dmin=1e-9, noise=0.2, log
     for k, f in enumerate(fs):
         if f != ref: rhs[pos[f], k] = 1.0
     npair = len(fs) * (len(fs) - 1) // 2
+    if w is not None:
+        w = np.asarray(w, float); npair = np.triu(w, 1).sum()
     hist = []; t = 0.0; t0 = time.time(); steps = int(round(T / dt))
     full_nodes = np.arange(n)
     for step in range(steps):
@@ -50,7 +53,8 @@ def run(m, I0=1.0, gamma=1.8, dt=0.2, T=300.0, seed=0, Dmin=1e-9, noise=0.2, log
         for s in range(len(fs) - 1):
             q = np.abs(G[:, s:s + 1] - G[:, s + 1:])
             qg = q ** gamma
-            acc += (qg / (1.0 + qg)).sum(axis=1)
+            fq = qg / (1.0 + qg)
+            acc += fq.sum(axis=1) if w is None else fq @ w[s, s + 1:]
         F = np.zeros(len(edges)); F[act] = acc / npair
         Dn = np.maximum(D + dt * (F - D), Dmin)
         change = np.abs(Dn - D).max(); D = Dn; t += dt

@@ -1,0 +1,132 @@
+{
+ "radius_km": 2.0,
+ "total_M": 39.06,
+ "rows": [
+  {
+   "label": "MST",
+   "TLn": 1.0,
+   "people_M": 10.65,
+   "share": 0.273,
+   "per_km": 22012
+  },
+  {
+   "label": "spanner t=2.0",
+   "TLn": 1.47,
+   "people_M": 14.45,
+   "share": 0.37,
+   "per_km": 20287
+  },
+  {
+   "label": "spanner t=1.75",
+   "TLn": 1.62,
+   "people_M": 14.88,
+   "share": 0.381,
+   "per_km": 18956
+  },
+  {
+   "label": "spanner t=1.5",
+   "TLn": 2.16,
+   "people_M": 16.91,
+   "share": 0.433,
+   "per_km": 16205
+  },
+  {
+   "label": "slime equal g=1.2 I0=0.6",
+   "TLn": 1.54,
+   "people_M": 14.36,
+   "share": 0.368,
+   "per_km": 19259
+  },
+  {
+   "label": "slime equal g=1.2 I0=1.0",
+   "TLn": 1.75,
+   "people_M": 15.59,
+   "share": 0.399,
+   "per_km": 18390
+  },
+  {
+   "label": "slime equal g=1.5 I0=2.0",
+   "TLn": 1.64,
+   "people_M": 14.75,
+   "share": 0.378,
+   "per_km": 18627
+  },
+  {
+   "label": "slime pop g=1.2 I0=0.6",
+   "TLn": 1.7,
+   "people_M": 15.16,
+   "share": 0.388,
+   "per_km": 18466
+  },
+  {
+   "label": "slime pop g=1.2 I0=1.0",
+   "TLn": 1.87,
+   "people_M": 15.43,
+   "share": 0.395,
+   "per_km": 17090
+  },
+  {
+   "label": "slime pop g=1.5 I0=2.0",
+   "TLn": 1.59,
+   "people_M": 13.42,
+   "share": 0.344,
+   "per_km": 17400
+  },
+  {
+   "label": "rail jr",
+   "TLn": 2.25,
+   "people_M": 20.75,
+   "share": 0.531,
+   "per_km": 19057
+  },
+  {
+   "label": "rail jr_shinkansen",
+   "TLn": 2.79,
+   "people_M": 21.86,
+   "share": 0.56,
+   "per_km": 16171
+  },
+  {
+   "label": "rail all_heavy_rail",
+   "TLn": 6.17,
+   "people_M": 33.34,
+   "share": 0.854,
+   "per_km": 11164
+  },
+  {
+   "label": "slime equal g=1.5 I0=4.0",
+   "TLn": 2.27,
+   "people_M": 15.95,
+   "share": 0.408,
+   "per_km": 14538
+  },
+  {
+   "label": "slime equal g=1.8 I0=4.0",
+   "TLn": 1.94,
+   "people_M": 14.12,
+   "share": 0.361,
+   "per_km": 15020
+  },
+  {
+   "label": "slime pop g=1.8 I0=4.0",
+   "TLn": 2.08,
+   "people_M": 14.46,
+   "share": 0.37,
+   "per_km": 14393
+  },
+  {
+   "label": "slime gravity g=1.8 I0=4.0",
+   "TLn": 2.13,
+   "people_M": 14.65,
+   "share": 0.375,
+   "per_km": 14179
+  },
+  {
+   "label": "spanner t=1.4",
+   "TLn": 2.53,
+   "people_M": 20.11,
+   "share": 0.515,
+   "per_km": 16444
+  }
+ ]
+}
