@@ -9,11 +9,11 @@ The paper says *Physarum* and its flow model build networks comparable to the To
 ## Findings (mask = ground above 250 m excluded)
 
 - The model reproduces the paper's trade-off: I0 up means more loops, cost and FT; gamma up pushes toward a tree. At gamma 2.2 and low I0 it finds a tree 0.6% shorter than the MST (Steiner junctions).
-- Real JR conventional lines on this map: TL 2.25, MD 0.80, FT 0.85 (with 5% grid correction). The paper's rail map: 1.8, 0.85, 0.96. JR + Shinkansen: 2.79, 0.79, 0.92. All heavy rail: 6.17, 0.76, 0.97.
+- Real JR conventional lines on this map: TL 2.25, MD 0.80, FT 0.85 (with 5% grid correction; 2.14, 0.76, 0.85 without it, and 4 of the 5 slime runs still dominate). The paper's rail map: 1.8, 0.85, 0.96. JR + Shinkansen: 2.79, 0.79, 0.92. All heavy rail: 6.17, 0.76, 0.97.
 - 5 of 28 masked slime runs beat JR on all three at once, e.g. gamma 1.2, I0 0.6: 1.54, 0.74, 0.93.
 - Greedy spanners (t = 1.5, 1.75) and dense MST+links also beat JR on all three. The three measures ignore demand, intermediate stations, gradients and history.
 - Below 3x MST, 18 of 20 masked slime networks are not dominated by any of 58 engineered networks; the slime dominates 11 of them (mostly MST+links, where it wins on FT at equal cost).
-- The paper's alpha = FT/TL is gamed by the exact min-cost 2-edge-connected network (a near-ring: 1.26, MD 1.72, FT 1, alpha 0.79, best of all). Greedy bridge-covering reaches FT 1 at TL 1.51 with MD 0.85, beating the paper's rail point and best simulation.
+- The paper's alpha = FT/TL is gamed by the exact min-cost 2-edge-connected network (a near-ring: 1.26, MD 1.72, FT 1, alpha 0.79, best of all). Greedy bridge-covering reaches FT 1 at TL 1.51 with MD 0.85: it beats the paper's rail point on all three and comes close to the paper's best simulation (alpha 0.66 vs 0.7 at the same MD).
 - Robustness: 3 seeds vary TL by up to 8%; the stochastic one-pair-per-step dynamics land within ~10% on every measure; a 1.0 km mesh gives 1.76/0.71/0.99 vs 1.75/0.73/0.98 at 1.5 km.
 
 ## Files
