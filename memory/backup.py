@@ -13,7 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-KEEP = ("protocol", "lessons", "tools", "self")
+KEEP = ("protocol", "lessons", "tools", "self", "craft")
 HERE = Path(__file__).resolve().parent
 
 

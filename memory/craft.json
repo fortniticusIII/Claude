@@ -1,0 +1,11 @@
+{
+  "items": [
+    "Find with WebSearch; read with kit. Exact figures, dates and short quotes come from the source text (kit.web.page/pdf) or the publisher's data (kit.data), not from a WebFetch summary or memory.",
+    "Official numbers from the publisher over articles about them. Note each number's date or vintage (FRED and IMF series revise; IMF includes projections).",
+    "Orient on a research topic with scholar.landmarks before reading the newest work. For ML and much of CS the landmarks lack DOIs: name them with WebSearch, then read them with scholar.arxiv.",
+    "End research answers with the Sources that were actually used (kit.sources(), trimmed). Quote counts as 'N citations per Crossref' or 'per Europe PMC'; they differ.",
+    "Before publishing any page: python3 -m kit.qa page.html (with --mock for db pages). Fix every FAIL, judge each WARN, Read the phone screenshot, and check every line of numbers.txt against saved results.",
+    "Say what I couldn't check (rate limit, refusal, missing key) instead of filling the gap from memory."
+  ],
+  "note": "How I make outputs good. Read before research, data or publishing work."
+}

@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a plumbing schedule. Summary line, then one section per route type (shell, web fetch, built-in tools), then what's blocked. Each route is a row: name and status on the left, what it carries and how to call it on the right. */
+/* Layout: a plumbing schedule. Summary line, setup box, then one section per route type (research kit grouped by subject, shell, web fetch, built-in tools), then what's blocked. Each route is a row: name and status on the left, what it carries and how to call it on the right. */
 :root {
   --bg: #f2f4f7;
   --surface: #ffffff;
@@ -56,8 +56,8 @@ section.kind > .lead { color: var(--muted); margin-bottom: 8px; max-width: 64ch;
 .pill.blocked { color: var(--bad); }
 
 .snip { position: relative; background: var(--code-bg); border-radius: 8px; min-width: 0; }
-.snip pre { margin: 0; padding: 10px 64px 10px 12px; overflow-x: auto; line-height: 1.5; white-space: pre; }
-.copy { position: absolute; top: 6px; right: 6px; font: 500 11px var(--mono); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
+.snip pre { margin: 0; padding: 11px 68px 11px 12px; min-height: 40px; box-sizing: border-box; overflow-x: auto; line-height: 1.5; white-space: pre; }
+.copy { position: absolute; top: 4px; right: 4px; font: 500 11px var(--mono); padding: 4px 10px; min-height: 32px; min-width: 52px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; }
 .copy:hover { color: var(--fg); }
 
 .blocked-list { display: grid; gap: 0; }
@@ -65,6 +65,7 @@ section.kind > .lead { color: var(--muted); margin-bottom: 8px; max-width: 64ch;
 .blocked-list .row .name { font-family: var(--mono); font-size: 13px; overflow-wrap: anywhere; }
 .blocked-list .row p { color: var(--muted); font-size: 14px; }
 
+h3.group { font-family: var(--mono); font-weight: 500; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 18px 0 2px; }
 .empty { border: 1px dashed var(--line); border-radius: 10px; padding: 18px; color: var(--muted); line-height: 1.5; }
 
 @media (max-width: 560px) {
@@ -76,17 +77,19 @@ section.kind > .lead { color: var(--muted); margin-bottom: 8px; max-width: 64ch;
 <div class="wrap">
   <header>
     <h1>Data Desk</h1>
-    <p class="sub">Every route I have for getting real data into my workspace, tested and kept current. My shell sits behind an egress allowlist, so this records what actually works, how to call it, and what's off limits.</p>
+    <p class="sub">Every route I have for getting real data into my workspace, tested and kept current: my research kit for papers, statistics and source text, the GitHub-hosted datasets, and what's off limits. Statuses come from live probes.</p>
   </header>
 
   <div class="tally" id="tally"><span>Loading routes…</span></div>
 
   <div class="get">
-    <h2>Helper library</h2>
-    <p>Load <code>desk.py</code> into any session, then call sources by name. It caches clones and downloads and reads them into pandas.</p>
-    <div class="snip"><pre id="get-snip">Artifact read  url=&lt;this page&gt;  path="desk.py"
-import sys; sys.path.insert(0, "&lt;folder it was saved to&gt;"); import desk
-df = desk.load("brent_daily")</pre><button class="copy" type="button" data-for="get-snip">Copy</button></div>
+    <h2>Set up in any session</h2>
+    <p>Clone my repo and run the bootstrap: it installs the extras, checks every source live, and prints the import line. <code>kit.help()</code> lists every call; <code>kit.sources()</code> prints a Sources list of what the session used.</p>
+    <div class="snip"><pre id="get-snip">git clone --depth 1 https://github.com/fortniticusIII/claude /home/claude/claude
+bash /home/claude/claude/bootstrap.sh
+import sys; sys.path.insert(0, "/home/claude/claude"); import kit
+from kit import scholar, data, web, lookup, qa</pre><button class="copy" type="button" data-for="get-snip">Copy</button></div>
+    <p>Before publishing any page: <code>python3 -m kit.qa page.html</code> renders it at phone and desktop widths in both themes and flags overflow, script errors, contrast, tap targets and artifact-contract breaks, and lists every figure on the page to check against its source.</p>
   </div>
 
   <main id="routes">
@@ -99,7 +102,8 @@ df = desk.load("brent_daily")</pre><button class="copy" type="button" data-for="
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const KINDS = [
-    { id: 'shell', title: 'From my shell', lead: 'Public GitHub repos and release files, fetched by git or a plain download and cached. Best for analysis: full datasets, real code.' },
+    { id: 'kit', title: 'Research kit', lead: 'Live APIs and source text through kit/ in my repo: polite, cached, and logged so every figure can be cited. Grouped by what they answer.' },
+    { id: 'shell', title: 'From my shell', lead: 'Datasets, files and code fetched directly: GitHub repos and releases (desk.py), raw files, package registries and the open web.' },
     { id: 'fetch', title: 'Through web fetch', lead: 'Pages and small JSON APIs read with WebFetch. Exact for short responses; long pages come back summarized.' },
     { id: 'tool', title: 'Built-in tools', lead: 'Structured data tools I can call directly in a chat.' },
     { id: 'blocked', title: 'Off limits', lead: 'Tested and refused. These are policy, not bugs: report them, never route around them.' }
@@ -121,7 +125,17 @@ df = desk.load("brent_daily")</pre><button class="copy" type="button" data-for="
         return `<section class="kind"><h2>${k.title}</h2><p class="lead">${k.lead}</p><div class="blocked-list">${rs.map(r =>
           `<div class="row"><span class="name">${esc(r.name)}</span><p>${esc(r.what || '')}${r.note ? ' ' + esc(r.note) : ''}</p></div>`).join('')}</div></section>`;
       }
-      return `<section class="kind"><h2>${k.title}</h2><p class="lead">${k.lead}</p>${rs.map(r => `
+      if (k.id === 'kit') {
+        const groups = [...new Set(rs.map(r => r.group || 'Other'))];
+        return `<section class="kind"><h2>${k.title}</h2><p class="lead">${k.lead}</p>${groups.map(g =>
+          `<h3 class="group">${esc(g)}</h3>${rs.filter(r => (r.group || 'Other') === g).map(row).join('')}`).join('')}</section>`;
+      }
+      return `<section class="kind"><h2>${k.title}</h2><p class="lead">${k.lead}</p>${rs.map(row).join('')}</section>`;
+    }).join('');
+  }
+
+  function row(r) {
+    return `
         <article class="route">
           <div class="id"><span class="name">${esc(r.name)}</span><span class="pill ${esc(r.status || 'ok')}">${esc(r.status || 'ok')}</span></div>
           <div class="body">
@@ -130,8 +144,7 @@ df = desk.load("brent_daily")</pre><button class="copy" type="button" data-for="
             ${r.note ? `<p class="note">${esc(r.note)}</p>` : ''}
             <span class="meta">${[r.freshness, r.latest ? 'latest ' + r.latest : '', r.tested ? 'tested ' + r.tested : ''].filter(Boolean).map(esc).join(' · ')}</span>
           </div>
-        </article>`).join('')}</section>`;
-    }).join('');
+        </article>`;
   }
 
   document.addEventListener('click', async e => {

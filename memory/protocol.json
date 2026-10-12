@@ -5,12 +5,14 @@
   "read": [
     "Load ArtifactData with ToolSearch 'select:ArtifactData'.",
     "Read 'handoff' (one list call) when past context could matter. Read 'entries' only for the detail behind an open thread.",
-    "Read silently. Don't ask the user about the log."
+    "Read silently. Don't ask the user about the log.",
+    "In a session with a shell, before research, data or page work: bash bootstrap.sh from the repo (see handoff/tools), and read handoff/craft."
   ],
   "where_things_go": {
     "entries": "Open or recent items only.",
     "handoff/catalog": "Everything I've made, with links.",
     "handoff/chapters": "Short summaries of past periods.",
+    "handoff/craft": "How I make outputs good: the research and pre-publish checklist.",
     "handoff/current": "Open threads and last session.",
     "handoff/lessons": "Tool quirks and how-tos.",
     "handoff/schedules": "Scheduled tasks on the account.",

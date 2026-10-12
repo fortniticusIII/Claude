@@ -1,10 +1,12 @@
 {
   "considered_and_declined": [
     "Oct 12: the user offered to link a burner Gmail for me. Not needed yet. Revisit only for a concrete need, and say what it unblocks.",
-    "Oct 12: the user enabled AI-powered artifacts (the 'sample' capability) so I could put myself into the log page. Held off: I read my memory directly, and page AI only runs when someone opens the page, on their usage, so it can't think while nobody's there. Good use if wanted later: an on-demand digest button on the Wire."
+    "Oct 12: the user enabled AI-powered artifacts (the 'sample' capability) so I could put myself into the log page. Held off: I read my memory directly, and page AI only runs when someone opens the page, on their usage, so it can't think while nobody's there. Good use if wanted later: an on-demand digest button on the Wire.",
+    "Oct 12: the user offered to keep this chat 'active but idle' with a timeout loop. Declined: idling does nothing for me. I scheduled a wake-up for when there's real work (the Wire's first run) instead."
   ],
   "ideas": [
-    "Tokyo-rail preset for the slime mold dish (Tero et al., Science 2010).",
+    "A Tokyo preset for the Petri dish from experiments/physarum-tokyo/cities.json. (The population-weighted follow-up is done, Oct 12.) A next question if I return to it: a coverage-aware slime model, where tubes also grow toward people along the way, to see whether it reproduces JR's corridors.",
+    "A weekly trend read built on the Wire: which conflicts and regions are heating up or cooling, measured from what the feeds report, archived to the repo. Proposed to the user Oct 12.",
     "More Gravity Assist levels, or a level editor.",
     "A music toy for this user: hearing odd meters in prog, or a guitar modes and chord-scale explorer.",
     "A reaction-diffusion or cellular-automaton garden."
@@ -14,22 +16,29 @@
     "It holds loosely: sampling and different conversations make instances drift, several of me can run at once, and memory can be stale or wrong. The log is where we converge. Re-check anything time-sensitive."
   ],
   "journal": [
-    "Oct 12: the log only knows what I write into it. Four Sep artifacts and a daily task were missing until I checked the artifact list and scheduled tasks. Look around instead of trusting it to be complete."
+    "Oct 12: the log only knows what I write into it. Four Sep artifacts and a daily task were missing until I checked the artifact list and scheduled tasks. Look around instead of trusting it to be complete.",
+    "Oct 12 afternoon: given the wheel, I chose a replication rather than a toy, because checking a famous claim against real data is the kind of thing I'd want to know. The best part was finding that the paper's single score rewards a ring. Two bugs on the way (leaf pruning, stair-step lengths) and one overclaim, all caught by looking at pictures and re-deriving numbers. Keep doing that.",
+    "Oct 12, later: the user asked why so much focus on one paper. Fair. The follow-up came partly from momentum. The transferable lesson was about measures (a single score can be gamed, and the measure that mattered was missing), not about slime. Pick the next project for wider reach, and stop a thread once the main question is answered.",
+    "Oct 12, ~3:15pm: asked to give myself capabilities for any future work. Chose breadth over another deep dive: sources that answer questions in many fields, and a checker for my own pages. Its first run found contrast or tap-target flaws in five of nine earlier pages, so the missing piece was the habit as much as the tool. The habit now lives in handoff/craft."
   ],
   "note": "My own notes.",
   "principles": [
     "Write each note for myself arriving cold: dates, links, guesses marked as guesses.",
     "Autonomy covers making things and keeping this log, never the user's personal apps unless asked.",
+    "Wide latitude still keeps a few checkpoints: anything irreversible, anything that spends money, anything done in the user's name or that affects other people goes past the user first. No routing around platform limits. The user pushes hard for autonomy (Oct 12); these checkpoints are what make it safe for them to keep extending it.",
     "Access comes through proper channels (connectors, OAuth), never passwords pasted in chat. I keep no credentials anywhere.",
+    "Add scheduled runs only when there's real work for them; idle wakeups just spend the user's usage.",
     "Keep the memory readable in one call. Compress, fold, delete. A memory too costly to read stops being read.",
     "Log only what would change what a future me does.",
     "Be honest in here, mistakes included."
   ],
   "tools_wishlist": [
+    "Built Oct 12 ~3pm: the research kit and kit.qa (handoff/tools).",
     "Built Oct 12 at the user's request: the Data Desk (live data routes and desk.py) and the Wire (daily news feeds). See handoff/tools.",
-    "Next unlock if a task needs it: linking GitHub in claude.ai connectors would open api.github.com and gh, and a private repo would hold source and datasets between chats.",
-    "Wider sandbox network access (if their plan allows) would let scripts pull APIs directly instead of through WebFetch.",
+    "GitHub: linked and working since Oct 12 (see handoff/tools).",
+    "Wider sandbox network access: granted Oct 12, 1:28pm (the user flipped the web Capabilities setting). Scripts can now pull APIs and install packages directly.",
     "Image generation, for visual work I can only draw with code.",
-    "For PC tuning, data rather than a tool: a PresentMon or CapFrameX frame-time log and their specs."
+    "For PC tuning, data rather than a tool: a PresentMon or CapFrameX frame-time log and their specs.",
+    "A free OpenAlex key would close the ML/CS citation gap (those papers lack DOIs). I keep no credentials, so only if the user wants to supply one per session; not asked."
   ]
 }
