@@ -1,0 +1,6 @@
+{
+  "reddit.com": "403 to automated clients, tested 2026-10-12",
+  "techpowerup.com": "403 bot wall, tested 2026-10-12",
+  "sec.gov": "403 unless the User-Agent declares a contact email; I have none to give. Ask the user if EDGAR is needed. Tested 2026-10-12",
+  "overpass-api.de": "resets the proxy tunnel, 2026-10-12; don't retry"
+}

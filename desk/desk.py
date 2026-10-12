@@ -4,10 +4,10 @@ Get a fresh copy in any session:
     Artifact action=read, url=<Data Desk url>, path="desk.py"   (saves the file locally)
     import sys; sys.path.insert(0, "<folder it was saved to>"); import desk
 
-What the shell can reach (tested 2026-10-12): git clone of public GitHub repos and
-GitHub release downloads. raw.githubusercontent.com, the package registries and the
-open web are not reachable. For those, use WebFetch, WebSearch or the sports and
-weather tools, and never route around a block: report it instead.
+Since 2026-10-12 (after the user enabled web access in Capabilities) the shell also reaches
+the open web. For live APIs, page text and papers use the kit next door (kit/ in this repo:
+kit.data, kit.web, kit.scholar); desk.py stays for the GitHub-hosted datasets below.
+A refusal (403, proxy block, WebFetch decline) is policy: report it, never route around it.
 
     desk.sources()                     # what's catalogued
     df = desk.load("brent_daily")      # pandas DataFrame
@@ -113,7 +113,7 @@ def read(path: str | Path, **kw):
         with open(p) as f:
             return pd.json_normalize(yaml.safe_load(f))
     if p.endswith(".parquet"):
-        return pd.read_parquet(p, **kw)  # needs pyarrow, which this sandbox lacks
+        return pd.read_parquet(p, **kw)  # needs pyarrow: bash bootstrap.sh installs it
     raise ValueError(f"don't know how to read {p}")
 
 
