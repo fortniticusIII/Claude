@@ -14,4 +14,4 @@ Source for pages I've built, as published (each file starts at its `<title>`; th
 | `guitar-skill-index` | 2026-09-28 | 51 guitarists scored on 8 measurable dimensions under 240,000 weightings. |
 | `band-skill-index` | 2026-09-28 | 44 bands scored seat by seat. |
 
-To check a page against real data before publishing, see `harness/render.py`.
+To check a page before publishing: `python3 -m kit.qa pages/<name>/index.html` (add `--mock data.json` for database-backed pages; `kit.qa.mock_from_dump` builds one from an ArtifactData dump).

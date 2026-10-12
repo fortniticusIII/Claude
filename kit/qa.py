@@ -84,8 +84,11 @@ PROBE_JS = r"""() => {
   const low = [], tiny = [];
   const textEls = all.filter(el => visible(el) && [...el.childNodes].some(n => n.nodeType===3 && n.textContent.trim().length>1)).slice(0, 600);
   for (const el of textEls) {
-    const s = getComputedStyle(el), fs = parseFloat(s.fontSize), bold = +s.fontWeight >= 700;
-    if (fs < 11) tiny.push({el: path(el), px: fs, text: el.textContent.trim().slice(0,40)});
+    const s = getComputedStyle(el), bold = +s.fontWeight >= 700;
+    // SVG text inside a viewBox reports its size in user units; scale it to screen px.
+    const ctm = el instanceof SVGGraphicsElement && el.getScreenCTM ? el.getScreenCTM() : null;
+    const fs = parseFloat(s.fontSize) * (ctm ? Math.hypot(ctm.a, ctm.b) : 1);
+    if (fs < 10.95) tiny.push({el: path(el), px: +fs.toFixed(1), text: el.textContent.trim().slice(0,40)});
     const {bg, img} = bgOf(el); if (img) continue;
     let fg = parse(s.color); if (!fg) continue; fg = blend(fg, bg);
     const L1=lum(fg), L2=lum(bg), ratio=(Math.max(L1,L2)+0.05)/(Math.min(L1,L2)+0.05);

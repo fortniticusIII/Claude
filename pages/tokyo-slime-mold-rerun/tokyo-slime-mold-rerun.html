@@ -10,7 +10,7 @@
   --surface: #fafbf8;     /* plate */
   --ink: #161b17;
   --ink-2: #4b5550;
-  --muted: #6c7770;
+  --muted: #5d6660;
   --line: #d4dad4;
   --land: #e4e9e2;
   --water: #fafbf8;
@@ -64,7 +64,7 @@ em { font-style: italic; }
 .map .s { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
 .map dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin: 2px 0 0; }
 .map dl div { display: grid; gap: 0; }
-.map dt { font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.map dt { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
 .map dd { margin: 0; font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; }
 .mapkey { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); align-items: center; }
 .mapkey svg { vertical-align: middle; margin-right: 6px; }
@@ -262,7 +262,7 @@ footer { color: var(--muted); font-size: 14px; }
       const dot = el("circle", { cx: f.x, cy: -f.y, r: 1.5, fill: "var(--ink)", stroke: "var(--surface)", "stroke-width": 0.7 }, svg);
       el("title", {}, dot).textContent = f.n;
       if (idx === 0 && LABEL[f.n]) {
-        const t = el("text", { x: f.x + 2.4, y: -f.y + 1.2, "font-size": 4.6, fill: "var(--ink-2)", "font-family": "var(--mono)" }, svg);
+        const t = el("text", { x: f.x + 2.4, y: -f.y + 1.2, "font-size": 4.6, fill: "var(--ink-2)", "font-family": "var(--mono)", "data-y": -f.y, ...(f.n === "Tokyo Station" ? { "data-below": 1 } : {}) }, svg);
         t.textContent = LABEL[f.n];
       }
     }
@@ -273,6 +273,18 @@ footer { color: var(--muted); font-size: 14px; }
     card.appendChild(cap);
     $("maps").appendChild(card);
   });
+  // City labels sit inside a scaled map: size them to 11 screen px, and drop them when the map is too small to hold them.
+  function sizeMapLabels() {
+    document.querySelectorAll("#maps svg").forEach(svg => {
+      const w = svg.getBoundingClientRect().width; if (!w) return;
+      const fs = 11 * (X1 - X0) / w;
+      svg.querySelectorAll("text[data-y]").forEach(t => {
+        t.setAttribute("font-size", fs.toFixed(2)); t.setAttribute("y", (+t.dataset.y + fs * (t.dataset.below ? 1.2 : 0.27)).toFixed(2));  // Tokyo sits under its dense hub cluster
+        t.style.display = fs > 6.5 ? "none" : "";
+      });
+    });
+  }
+  sizeMapLabels();
 
   /* ---------- charts ---------- */
   const fam = p => p.kind === "physarum" ? "physarum" : p.kind === "rail" ? "rail" : "engineered";
@@ -375,7 +387,7 @@ footer { color: var(--muted); font-size: 14px; }
       ["bridge-covering", sx(1.3), sy(0.86) - 9, "middle"], ["slime γ 1.2", sx(1.58), sy(0.715) + 4, "middle"]]);
   }
   render();
-  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { render(); sizeMapLabels(); }, 120); });
 
   /* ---------- table ---------- */
   const tb = document.querySelector("#tbl tbody");
