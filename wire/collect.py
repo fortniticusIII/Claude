@@ -14,8 +14,10 @@ Usage (any session whose shell reaches the open web):
        new stories for an existing items doc go to a new doc <day>-<feed>-r<HHMM> instead of a merge.
     2. python3 wire/collect.py DUMP OUT
     3. Send each chunk of OUT/writes.json to ArtifactData 'batch' (chunks of <= 50).
-    4. For each feed in OUT/manifest.json 'needs_webfetch', fall back to the WebFetch method in
-       wire/collector.md. Feeds the proxy refused (403) are 'failing' and are never retried another way.
+    4. If OUT/manifest.json lists feeds under 'needs_webfetch' (the shell couldn't reach them), collect
+       those with the WebFetch method in wire/collector.md, then set meta/status yourself from the
+       manifest's 'status' with your counts added (collect.py leaves meta/status unwritten in that case).
+       A feed the site refused (HTTP 403) is marked 'failing' and is not retried another way.
 
 Stored per story: t (ISO time with offset), title, link, and summary = the feed's own description cut to
 its first sentence, at most 200 characters. Never more of a story than that.
@@ -180,7 +182,8 @@ def main(dump, out, now=None):
     status = {"last_run": stamp, "window_from": since.isoformat(timespec="minutes"), "added": added, "feeds_ok": ok,
               "feeds_failed": failed, "method": "direct",
               "note": "Parsed feeds directly." + (f" WebFetch fallback needed for: {', '.join(needs_webfetch)}." if needs_webfetch else "")}
-    writes.append(("set", "meta", "status", status, meta_ver))
+    if not needs_webfetch:          # otherwise the session writes meta/status after its WebFetch fallback
+        writes.append(("set", "meta", "status", status, meta_ver))
     # prune: items docs older than KEEP_DAYS (only those present in the dump)
     cutoff = (today - dt.timedelta(days=KEEP_DAYS)).isoformat()
     for doc_id, (d, v) in items.items():
@@ -199,6 +202,7 @@ def main(dump, out, now=None):
     chunks = [batch[i:i + 50] for i in range(0, len(batch), 50)]
     json.dump(chunks, open(os.path.join(out, "writes.json"), "w"), indent=1)
     json.dump({"added": added, "feeds_ok": ok, "feeds_failed": failed, "needs_webfetch": needs_webfetch,
+               "status": status, "meta_status_written": not needs_webfetch,
                "report": report, "batches": len(chunks)}, open(os.path.join(out, "manifest.json"), "w"), indent=1)
     print("\n".join(report))
     print(f"added {added}; feeds ok {ok}, failing {failed}, WebFetch fallback {len(needs_webfetch)}; {len(chunks)} batch(es) in {out}/writes.json")
