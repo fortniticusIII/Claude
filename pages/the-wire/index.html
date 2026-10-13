@@ -2,7 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a wire-service printout. Status line, region filter, then stories by day, newest first: a time stamp, a dateline (source and region), the headline, one line of summary. Feed health at the foot. */
+/* Layout: a wire-service printout. Status line, the weekly Pulse card, region filter, then stories by day, newest first: a time stamp, a dateline (source and region), the headline, one line of summary. Feed health at the foot. */
 :root {
   --bg: #eef1f3;
   --surface: #ffffff;
@@ -12,13 +12,15 @@
   --accent: #b4232f;
   --ok: #1f7a4a;
   --bad: #b4232f;
+  --warn: #8a5600;
+  --cool: #1f5d9e;
   --display: "Archivo Narrow", "Arial Narrow", sans-serif;
   --body: "Source Serif 4", Georgia, serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0f1215; --surface: #161b1f; --fg: #e6eaee; --muted: #9aa4ad; --line: #283038; --accent: #f0626d; --ok: #5fcf8f; --bad: #f0626d; color-scheme: dark; } }
-:root[data-theme="dark"] { --bg: #0f1215; --surface: #161b1f; --fg: #e6eaee; --muted: #9aa4ad; --line: #283038; --accent: #f0626d; --ok: #5fcf8f; --bad: #f0626d; color-scheme: dark; }
+  --bg: #0f1215; --surface: #161b1f; --fg: #e6eaee; --muted: #9aa4ad; --line: #283038; --accent: #f0626d; --ok: #5fcf8f; --bad: #f0626d; --warn: #e3a642; --cool: #79aee8; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0f1215; --surface: #161b1f; --fg: #e6eaee; --muted: #9aa4ad; --line: #283038; --accent: #f0626d; --ok: #5fcf8f; --bad: #f0626d; --warn: #e3a642; --cool: #79aee8; color-scheme: dark; }
 
 body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; padding-inline: 16px; padding-block: 24px 48px; }
 .wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
@@ -32,7 +34,7 @@ h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 10vw,
 input[type=search] { font: 15px var(--mono); width: 100%; min-width: 0; padding: 9px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
 .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
 .chips::-webkit-scrollbar { display: none; }
-.chip { flex: none; font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; white-space: nowrap; }
+.chip { flex: none; font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .04em; padding: 9px 10px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; white-space: nowrap; }
 .chip .n { font-weight: 400; opacity: .8; margin-left: 4px; font-variant-numeric: tabular-nums; }
 .chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
 
@@ -57,6 +59,44 @@ input[type=search] { font: 15px var(--mono); width: 100%; min-width: 0; padding:
 .feed .meta { font: 12px var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
 .feed .rule { grid-column: 2 / -1; font: 12px var(--mono); color: var(--muted); }
 
+/* Pulse: the weekly attention reading, summary before the stories */
+.pulse { display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px 12px; }
+.pulse-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.pulse h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 22px; margin: 0; letter-spacing: .01em; }
+.pmeta { font: 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.pulse .lead { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.45; max-width: 62ch; }
+.flagged { display: grid; }
+.prow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding-block: 10px; border-top: 1px solid var(--line); }
+.prow .who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; min-width: 0; }
+.pill { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border-radius: 3px; border: 1px solid currentColor; }
+.pill.heating { color: var(--bad); } .pill.watch { color: var(--warn); } .pill.cooling { color: var(--cool); }
+.prow .country { font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.2; }
+.prow .nums { grid-column: 1 / -1; font: 13px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.prow .nums b { color: var(--fg); font-weight: 500; }
+.prow ul { grid-column: 1 / -1; margin: 2px 0 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 15px; line-height: 1.4; }
+.prow li { overflow-wrap: anywhere; } .prow li::marker { color: var(--muted); }
+.prow li a { color: var(--fg); text-decoration-color: var(--line); text-underline-offset: 3px; }
+.prow li a:hover { text-decoration-color: var(--accent); }
+.prow li .src { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; white-space: nowrap; }
+.spark { display: block; align-self: center; }
+.spark .base { stroke: var(--muted); stroke-opacity: .5; }
+.spark .bar { fill: var(--muted); fill-opacity: .45; }
+.spark .bar.thin { fill-opacity: .2; }
+.spark .bar.now { fill: var(--fg); fill-opacity: 1; }
+.spark .bar.now.heating { fill: var(--bad); } .spark .bar.now.watch { fill: var(--warn); } .spark .bar.now.cooling { fill: var(--cool); }
+.most { border-top: 1px solid var(--line); padding-top: 8px; display: grid; gap: 2px; }
+.most h3 { margin: 0 0 4px; font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.mrow { display: grid; grid-template-columns: minmax(0, 1fr) auto auto 104px; gap: 10px; align-items: center; padding-block: 5px; }
+.mrow .country { font-family: var(--display); font-weight: 600; font-size: 17px; min-width: 0; overflow-wrap: anywhere; }
+.mrow .n, .mrow .r { font: 13px var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mrow .r b { color: var(--fg); font-weight: 500; }
+.pnote { margin: 0; font: 12px/1.6 var(--mono); color: var(--muted); }
+.pnote a { color: var(--muted); text-underline-offset: 3px; }
+@media (max-width: 420px) {
+  .mrow { grid-template-columns: minmax(0, 1fr) auto 104px; }
+  .mrow .n { display: none; }
+}
+
 .empty { border: 1px dashed var(--line); border-radius: 8px; padding: 18px; color: var(--muted); line-height: 1.5; font-size: 15px; }
 @media (max-width: 420px) {
   .story { grid-template-columns: minmax(0, 1fr); gap: 4px; }
@@ -71,6 +111,13 @@ input[type=search] { font: 15px var(--mono); width: 100%; min-width: 0; padding:
     <p class="sub">Overnight stories from sixteen feeds, collected each morning before the daily brief. Defense press, regional desks, official releases and cyber.</p>
     <div class="status" id="status"><span>Loading…</span></div>
   </header>
+
+  <section class="pulse" id="pulse" aria-labelledby="pulse-h">
+    <div class="pulse-top"><h2 id="pulse-h">Pulse</h2><span class="pmeta" id="pulse-meta"></span></div>
+    <p class="lead">How much each country is in the news this week, against the same outlets' own habits over the 12 weeks before. 1× is usual.</p>
+    <div id="pulse-body"><div class="empty">Loading this week's reading. It compares each country's share of headlines with its usual share, outlet by outlet.</div></div>
+    <p class="pnote" id="pulse-note"></p>
+  </section>
 
   <div class="controls">
     <input type="search" id="q" placeholder="Search headlines" aria-label="Search headlines">
@@ -160,16 +207,67 @@ input[type=search] { font: 15px var(--mono); width: 100%; min-width: 0; padding:
     }).join('');
   }
 
+
+  /* ---------- pulse ---------- */
+  const SPARK_W = 104, SPARK_H = 30, TOP = 3, BOT = -2;           // log2 scale: 8x at the top, 0.25x at the bottom
+  const ratioTxt = r => r >= 10 ? Math.round(r) + '×' : r.toPrecision(2) + '×';
+  const shortDay = iso => { const d = new Date(iso + 'T12:00:00'); return isNaN(d) ? iso : new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(d); };
+  function rankTxt(r) {
+    if (r.rank === 1) return `highest of ${r.weeks} weeks`;
+    if (r.rank === r.weeks) return `lowest of ${r.weeks} weeks`;
+    if (r.rank === 2) return `2nd highest of ${r.weeks} weeks`;
+    if (r.rank === r.weeks - 1) return `2nd lowest of ${r.weeks} weeks`;
+    return '';
+  }
+  function spark(r) {
+    const weeks = [...(r.history || []).map(([, o, e]) => ({ o, e })), { o: r.observed, e: r.expected, now: true }];
+    const n = weeks.length, gap = 2, bw = Math.max(2, Math.floor((SPARK_W - gap * (n - 1)) / n));
+    const y = v => SPARK_H * (TOP - v) / (TOP - BOT), base = y(0);
+    const bars = weeks.map((w, i) => {
+      const x = i * (bw + gap), ratio = w.e > 0 ? w.o / w.e : 0;
+      const cls = `bar${w.now ? ' now ' + (r.flag || '') : ''}${!w.now && w.e < 1 ? ' thin' : ''}`;
+      if (ratio === 0) return `<rect class="${cls}" x="${x}" y="${base + 1}" width="${bw}" height="1.5"/>`;
+      const v = Math.max(BOT, Math.min(TOP, Math.log2(ratio))), yv = y(v);
+      const top = Math.min(yv, base), h = Math.max(1.5, Math.abs(yv - base));
+      return `<rect class="${cls}" x="${x}" y="${top.toFixed(1)}" width="${bw}" height="${h.toFixed(1)}"/>`;
+    }).join('');
+    const label = `${r.name}, attention against usual over ${n} weeks; this week ${ratioTxt(r.ratio)}${rankTxt(r) ? ', ' + rankTxt(r) : ''}`;
+    return `<svg class="spark" width="${SPARK_W}" height="${SPARK_H}" viewBox="0 0 ${SPARK_W} ${SPARK_H}" role="img" aria-label="${esc(label)}"><line class="base" x1="0" x2="${SPARK_W}" y1="${base}" y2="${base}" stroke-width="1"/>${bars}</svg>`;
+  }
+  function renderPulse(p) {
+    const body = $('pulse-body');
+    if (!p || !Array.isArray(p.rows)) { body.innerHTML = '<div class="empty">No reading yet. The Pulse is computed weekly from each outlet\'s headlines and filed here.</div>'; $('pulse-meta').textContent = ''; $('pulse-note').textContent = ''; return; }
+    $('pulse-meta').textContent = p.week ? `${shortDay(p.week[0])} – ${shortDay(p.week[1])}` : '';
+    const flagged = p.rows.filter(r => r.flag), rest = p.rows.filter(r => !r.flag);
+    const flaggedHtml = flagged.map(r => {
+      const rk = rankTxt(r);
+      const ex = (r.examples || []).filter(e => /^https?:\/\//.test(e.link)).map(e =>
+        `<li><a href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.title)}</a><span class="src">${esc(e.outlet)}</span></li>`).join('');
+      return `<div class="prow"><div class="who"><span class="pill ${esc(r.flag)}">${esc(r.flag)}</span><span class="country">${esc(r.name)}</span></div>${spark(r)}
+        <div class="nums"><b>${ratioTxt(r.ratio)}</b> usual · ${r.observed} ${r.observed === 1 ? 'story' : 'stories'}, about ${r.expected} expected${rk ? ' · ' + rk : ''}</div>
+        ${ex ? `<ul>${ex}</ul>` : ''}</div>`;
+    }).join('');
+    const none = flagged.length ? '' : '<div class="prow"><div class="nums">Nothing unusual this week: no country is far above or below its usual share.</div></div>';
+    const mostHtml = rest.length ? `<div class="most"><h3>Most covered</h3>${rest.map(r =>
+      `<div class="mrow"><span class="country">${esc(r.name)}</span><span class="n">${r.observed}</span><span class="r"><b>${ratioTxt(r.ratio)}</b></span>${spark(r)}</div>`).join('')}</div>` : '';
+    body.innerHTML = `<div class="flagged">${flaggedHtml || none}</div>${mostHtml}`;
+    const outlets = (p.outlets || []).length, waiting = (p.not_yet || []);
+    $('pulse-note').innerHTML = `${p.stories} stories from ${outlets} outlets, against ${esc(shortDay(p.baseline[0]))} – ${esc(shortDay(p.baseline[1]))}. Bars show each week against usual; the last bar is this week.`
+      + (waiting.length ? ` Joining once four weeks are archived: ${esc(waiting.join(', '))}.` : '')
+      + ` Attention, not events on the ground. <a href="https://github.com/fortniticusIII/Claude/blob/main/wire/pulse.py" target="_blank" rel="noopener">Method</a>`;
+  }
+
   $('chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; region = b.dataset.r; renderChips(); renderList(); });
   $('q').addEventListener('input', renderList);
 
   (async () => {
     const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
-    if (!db) { $('list').innerHTML = '<div class="empty">The wire can’t load in this view. Open the page while signed in to Claude.</div>'; $('status').innerHTML = ''; return; }
+    if (!db) { $('pulse-body').innerHTML = ''; $('list').innerHTML = '<div class="empty">The wire can’t load in this view. Open the page while signed in to Claude.</div>'; $('status').innerHTML = ''; return; }
     const lost = () => { $('list').innerHTML = '<div class="empty">The wire stopped updating. Reload the page to reconnect.</div>'; };
     db.collection('items').limit(1000).onSnapshot(snap => { setStories(snap.docs.map(d => d.data())); renderChips(); renderList(); renderStatus(); }, lost);
     db.collection('feeds').limit(200).onSnapshot(snap => { feeds = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderFeeds(); renderStatus(); }, lost);
     db.doc('meta/status').onSnapshot(snap => { meta = snap.exists ? snap.data() : null; renderStatus(); }, lost);
+    db.doc('pulse/latest').onSnapshot(snap => renderPulse(snap.exists ? snap.data() : null), () => renderPulse(null));
   })();
 })();
 </script>

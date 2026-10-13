@@ -147,11 +147,12 @@ def run(end: dt.date, all_feeds: list[str]) -> dict:
     rows = []
     for c in codes:
         o, e = score(c, 0)
-        hist = []
+        hist, weekly = [], []
         for j in range(1, WEEKS + 1):
             oj, ej = score(c, j, skip=j)
             if ej > 0:
                 hist.append((oj, ej))
+                weekly.append([wins[j][0], int(oj), round(ej, 2)])
         if e <= 0:
             continue
         phi = max(1.0, sum((oj - ej) ** 2 / ej for oj, ej in hist) / len(hist)) if hist else 1.0
@@ -162,6 +163,7 @@ def run(end: dt.date, all_feeds: list[str]) -> dict:
             "code": c, "name": NAMES.get(c, c), "observed": int(o), "expected": round(e, 1), "ratio": round(r, 2),
             "z": round(z, 1), "dispersion": round(phi, 2),
             "baseline_ratios": [round(x, 2) for x in ratios],
+            "history": weekly[::-1],          # [week start, observed, expected], oldest first, this week excluded
             "rank": 1 + sum(x >= r for x in ratios), "weeks_compared": len(ratios) + 1,
             "flag": flag(o, e, r, z, ratios),
             "by_outlet": {f: counts[f][0][1][c] for f in used if counts[f][0][1][c]},
@@ -195,10 +197,70 @@ def summary(res: dict, top: int = 8) -> str:
     return "\n".join(lines)
 
 
+def _headline(ex: dict) -> str:
+    """The real headline for an example. Slug-only stories get the page's own title (one polite fetch,
+    cached a day); if that fails, the slug words with a capital letter."""
+    if ex["outlet"] in census.SOURCES and ex["text"] == slug_text(ex["link"]):
+        try:
+            from kit import web
+            t = web.page(ex["link"]).title.strip()
+            for tail in (" | Al Jazeera", " | Ukrinform", " | The War Zone", " | Defense News", " | The Record from Recorded Future News"):
+                t = t.removesuffix(tail)
+            if t:
+                return t
+        except Exception:
+            pass
+        return ex["text"][:1].upper() + ex["text"][1:]
+    return ex["text"]
+
+
+def _varied(examples: list[dict], k: int) -> list[dict]:
+    """Newest first, but one per outlet before any outlet gets a second."""
+    first, more, seen = [], [], set()
+    for ex in examples:
+        (more if ex["outlet"] in seen else first).append(ex); seen.add(ex["outlet"])
+    return (first + more)[:k]
+
+
+def card(res: dict, max_rows: int = 10, per_row: int = 2) -> dict:
+    """The compact reading the Wire page shows (ArtifactData doc pulse/latest): every flagged country,
+    then the most-covered others up to max_rows, each with its 13-week history and two headlines."""
+    names = feed_names()
+    rows = res["countries"]
+    order = {"heating": 0, "watch": 1, "cooling": 2}
+    flagged = sorted([r for r in rows if r["flag"]], key=lambda r: (order[r["flag"]], -abs(r["z"])))
+    rest = sorted([r for r in rows if not r["flag"]], key=lambda r: -r["observed"])
+    pick = flagged + rest[:max(0, max_rows - len(flagged))]
+    out = []
+    for r in pick:
+        out.append({
+            "code": r["code"], "name": r["name"], "flag": r["flag"], "observed": r["observed"],
+            "expected": r["expected"], "ratio": r["ratio"], "rank": r["rank"], "weeks": r["weeks_compared"],
+            "history": [[s, o, e] for s, o, e in r["history"]],
+            "examples": [{"title": _headline(ex), "link": ex["link"], "outlet": names.get(ex["outlet"], ex["outlet"]), "day": ex["day"]}
+                         for ex in _varied(r["examples"], per_row)] if r["flag"] else [],
+        })
+    return {
+        "week": res["week"], "baseline": res["baseline"], "stories": res["stories_this_week"],
+        "outlets": [names.get(f, f) for f in res["outlets_used"]],
+        "not_yet": [names.get(f, f) for f in res["outlets_skipped"]],
+        "updated": dt.datetime.now(EASTERN).isoformat(timespec="minutes"),
+        "rows": out,
+    }
+
+
 if __name__ == "__main__":
-    end = dt.date.fromisoformat(sys.argv[1]) if len(sys.argv) > 1 else dt.datetime.now(EASTERN).date() - dt.timedelta(days=1)
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    end = dt.date.fromisoformat(args[0]) if args else dt.datetime.now(EASTERN).date() - dt.timedelta(days=1)
     names = feed_names()
     res = run(end, sorted(names))
     OUT.mkdir(exist_ok=True)
     json.dump(res, open(OUT / f"{end.isoformat()}.json", "w"), indent=1, ensure_ascii=False)
     print(summary(res))
+    if "--card" in sys.argv and (not res["outlets_used"] or res["stories_this_week"] < 200):
+        print("card: NOT written: too few outlets or stories this week to compare (census refresh failed?). Keep the old reading.")
+        (OUT / "card.json").unlink(missing_ok=True)
+    elif "--card" in sys.argv:     # writes the doc for the Wire page: ArtifactData set 'pulse'/'latest' with file_path
+        c = card(res)
+        json.dump(c, open(OUT / "card.json", "w"), indent=1, ensure_ascii=False)
+        print(f"card: {len(c['rows'])} rows -> {OUT / 'card.json'}")
