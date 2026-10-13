@@ -1,0 +1,6499 @@
+{
+ "end": "2026-10-12",
+ "week": [
+  "2026-10-06",
+  "2026-10-12"
+ ],
+ "baseline": [
+  "2026-07-14",
+  "2026-10-05"
+ ],
+ "outlets_used": {
+  "aljazeera": {
+   "stream": "census",
+   "stories_this_week": 371,
+   "baseline_weeks": 12
+  },
+  "breakingdefense": {
+   "stream": "census",
+   "stories_this_week": 52,
+   "baseline_weeks": 12
+  },
+  "defensenews": {
+   "stream": "census",
+   "stories_this_week": 59,
+   "baseline_weeks": 12
+  },
+  "insightcrime": {
+   "stream": "census",
+   "stories_this_week": 3,
+   "baseline_weeks": 12
+  },
+  "nknews": {
+   "stream": "census",
+   "stories_this_week": 28,
+   "baseline_weeks": 12
+  },
+  "therecord": {
+   "stream": "census",
+   "stories_this_week": 33,
+   "baseline_weeks": 12
+  },
+  "twz": {
+   "stream": "census",
+   "stories_this_week": 22,
+   "baseline_weeks": 12
+  },
+  "ukrinform": {
+   "stream": "census",
+   "stories_this_week": 359,
+   "baseline_weeks": 12
+  },
+  "usni": {
+   "stream": "census",
+   "stories_this_week": 17,
+   "baseline_weeks": 12
+  },
+  "whitehouse": {
+   "stream": "census",
+   "stories_this_week": 15,
+   "baseline_weeks": 12
+  }
+ },
+ "outlets_skipped": {
+  "africanews": "wire archive starts 2026-10-11, after this week began",
+  "bleepingcomputer": "wire archive starts 2026-10-11, after this week began",
+  "jpost": "wire archive starts 2026-10-11, after this week began",
+  "meduza": "wire archive starts 2026-10-12, after this week began",
+  "npr": "wire archive starts 2026-10-11, after this week began",
+  "taipeitimes": "wire archive starts 2026-10-11, after this week began"
+ },
+ "stories_this_week": 959,
+ "method": "see wire/pulse.py docstring",
+ "countries": [
+  {
+   "code": "ER",
+   "name": "Eritrea",
+   "observed": 4,
+   "expected": 0.3,
+   "ratio": 14.03,
+   "z": 3.7,
+   "dispersion": 3.53,
+   "baseline_ratios": [
+    20.09,
+    0.0,
+    5.18,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "watch",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "ethiopia eritrea ramp up rhetoric are they inching towards war",
+     "link": "https://www.aljazeera.com/news/2026/10/11/ethiopia-eritrea-ramp-up-rhetoric-are-they-inching-towards-war"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "eritrea urges un to intervene in standoff with",
+     "link": "https://www.aljazeera.com/news/2026/10/10/eritrea-urges-un-to-intervene-in-standoff-with"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "ethiopia and eritrea accuse one another of launching war",
+     "link": "https://www.aljazeera.com/news/2026/10/9/ethiopia-and-eritrea-accuse-one-another-of-launching-war"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "witnesses spot eritrean troops inside northern ethiopia as tensions flare",
+     "link": "https://www.aljazeera.com/news/2026/10/7/witnesses-spot-eritrean-troops-inside-northern-ethiopia-as-tensions-flare"
+    }
+   ]
+  },
+  {
+   "code": "KE",
+   "name": "Kenya",
+   "observed": 4,
+   "expected": 1.3,
+   "ratio": 2.98,
+   "z": 2.3,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    1.7,
+    0.8,
+    0.0,
+    0.79,
+    1.69,
+    0.82,
+    1.91,
+    0.0,
+    0.0,
+    2.14,
+    1.9,
+    0.89
+   ],
+   "rank": 1,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "ebola spreads in eastern drc as kenya confirms imported case",
+     "link": "https://www.aljazeera.com/news/2026/10/11/ebola-spreads-in-eastern-drc-as-kenya-confirms-imported-case"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "kenyan patient suspected of ebola infection tests negative",
+     "link": "https://www.aljazeera.com/news/2026/10/8/kenyan-patient-suspected-of-ebola-infection-tests-negative"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "why single ebola death in kenya has sparked fears of wider african spread",
+     "link": "https://www.aljazeera.com/news/2026/10/8/why-single-ebola-death-in-kenya-has-sparked-fears-of-wider-african-spread"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "kenya confirms first ebola case after patient from dr congo dies in nairobi",
+     "link": "https://www.aljazeera.com/news/2026/10/6/kenya-confirms-first-ebola-case-after-patient-from-dr-congo-dies-in-nairobi"
+    }
+   ]
+  },
+  {
+   "code": "MX",
+   "name": "Mexico",
+   "observed": 7,
+   "expected": 2.5,
+   "ratio": 2.75,
+   "z": 2.2,
+   "dispersion": 1.64,
+   "baseline_ratios": [
+    0.79,
+    0.79,
+    0.79,
+    0.75,
+    0.75,
+    0.0,
+    1.81,
+    1.62,
+    2.41,
+    0.0,
+    0.39,
+    2.52
+   ],
+   "rank": 1,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 6,
+    "insightcrime": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "two deaths reported as hurricane simon storm rachel batter mexicos coast",
+     "link": "https://www.aljazeera.com/news/2026/10/12/two-deaths-reported-as-hurricane-simon-storm-rachel-batter-mexicos-coast"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "mexican president urges residents to shelter as hurricane simon approaches",
+     "link": "https://www.aljazeera.com/news/2026/10/11/mexican-president-urges-residents-to-shelter-as-hurricane-simon-approaches"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "hurricane simon strengthens to category 4 off mexicos pacific coast",
+     "link": "https://www.aljazeera.com/news/2026/10/10/hurricane-simon-strengthens-to-category-4-off-mexicos-pacific-coast"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "journalist killed in mexico ninth this year ngo",
+     "link": "https://www.aljazeera.com/news/2026/10/10/journalist-killed-in-mexico-ninth-this-year-ngo"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "mexican judge sentences three men for murders of australian us surfers",
+     "link": "https://www.aljazeera.com/news/2026/10/10/mexican-judge-sentences-three-men-for-murders-of-australian-us-surfers"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "mexico prison clash in strife torn sinaloa state leaves 10 dead",
+     "link": "https://www.aljazeera.com/news/2026/10/9/mexico-prison-clash-in-strife-torn-sinaloa-state-leaves-10-dead"
+    }
+   ]
+  },
+  {
+   "code": "IN",
+   "name": "India",
+   "observed": 23,
+   "expected": 12.2,
+   "ratio": 1.89,
+   "z": 2.0,
+   "dispersion": 2.37,
+   "baseline_ratios": [
+    0.78,
+    0.89,
+    0.6,
+    0.89,
+    0.6,
+    1.0,
+    0.87,
+    0.9,
+    0.66,
+    0.95,
+    2.25,
+    1.9
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 21,
+    "defensenews": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "delhi braces for more protests against election chief amid crackdown",
+     "link": "https://www.aljazeera.com/features/2026/10/12/delhi-braces-for-more-protests-against-election-chief-amid-crackdown"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "photos protests over voter lists escalate in indias capital",
+     "link": "https://www.aljazeera.com/gallery/2026/10/12/photos-protests-over-voter-lists-escalate-in-indias-capital"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "india opposition plans new delhi protest to demand election chief resign",
+     "link": "https://www.aljazeera.com/news/2026/10/12/india-opposition-plans-new-delhi-protest-to-demand-election-chief-resign"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "india protest live opposition to march to supreme court over vote theft",
+     "link": "https://www.aljazeera.com/news/liveblog/2026/10/12/india-protest-live-opposition-to-march-to-supreme-court-over-vote-theft"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "india sells air defense missiles to tajikistan turkmenistan in central asia push",
+     "link": "https://www.defensenews.com/global/asia-pacific/2026/10/12/india-sells-air-defense-missiles-to-tajikistan-turkmenistan-in-central-asia-push/"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "musk vows affordable starlink in india as he escalates feud with ambani",
+     "link": "https://www.aljazeera.com/economy/2026/10/11/musk-vows-affordable-starlink-in-india-as-he-escalates-feud-with-ambani"
+    }
+   ]
+  },
+  {
+   "code": "BG",
+   "name": "Bulgaria",
+   "observed": 4,
+   "expected": 1.3,
+   "ratio": 2.97,
+   "z": 1.7,
+   "dispersion": 1.82,
+   "baseline_ratios": [
+    1.64,
+    0.73,
+    0.0,
+    0.0,
+    0.0,
+    1.53,
+    2.84,
+    0.0,
+    4.28,
+    0.0,
+    1.65,
+    0.78
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2,
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "bulgaria ends search for missing crew after drone strike sinks cargo ship",
+     "link": "https://www.aljazeera.com/news/2026/10/7/bulgaria-ends-search-for-missing-crew-after-drone-strike-sinks-cargo-ship"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "bulgaria says two commercial vessels were hit in drone attack in its waters",
+     "link": "https://www.aljazeera.com/news/2026/10/6/bulgaria-says-two-commercial-vessels-were-hit-in-drone-attack-in-its-waters"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "bulgarian president convenes security council after drone attacks on commercial vessels",
+     "link": "https://www.ukrinform.net/rubric-polytics/4171723-bulgarian-president-convenes-security-council-after-drone-attacks-on-commercial-vessels.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "zelensky on attacks on vessels in bulgarian waters defense forces conducted no operations in area",
+     "link": "https://www.ukrinform.net/rubric-polytics/4171727-zelensky-on-attacks-on-vessels-in-bulgarian-waters-defense-forces-conducted-no-operations-in-area.html"
+    }
+   ]
+  },
+  {
+   "code": "MY",
+   "name": "Malaysia",
+   "observed": 4,
+   "expected": 1.4,
+   "ratio": 2.81,
+   "z": 1.7,
+   "dispersion": 1.64,
+   "baseline_ratios": [
+    3.7,
+    0.0,
+    0.74,
+    0.0,
+    1.52,
+    2.63,
+    0.0,
+    0.0,
+    1.73,
+    1.96,
+    0.81,
+    0.0
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "malaysia shuts schools as haze from indonesian fires chokes southeast asia",
+     "link": "https://www.aljazeera.com/news/2026/10/9/malaysia-shuts-schools-as-haze-from-indonesian-fires-chokes-southeast-asia"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "malaysia to help myanmar reintegrate into asean despite rights concerns",
+     "link": "https://www.aljazeera.com/news/2026/10/8/malaysia-to-help-myanmar-reintegrate-into-asean-despite-rights-concerns"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "myanmars min aung hlaing visits malaysia amid concerns over repatriations",
+     "link": "https://www.aljazeera.com/news/2026/10/7/myanmars-min-aung-hlaing-visits-malaysia-amid-concerns-over-repatriations"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "malaysias anwar to host myanmar leader as repatriations surpass 10000",
+     "link": "https://www.aljazeera.com/news/2026/10/6/malaysias-anwar-to-host-myanmar-leader-as-repatriations-surpass-10000"
+    }
+   ]
+  },
+  {
+   "code": "PT",
+   "name": "Portugal",
+   "observed": 1,
+   "expected": 0.2,
+   "ratio": 5.75,
+   "z": 1.7,
+   "dispersion": 1.44,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    9.05,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    10.2
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "twz": 1
+   },
+   "examples": [
+    {
+     "outlet": "twz",
+     "day": "2026-10-08",
+     "text": "u s makes f 35 push as portugal weighs f 16 replacement",
+     "link": "https://www.twz.com/air/u-s-makes-f-35-push-as-portugal-weighs-f-16-replacement"
+    }
+   ]
+  },
+  {
+   "code": "SD",
+   "name": "Sudan",
+   "observed": 8,
+   "expected": 4.5,
+   "ratio": 1.79,
+   "z": 1.7,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    1.49,
+    1.52,
+    0.71,
+    0.99,
+    0.44,
+    0.98,
+    0.5,
+    1.36,
+    1.34,
+    1.51,
+    0.51,
+    0.79
+   ],
+   "rank": 1,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 8
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "conflict drought increasing risk of famine in sudan monitor",
+     "link": "https://www.aljazeera.com/news/2026/10/12/conflict-drought-increasing-risk-of-famine-in-sudan-monitor"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "deadly gold mine air strikes highlight egypt sudan border insecurity",
+     "link": "https://www.aljazeera.com/news/2026/10/12/deadly-gold-mine-air-strikes-highlight-egypt-sudan-border-insecurity"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "at least 72 sudanese miners killed in air strike rights monitor",
+     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-72-sudanese-miners-killed-in-air-strike-rights-monitor"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "drone strike kills 30 people in sudans blue nile region",
+     "link": "https://www.aljazeera.com/news/2026/10/9/drone-strike-kills-30-people-in-sudans-blue-nile-region"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "un extends darfur arms embargo blocks broader sudan sanctions proposal",
+     "link": "https://www.aljazeera.com/news/2026/10/9/un-extends-darfur-arms-embargo-blocks-broader-sudan-sanctions-proposal"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "south sudans aid crisis deepens as food stocks run low",
+     "link": "https://www.aljazeera.com/news/2026/10/7/south-sudans-aid-crisis-deepens-as-food-stocks-run-low"
+    }
+   ]
+  },
+  {
+   "code": "XK",
+   "name": "Kosovo",
+   "observed": 3,
+   "expected": 0.8,
+   "ratio": 3.68,
+   "z": 1.6,
+   "dispersion": 2.35,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    5.46,
+    1.34,
+    1.25,
+    0.0,
+    1.38,
+    0.0,
+    5.61,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 3
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "justina shiroka pula kosovos new president elected during a crisis",
+     "link": "https://www.aljazeera.com/news/2026/10/7/justina-shiroka-pula-kosovos-new-president-elected-during-a-crisis"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "amid protests kosovos political deadlock raises prospect of new elections",
+     "link": "https://www.aljazeera.com/news/2026/10/6/amid-protests-kosovos-political-deadlock-raises-prospect-of-new-elections"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "police clash with kosovo protesters over bid to curb hague war crimes court",
+     "link": "https://www.aljazeera.com/news/2026/10/6/police-clash-with-kosovo-protesters-over-bid-to-curb-hague-war-crimes-court"
+    }
+   ]
+  },
+  {
+   "code": "SA",
+   "name": "Saudi Arabia",
+   "observed": 21,
+   "expected": 11.7,
+   "ratio": 1.8,
+   "z": 1.5,
+   "dispersion": 3.19,
+   "baseline_ratios": [
+    0.9,
+    1.12,
+    1.83,
+    1.75,
+    0.26,
+    0.45,
+    0.38,
+    0.58,
+    1.66,
+    1.2,
+    1.55,
+    0.58
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 19,
+    "defensenews": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "countries warn against travel to saudi arabia following houthi attacks",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/countries-warn-against-travel-to-saudi-arabia-following-houthi-attacks"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "houthi missile attack targets saudi capital riyadh for third day in a row",
+     "link": "https://www.aljazeera.com/news/2026/10/12/houthi-missile-attack-targets-saudi-capital-riyadh-for-third-day-in-a-row"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran saudi talks on yemens houthis whats in it for tehran",
+     "link": "https://www.aljazeera.com/news/2026/10/12/iran-saudi-talks-on-yemens-houthis-whats-in-it-for-tehran"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "irans fm urges diplomacy in call with saudi counterpart",
+     "link": "https://www.aljazeera.com/news/2026/10/12/irans-fm-urges-diplomacy-in-call-with-saudi-counterpart"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "saudi arabia says 1 dead 11 injured in latest attack on riyadh airport",
+     "link": "https://www.aljazeera.com/news/2026/10/12/saudi-arabia-says-1-dead-11-injured-in-latest-attack-on-riyadh-airport"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "why are the houthis striking saudi airports",
+     "link": "https://www.aljazeera.com/news/2026/10/12/why-are-the-houthis-striking-saudi-airports"
+    }
+   ]
+  },
+  {
+   "code": "FR",
+   "name": "France",
+   "observed": 20,
+   "expected": 11.6,
+   "ratio": 1.73,
+   "z": 1.5,
+   "dispersion": 2.86,
+   "baseline_ratios": [
+    1.01,
+    1.98,
+    1.21,
+    0.89,
+    1.04,
+    0.44,
+    0.58,
+    0.29,
+    0.28,
+    1.28,
+    1.41,
+    1.76
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 11,
+    "defensenews": 2,
+    "therecord": 1,
+    "ukrinform": 5,
+    "usni": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "france school shooting police detain pupil after two injured",
+     "link": "https://www.aljazeera.com/news/2026/10/12/france-school-shooting-police-detain-pupil-after-two-injured"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "stolen renoir paintings found behind wall in france following arrests",
+     "link": "https://www.aljazeera.com/news/2026/10/12/stolen-renoir-paintings-found-behind-wall-in-france-following-arrests"
+    },
+    {
+     "outlet": "therecord",
+     "day": "2026-10-12",
+     "text": "cyberattack disrupts refridgeration in france",
+     "link": "https://therecord.media/cyberattack-disrupts-refridgeration-in-france"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "french expert europe must prepare for armed peace and strengthen ukraines defense",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173084-french-expert-europe-must-prepare-for-armed-peace-and-strengthen-ukraines-defense.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "security guarantees for ukraine must include readiness to fight alongside its forces french expert says",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173110-security-guarantees-for-ukraine-must-include-readiness-to-fight-alongside-its-forces-french-expert-says.html"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "two renoir paintings recovered after france museum heist mayor says",
+     "link": "https://www.aljazeera.com/news/2026/10/10/two-renoir-paintings-recovered-after-france-museum-heist-mayor-says"
+    }
+   ]
+  },
+  {
+   "code": "KR",
+   "name": "South Korea",
+   "observed": 21,
+   "expected": 12.5,
+   "ratio": 1.68,
+   "z": 1.5,
+   "dispersion": 2.6,
+   "baseline_ratios": [
+    1.14,
+    1.19,
+    0.82,
+    1.6,
+    1.17,
+    0.58,
+    1.69,
+    2.18,
+    0.49,
+    0.72,
+    0.39,
+    0.54
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 3,
+    "nknews": 13,
+    "therecord": 2,
+    "twz": 1,
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "nknews",
+     "day": "2026-10-12",
+     "text": "Seoul denies US has curbed most intel sharing related to North Korea",
+     "link": "https://www.nknews.org/2026/10/seoul-denies-us-has-curbed-most-intel-sharing-related-to-north-korea/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-09",
+     "text": "Over 70% of Americans approve defending South Korea in war against North: Poll",
+     "link": "https://www.nknews.org/2026/10/over-70-of-americans-approve-defending-south-korea-in-war-against-north-poll/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-09",
+     "text": "Seoul’s envoy recall over North Korean POW spat draws backlash in Ukraine, ROK",
+     "link": "https://www.nknews.org/2026/10/seouls-envoy-recall-over-north-korean-pow-spat-draws-backlash-in-ukraine-rok/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-09",
+     "text": "South Korea tests hypersonic missile for first time, weeks after North",
+     "link": "https://www.nknews.org/2026/10/south-korea-tests-hypersonic-missile-for-first-time-weeks-after-north/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-09",
+     "text": "Suspected North Korean land mine washes ashore on South Korean island",
+     "link": "https://www.nknews.org/2026/10/suspected-north-korean-land-mine-washes-ashore-on-south-korean-island/"
+    },
+    {
+     "outlet": "twz",
+     "day": "2026-10-09",
+     "text": "first look at hypersonic boost glide vehicle just tested by south korea",
+     "link": "https://www.twz.com/land/first-look-at-hypersonic-boost-glide-vehicle-just-tested-by-south-korea"
+    }
+   ]
+  },
+  {
+   "code": "MM",
+   "name": "Myanmar",
+   "observed": 4,
+   "expected": 2.0,
+   "ratio": 1.99,
+   "z": 1.3,
+   "dispersion": 1.25,
+   "baseline_ratios": [
+    1.7,
+    0.52,
+    1.73,
+    0.52,
+    0.0,
+    2.5,
+    1.89,
+    0.0,
+    1.85,
+    1.35,
+    0.0,
+    0.58
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "us lifts sanctions on daughter of military linked myanmar tycoon",
+     "link": "https://www.aljazeera.com/news/2026/10/10/us-lifts-sanctions-on-daughter-of-military-linked-myanmar-tycoon"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "malaysia to help myanmar reintegrate into asean despite rights concerns",
+     "link": "https://www.aljazeera.com/news/2026/10/8/malaysia-to-help-myanmar-reintegrate-into-asean-despite-rights-concerns"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "myanmars min aung hlaing visits malaysia amid concerns over repatriations",
+     "link": "https://www.aljazeera.com/news/2026/10/7/myanmars-min-aung-hlaing-visits-malaysia-amid-concerns-over-repatriations"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "malaysias anwar to host myanmar leader as repatriations surpass 10000",
+     "link": "https://www.aljazeera.com/news/2026/10/6/malaysias-anwar-to-host-myanmar-leader-as-repatriations-surpass-10000"
+    }
+   ]
+  },
+  {
+   "code": "FI",
+   "name": "Finland",
+   "observed": 4,
+   "expected": 2.1,
+   "ratio": 1.95,
+   "z": 1.3,
+   "dispersion": 1.05,
+   "baseline_ratios": [
+    1.01,
+    1.02,
+    1.01,
+    0.94,
+    1.1,
+    2.26,
+    2.51,
+    0.54,
+    0.0,
+    1.75,
+    0.0,
+    0.48
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1,
+    "ukrinform": 3
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "finnish pm calls trumpputin diesel deal terrible disappointment",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173025-finnish-pm-calls-trumpputin-diesel-deal-terrible-disappointment.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-10",
+     "text": "ukraine to receive ammunition for f16s from finland to help shoot down jetpowered drones zelensky",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173006-ukraine-to-receive-ammunition-for-f16s-from-finland-to-help-shoot-down-jetpowered-drones-zelensky.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "finland provides ukraine with new military aid package",
+     "link": "https://www.ukrinform.net/rubric-ato/4172730-finland-provides-ukraine-with-new-military-aid-package.html"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "finland orders halt to work on google data sites over environment concerns",
+     "link": "https://www.aljazeera.com/news/2026/10/7/finland-orders-halt-to-work-on-google-data-sites-over-environment-concerns"
+    }
+   ]
+  },
+  {
+   "code": "PA",
+   "name": "Panama",
+   "observed": 1,
+   "expected": 0.3,
+   "ratio": 3.51,
+   "z": 1.3,
+   "dispersion": 1.07,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    5.3,
+    4.91,
+    0.0,
+    5.59,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "defensenews": 1
+   },
+   "examples": [
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "the us army is back in the jungle panamanians are showing soldiers the way",
+     "link": "https://www.defensenews.com/news/your-military/2026/10/12/the-us-army-is-back-in-the-jungle-panamanians-are-showing-soldiers-the-way/"
+    }
+   ]
+  },
+  {
+   "code": "YE",
+   "name": "Yemen",
+   "observed": 33,
+   "expected": 17.6,
+   "ratio": 1.88,
+   "z": 1.2,
+   "dispersion": 8.78,
+   "baseline_ratios": [
+    1.66,
+    1.39,
+    1.23,
+    3.07,
+    0.63,
+    0.06,
+    0.31,
+    0.79,
+    0.71,
+    0.56,
+    1.44,
+    0.52
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 33
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "countries warn against travel to saudi arabia following houthi attacks",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/countries-warn-against-travel-to-saudi-arabia-following-houthi-attacks"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "giants brigades leads southern yemen fightback against the houthis",
+     "link": "https://www.aljazeera.com/news/2026/10/12/giants-brigades-leads-southern-yemen-fightback-against-the-houthis"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "houthi missile attack targets saudi capital riyadh for third day in a row",
+     "link": "https://www.aljazeera.com/news/2026/10/12/houthi-missile-attack-targets-saudi-capital-riyadh-for-third-day-in-a-row"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran saudi talks on yemens houthis whats in it for tehran",
+     "link": "https://www.aljazeera.com/news/2026/10/12/iran-saudi-talks-on-yemens-houthis-whats-in-it-for-tehran"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "why are the houthis striking saudi airports",
+     "link": "https://www.aljazeera.com/news/2026/10/12/why-are-the-houthis-striking-saudi-airports"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "fear and uncertainty for civilians as yemens capital comes under attack",
+     "link": "https://www.aljazeera.com/news-analysis/2026/10/11/fear-and-uncertainty-for-civilians-as-yemens-capital-comes-under-attack"
+    }
+   ]
+  },
+  {
+   "code": "HU",
+   "name": "Hungary",
+   "observed": 3,
+   "expected": 1.5,
+   "ratio": 1.99,
+   "z": 1.2,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.63,
+    0.61,
+    1.42,
+    3.11,
+    0.6,
+    0.6,
+    1.37,
+    1.45,
+    0.68,
+    0.7,
+    0.0,
+    1.35
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "ukrinform": 3
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-08",
+     "text": "hungary greenlights opening of eu accession negotiation clusters 2 and 3 sybiha",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172018-hungary-greenlights-opening-of-eu-accession-negotiation-clusters-2-and-3-sybiha.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "ft hungary may lift veto on next stage of ukraines eu accession talks this week",
+     "link": "https://www.ukrinform.net/rubric-polytics/4171309-ft-hungary-may-lift-veto-on-next-stage-of-ukraines-eu-accession-talks-this-week.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "khortiani campaign of hatred against ukraine in hungary fails",
+     "link": "https://www.ukrinform.net/rubric-society/4171397-khortiani-campaign-of-hatred-against-ukraine-in-hungary-fails.html"
+    }
+   ]
+  },
+  {
+   "code": "RU",
+   "name": "Russia",
+   "observed": 253,
+   "expected": 236.2,
+   "ratio": 1.07,
+   "z": 1.1,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.99,
+    1.02,
+    1.01,
+    1.05,
+    1.04,
+    1.01,
+    0.9,
+    0.98,
+    1.02,
+    1.02,
+    1.01,
+    0.9
+   ],
+   "rank": 1,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 27,
+    "breakingdefense": 1,
+    "nknews": 2,
+    "therecord": 6,
+    "ukrinform": 217
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "energy ceasefire whats behind trumps love hate ties to russian oil",
+     "link": "https://www.aljazeera.com/news/2026/10/12/energy-ceasefire-whats-behind-trumps-love-hate-ties-to-russian-oil"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "poland says two turks arrested over russia linked starlink station fire",
+     "link": "https://www.aljazeera.com/news/2026/10/12/poland-says-two-turks-arrested-over-russia-linked-starlink-station-fire"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "uk pm andy burnham says it is clear russia interfered in 2016 brexit vote",
+     "link": "https://www.aljazeera.com/news/2026/10/12/uk-pm-andy-burnham-says-it-is-clear-russia-interfered-in-2016-brexit-vote"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "ukraines zelenskyy accuses russia of violating trumps energy ceasefire",
+     "link": "https://www.aljazeera.com/news/2026/10/12/ukraines-zelenskyy-accuses-russia-of-violating-trumps-energy-ceasefire"
+    },
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-12",
+     "text": "At Warsaw Security Forum, Poland’s Tusk raises alarm over ‘real threat’ from Russia",
+     "link": "https://breakingdefense.com/2026/10/at-warsaw-security-forum-polands-tusk-raises-alarm-over-real-threat-from-russia/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-12",
+     "text": "Russian emergency minister arrives in North Korea to discuss joint projects",
+     "link": "https://www.nknews.org/2026/10/russian-emergency-minister-arrives-in-north-korea-to-discuss-joint-projects/"
+    }
+   ]
+  },
+  {
+   "code": "DE",
+   "name": "Germany",
+   "observed": 19,
+   "expected": 12.2,
+   "ratio": 1.56,
+   "z": 1.1,
+   "dispersion": 3.32,
+   "baseline_ratios": [
+    1.93,
+    0.75,
+    0.94,
+    0.81,
+    2.43,
+    0.49,
+    0.94,
+    0.85,
+    0.63,
+    0.55,
+    0.69,
+    1.25
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 5,
+    "breakingdefense": 1,
+    "defensenews": 2,
+    "therecord": 1,
+    "twz": 1,
+    "ukrinform": 8,
+    "whitehouse": 1
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "germany to not change its russia sanctions policy following us decision",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173060-germany-to-not-change-its-russia-sanctions-policy-following-us-decision.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "german mp trump strengthening russia and jeopardizing ukraines and europes future",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173272-german-mp-trump-strengthening-russia-and-jeopardizing-ukraines-and-europes-future.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "german officials call trumps stance on ukraine moral bankruptcy",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173286-german-officials-call-trumps-stance-on-ukraine-moral-bankruptcy.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-10",
+     "text": "koretskyi german ambassador discuss supply of equipment for restoring ukraines energy system",
+     "link": "https://www.ukrinform.net/rubric-vidbudova/4172653-koretskyi-german-ambassador-discuss-supply-of-equipment-for-restoring-ukraines-energy-system.html"
+    },
+    {
+     "outlet": "therecord",
+     "day": "2026-10-09",
+     "text": "japan germany ransomware arrest",
+     "link": "https://therecord.media/japan-germany-ransomware-arrest"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "germanys tytan technologies develops interceptor drone to counter jetpowered uavs",
+     "link": "https://www.ukrinform.net/rubric-ato/4172753-germanys-tytan-technologies-develops-interceptor-drone-to-counter-jetpowered-uavs.html"
+    }
+   ]
+  },
+  {
+   "code": "SS",
+   "name": "South Sudan",
+   "observed": 1,
+   "expected": 0.5,
+   "ratio": 2.1,
+   "z": 0.8,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.0,
+    2.59,
+    2.6,
+    0.0,
+    0.0,
+    2.63,
+    2.8,
+    0.0,
+    2.81,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 6,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "intercommunal clashes kill 71 people in south sudan",
+     "link": "https://www.aljazeera.com/news/2026/10/10/intercommunal-clashes-kill-71-people-in-south-sudan"
+    }
+   ]
+  },
+  {
+   "code": "EE",
+   "name": "Estonia",
+   "observed": 4,
+   "expected": 2.3,
+   "ratio": 1.76,
+   "z": 0.8,
+   "dispersion": 2.14,
+   "baseline_ratios": [
+    3.68,
+    0.81,
+    0.88,
+    1.76,
+    1.3,
+    1.28,
+    1.86,
+    0.87,
+    0.0,
+    0.0,
+    0.0,
+    0.38
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "defensenews": 1,
+    "ukrinform": 3
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "estonia seeking eu debate on more aid to ukraine to destroy russian oil refineries pm",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173068-estonia-seeking-eu-debate-on-more-aid-to-ukraine-to-destroy-russian-oil-refineries-pm.html"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-09",
+     "text": "estonias krattworks crafting shahed like dummy drone for target practice",
+     "link": "https://www.defensenews.com/global/europe/2026/10/09/estonias-krattworks-crafting-shahed-like-dummy-drone-for-target-practice/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "zelensky meets estonian defense minister to discuss additional air defense funding",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172802-zelensky-meets-estonian-defense-minister-to-discuss-additional-air-defense-funding.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "estonian rescuers deliver equipment shipment to ukraine",
+     "link": "https://www.ukrinform.net/rubric-society/4172529-estonian-rescuers-deliver-equipment-shipment-to-ukraine.html"
+    }
+   ]
+  },
+  {
+   "code": "BA",
+   "name": "Bosnia and Herzegovina",
+   "observed": 2,
+   "expected": 0.9,
+   "ratio": 2.25,
+   "z": 0.7,
+   "dispersion": 2.64,
+   "baseline_ratios": [
+    7.09,
+    0.0,
+    0.0,
+    0.0,
+    1.12,
+    2.57,
+    0.0,
+    2.87,
+    1.26,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "what were trump operatives doing for pro russian politician dodik in bosnia",
+     "link": "https://www.aljazeera.com/features/2026/10/8/what-were-trump-operatives-doing-for-pro-russian-politician-dodik-in-bosnia"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "bosnias political future looks increasingly like its past",
+     "link": "https://www.aljazeera.com/opinions/2026/10/8/bosnias-political-future-looks-increasingly-like-its-past"
+    }
+   ]
+  },
+  {
+   "code": "NL",
+   "name": "Netherlands",
+   "observed": 5,
+   "expected": 3.6,
+   "ratio": 1.39,
+   "z": 0.7,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    2.14,
+    1.1,
+    1.16,
+    0.53,
+    0.54,
+    1.42,
+    0.87,
+    1.59,
+    0.57,
+    0.91,
+    0.54,
+    0.82
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "defensenews": 1,
+    "ukrinform": 4
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "dutch pm tells costa eu must become stronger and more flexible",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172876-dutch-pm-tells-costa-eu-must-become-stronger-and-more-flexible.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "ukrainian medics learn about the dutch model of care for premature babies",
+     "link": "https://www.ukrinform.net/rubric-society/4172480-ukrainian-medics-learn-about-the-dutch-model-of-care-for-premature-babies.html"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-08",
+     "text": "dutch firm uses ai to help drone systems talk on ukraines battlefield",
+     "link": "https://www.defensenews.com/industry/techwatch/2026/10/08/dutch-firm-uses-ai-to-help-drone-systems-talk-on-ukraines-battlefield/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "zelensky discusses strengthening air defenses and protection against shahed drones with dutch pm",
+     "link": "https://www.ukrinform.net/rubric-polytics/4171350-zelensky-discusses-strengthening-air-defenses-and-protection-against-shahed-drones-with-dutch-pm.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "pm jetten netherlands to help ukraine with f16 maintenance spare parts and ammunition",
+     "link": "https://www.ukrinform.net/rubric-polytics/4171398-pm-jetten-netherlands-to-help-ukraine-with-f16-maintenance-spare-parts-and-ammunition.html"
+    }
+   ]
+  },
+  {
+   "code": "GB",
+   "name": "United Kingdom",
+   "observed": 29,
+   "expected": 22.5,
+   "ratio": 1.29,
+   "z": 0.7,
+   "dispersion": 4.37,
+   "baseline_ratios": [
+    0.99,
+    1.32,
+    0.64,
+    1.39,
+    1.23,
+    0.71,
+    0.94,
+    0.5,
+    0.53,
+    0.31,
+    1.59,
+    1.95
+   ],
+   "rank": 5,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 17,
+    "breakingdefense": 3,
+    "therecord": 2,
+    "twz": 2,
+    "ukrinform": 4,
+    "usni": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "uk blames iran for airbase plot sanctions two iranian nationals",
+     "link": "https://www.aljazeera.com/news/2026/10/12/uk-blames-iran-for-airbase-plot-sanctions-two-iranian-nationals"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "uk pm andy burnham says it is clear russia interfered in 2016 brexit vote",
+     "link": "https://www.aljazeera.com/news/2026/10/12/uk-pm-andy-burnham-says-it-is-clear-russia-interfered-in-2016-brexit-vote"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "uk pm andy burnham vows to renegotiate post brexit trade deal with eu",
+     "link": "https://www.aljazeera.com/news/2026/10/12/uk-pm-andy-burnham-vows-to-renegotiate-post-brexit-trade-deal-with-eu"
+    },
+    {
+     "outlet": "usni",
+     "day": "2026-10-12",
+     "text": "U.K. Royal Navy Destroyer Returns Home From Middle East, Strait of Hormuz Multinational Mission in Limbo",
+     "link": "https://news.usni.org/2026/10/12/u-k-royal-navy-destroyer-returns-home-from-middle-east-strait-of-hormuz-multinational-mission-in-limbo"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "man dies after entering tiger enclosure at england wildlife park",
+     "link": "https://www.aljazeera.com/news/2026/10/11/man-dies-after-entering-tiger-enclosure-at-england-wildlife-park"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "uk greens leader seeks rule change after party declares zionism is racism",
+     "link": "https://www.aljazeera.com/news/2026/10/11/uk-greens-leader-seeks-rule-change-after-party-declares-zionism-is-racism"
+    }
+   ]
+  },
+  {
+   "code": "KP",
+   "name": "North Korea",
+   "observed": 26,
+   "expected": 23.5,
+   "ratio": 1.11,
+   "z": 0.5,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    1.21,
+    1.41,
+    1.0,
+    0.92,
+    0.91,
+    0.91,
+    0.99,
+    1.15,
+    1.04,
+    1.12,
+    0.98,
+    0.59
+   ],
+   "rank": 5,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2,
+    "nknews": 24
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "north korea fires multiple ballistic missiles towards the sea",
+     "link": "https://www.aljazeera.com/news/2026/10/12/north-korea-fires-multiple-ballistic-missiles-towards-the-sea"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-12",
+     "text": "Kim Jong Un opens new weapons museum as North Korea claims missile test success",
+     "link": "https://www.nknews.org/2026/10/kim-jong-un-opens-new-weapons-museum-as-north-korea-claims-missile-test-success/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-12",
+     "text": "Russian emergency minister arrives in North Korea to discuss joint projects",
+     "link": "https://www.nknews.org/2026/10/russian-emergency-minister-arrives-in-north-korea-to-discuss-joint-projects/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-12",
+     "text": "Seoul denies US has curbed most intel sharing related to North Korea",
+     "link": "https://www.nknews.org/2026/10/seoul-denies-us-has-curbed-most-intel-sharing-related-to-north-korea/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-11",
+     "text": "North Korea fires multiple ballistic missiles, fourth test in a month",
+     "link": "https://www.nknews.org/2026/10/north-korea-appears-to-conduct-fourth-missile-test-in-a-month/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-09",
+     "text": "North Korean smartphone stops working when taken to South, Chinese blogger says",
+     "link": "https://www.nknews.org/2026/10/north-korean-smartphone-stops-working-when-taken-to-south-chinese-blogger-says/"
+    }
+   ]
+  },
+  {
+   "code": "GR",
+   "name": "Greece",
+   "observed": 3,
+   "expected": 1.9,
+   "ratio": 1.55,
+   "z": 0.5,
+   "dispersion": 2.2,
+   "baseline_ratios": [
+    0.54,
+    0.56,
+    0.0,
+    1.13,
+    0.57,
+    4.49,
+    0.0,
+    2.09,
+    0.0,
+    1.33,
+    1.98,
+    0.58
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1,
+    "defensenews": 1,
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "spain and greece refuse to give ukraine patriot missiles nearing expiration",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172936-spain-and-greece-refuse-to-give-ukraine-patriot-missiles-nearing-expiration.html"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-07",
+     "text": "rubio says us greece to jointly combat security threats",
+     "link": "https://www.defensenews.com/global/europe/2026/10/07/rubio-says-us-greece-to-jointly-combat-security-threats/"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "hitting the right nail refugee rescue group defiant as greece targets it",
+     "link": "https://www.aljazeera.com/news/2026/10/6/hitting-the-right-nail-refugee-rescue-group-defiant-as-greece-targets-it"
+    }
+   ]
+  },
+  {
+   "code": "PY",
+   "name": "Paraguay",
+   "observed": 1,
+   "expected": 0.0,
+   "ratio": 31.24,
+   "z": 0.5,
+   "dispersion": 103.35,
+   "baseline_ratios": [
+    0.0,
+    1241.26,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "china sanctions paraguay belize ministers over taiwan ties",
+     "link": "https://www.aljazeera.com/news/2026/10/12/china-sanctions-paraguay-belize-ministers-over-taiwan-ties"
+    }
+   ]
+  },
+  {
+   "code": "SG",
+   "name": "Singapore",
+   "observed": 1,
+   "expected": 0.6,
+   "ratio": 1.69,
+   "z": 0.4,
+   "dispersion": 1.41,
+   "baseline_ratios": [
+    1.78,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    4.41,
+    1.92,
+    0.0,
+    0.0,
+    4.82,
+    0.0,
+    1.85
+   ],
+   "rank": 6,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "singapore refers eight civil servants to police over property purchases",
+     "link": "https://www.aljazeera.com/economy/2026/10/6/singapore-refers-eight-civil-servants-to-police-over-property-purchases"
+    }
+   ]
+  },
+  {
+   "code": "DJ",
+   "name": "Djibouti",
+   "observed": 1,
+   "expected": 0.5,
+   "ratio": 2.1,
+   "z": 0.4,
+   "dispersion": 3.87,
+   "baseline_ratios": [
+    0.0,
+    2.59,
+    15.39,
+    2.66,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "at least 109 dead over 100 missing as migrant boat capsizes off djibouti",
+     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-109-dead-over-100-missing-as-migrant-boat-capsizes-off-djibouti"
+    }
+   ]
+  },
+  {
+   "code": "ET",
+   "name": "Ethiopia",
+   "observed": 5,
+   "expected": 3.1,
+   "ratio": 1.59,
+   "z": 0.4,
+   "dispersion": 7.51,
+   "baseline_ratios": [
+    5.81,
+    4.5,
+    1.04,
+    0.0,
+    0.31,
+    0.0,
+    0.72,
+    0.36,
+    0.73,
+    0.82,
+    0.0,
+    0.0
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 5
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "ethiopian troops capture adwa without a fight witnesses say",
+     "link": "https://www.aljazeera.com/news/2026/10/12/ethiopian-troops-capture-adwa-without-a-fight-witnesses-say"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "ethiopia eritrea ramp up rhetoric are they inching towards war",
+     "link": "https://www.aljazeera.com/news/2026/10/11/ethiopia-eritrea-ramp-up-rhetoric-are-they-inching-towards-war"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "ethiopia and eritrea accuse one another of launching war",
+     "link": "https://www.aljazeera.com/news/2026/10/9/ethiopia-and-eritrea-accuse-one-another-of-launching-war"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "will ethiopias neighbours intervene as tigray war escalates",
+     "link": "https://www.aljazeera.com/news/2026/10/9/will-ethiopias-neighbours-intervene-as-tigray-war-escalates"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "witnesses spot eritrean troops inside northern ethiopia as tensions flare",
+     "link": "https://www.aljazeera.com/news/2026/10/7/witnesses-spot-eritrean-troops-inside-northern-ethiopia-as-tensions-flare"
+    }
+   ]
+  },
+  {
+   "code": "AT",
+   "name": "Austria",
+   "observed": 2,
+   "expected": 0.9,
+   "ratio": 2.18,
+   "z": 0.3,
+   "dispersion": 17.97,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    1.07,
+    1.08,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.15,
+    27.92,
+    0.0
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "ukrainian journalist tkach freed after detention in vienna mfa",
+     "link": "https://www.ukrinform.net/rubric-society/4172623-ukrainian-journalist-tkach-freed-after-detention-in-vienna-mfa.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "ukrainian journalist tkach says he was detained in vienna like a terrorist",
+     "link": "https://www.ukrinform.net/rubric-society/4172808-ukrainian-journalist-tkach-says-he-was-detained-in-vienna-like-a-terrorist.html"
+    }
+   ]
+  },
+  {
+   "code": "TJ",
+   "name": "Tajikistan",
+   "observed": 1,
+   "expected": 0.1,
+   "ratio": 10.52,
+   "z": 0.3,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "defensenews": 1
+   },
+   "examples": [
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "india sells air defense missiles to tajikistan turkmenistan in central asia push",
+     "link": "https://www.defensenews.com/global/asia-pacific/2026/10/12/india-sells-air-defense-missiles-to-tajikistan-turkmenistan-in-central-asia-push/"
+    }
+   ]
+  },
+  {
+   "code": "LA",
+   "name": "Laos",
+   "observed": 1,
+   "expected": 0.1,
+   "ratio": 10.11,
+   "z": 0.3,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 2,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "defensenews": 1
+   },
+   "examples": [
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "airport training site in laos extends chinas clout in southeast asia",
+     "link": "https://www.defensenews.com/global/asia-pacific/2026/10/12/airport-training-site-in-laos-extends-chinas-clout-in-southeast-asia/"
+    }
+   ]
+  },
+  {
+   "code": "UA",
+   "name": "Ukraine",
+   "observed": 257,
+   "expected": 252.3,
+   "ratio": 1.02,
+   "z": 0.3,
+   "dispersion": 1.38,
+   "baseline_ratios": [
+    1.16,
+    0.96,
+    0.9,
+    1.02,
+    1.0,
+    0.92,
+    1.07,
+    1.03,
+    0.96,
+    0.92,
+    1.04,
+    0.94
+   ],
+   "rank": 5,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 15,
+    "breakingdefense": 1,
+    "defensenews": 3,
+    "nknews": 5,
+    "therecord": 4,
+    "ukrinform": 229
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "trump thinks ukraine needs a new president who could replace zelenskyy",
+     "link": "https://www.aljazeera.com/news/2026/10/12/trump-thinks-ukraine-needs-a-new-president-who-could-replace-zelenskyy"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "ukraines zelenskyy accuses russia of violating trumps energy ceasefire",
+     "link": "https://www.aljazeera.com/news/2026/10/12/ukraines-zelenskyy-accuses-russia-of-violating-trumps-energy-ceasefire"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "will ukraine survive the winter",
+     "link": "https://www.aljazeera.com/opinions/2026/10/12/will-ukraine-survive-the-winter"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "ukraine is building a patchwork antiballistic defense one stopgap at a time",
+     "link": "https://www.defensenews.com/global/europe/2026/10/12/ukraine-is-building-a-patchwork-antiballistic-defense-one-stopgap-at-a-time/"
+    },
+    {
+     "outlet": "therecord",
+     "day": "2026-10-12",
+     "text": "ukraine strikes third yandex data center",
+     "link": "https://therecord.media/ukraine-strikes-third-yandex-data-center"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "trump says ukraine russia agree to energy ceasefire 2",
+     "link": "https://www.aljazeera.com/news/2026/10/11/trump-says-ukraine-russia-agree-to-energy-ceasefire-2"
+    }
+   ]
+  },
+  {
+   "code": "AZ",
+   "name": "Azerbaijan",
+   "observed": 1,
+   "expected": 0.7,
+   "ratio": 1.44,
+   "z": 0.2,
+   "dispersion": 2.91,
+   "baseline_ratios": [
+    0.0,
+    1.28,
+    0.0,
+    1.39,
+    0.0,
+    0.0,
+    0.0,
+    1.46,
+    9.23,
+    1.44,
+    1.31,
+    0.0
+   ],
+   "rank": 3,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "azerbaijans school hijab ban whats behind it and whats next",
+     "link": "https://www.aljazeera.com/news/2026/10/12/azerbaijans-school-hijab-ban-whats-behind-it-and-whats-next"
+    }
+   ]
+  },
+  {
+   "code": "TR",
+   "name": "Turkey",
+   "observed": 8,
+   "expected": 7.3,
+   "ratio": 1.09,
+   "z": 0.2,
+   "dispersion": 2.33,
+   "baseline_ratios": [
+    0.13,
+    1.14,
+    1.49,
+    0.69,
+    0.67,
+    1.31,
+    0.89,
+    1.06,
+    2.55,
+    1.13,
+    0.28,
+    1.03
+   ],
+   "rank": 6,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4,
+    "defensenews": 2,
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "italy eyes mbda armaments for new italo turkish drone",
+     "link": "https://www.defensenews.com/global/europe/2026/10/12/italy-eyes-mbda-armaments-for-new-italo-turkish-drone/"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "turkiye highway crash kills 11 injures 27 after tour bus hits truck",
+     "link": "https://www.aljazeera.com/news/2026/10/11/turkiye-highway-crash-kills-11-injures-27-after-tour-bus-hits-truck"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "india to turkiye can new proposals to broker russia ukraine truce succeed",
+     "link": "https://www.aljazeera.com/news/2026/10/8/india-to-turkiye-can-new-proposals-to-broker-russia-ukraine-truce-succeed"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "two killed after building partially collapses in turkiye capital",
+     "link": "https://www.aljazeera.com/news/2026/10/8/two-killed-after-building-partially-collapses-in-turkiye-capital"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-08",
+     "text": "turkeys foreign minister says ankara weighing saudi defense support rules out offensive role",
+     "link": "https://www.defensenews.com/global/mideast-africa/2026/10/08/turkeys-foreign-minister-says-ankara-weighing-saudi-defense-support-rules-out-offensive-role/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-08",
+     "text": "defense minister black sea war is one of turkeys security policy priorities",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172152-defense-minister-black-sea-war-is-one-of-turkeys-security-policy-priorities.html"
+    }
+   ]
+  },
+  {
+   "code": "AU",
+   "name": "Australia",
+   "observed": 5,
+   "expected": 4.6,
+   "ratio": 1.1,
+   "z": 0.2,
+   "dispersion": 1.79,
+   "baseline_ratios": [
+    2.38,
+    2.16,
+    1.14,
+    0.21,
+    0.25,
+    0.49,
+    1.12,
+    0.51,
+    1.28,
+    1.11,
+    1.32,
+    0.48
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4,
+    "breakingdefense": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "melbourne man linked to flydubai attack suspect rejects false accusations",
+     "link": "https://www.aljazeera.com/news/2026/10/12/melbourne-man-linked-to-flydubai-attack-suspect-rejects-false-accusations"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "mexican judge sentences three men for murders of australian us surfers",
+     "link": "https://www.aljazeera.com/news/2026/10/10/mexican-judge-sentences-three-men-for-murders-of-australian-us-surfers"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "australia top court rules against coal mine expansion citing climate harm",
+     "link": "https://www.aljazeera.com/news/2026/10/7/australia-top-court-rules-against-coal-mine-expansion-citing-climate-harm"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "former catholic bishop sentenced for abusing indigenous men in australia",
+     "link": "https://www.aljazeera.com/news/2026/10/7/former-catholic-bishop-sentenced-for-abusing-indigenous-men-in-australia"
+    },
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-06",
+     "text": "Australia’s guided weapons and munitions effort makes progress, but risks remain",
+     "link": "https://breakingdefense.com/2026/10/australias-guided-weapons-and-munitions-effort-makes-progress-but-risks-remain/"
+    }
+   ]
+  },
+  {
+   "code": "CZ",
+   "name": "Czechia",
+   "observed": 2,
+   "expected": 1.6,
+   "ratio": 1.23,
+   "z": 0.2,
+   "dispersion": 2.32,
+   "baseline_ratios": [
+    1.85,
+    0.0,
+    3.84,
+    2.56,
+    0.0,
+    0.5,
+    1.81,
+    1.25,
+    0.0,
+    0.0,
+    1.75,
+    0.0
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "exhibition unissued diplomas on ukrainian students killed in war presented at prague conference",
+     "link": "https://www.ukrinform.net/rubric-society/4173279-exhibition-unissued-diplomas-on-ukrainian-students-killed-in-war-presented-at-prague-conference.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "ukraine to participate in future forces international arms exhibition and forum in prague",
+     "link": "https://www.ukrinform.net/rubric-economy/4172133-ukraine-to-participate-in-future-forces-international-arms-exhibition-and-forum-in-prague.html"
+    }
+   ]
+  },
+  {
+   "code": "ZA",
+   "name": "South Africa",
+   "observed": 2,
+   "expected": 1.8,
+   "ratio": 1.11,
+   "z": 0.1,
+   "dispersion": 1.17,
+   "baseline_ratios": [
+    0.57,
+    2.77,
+    2.77,
+    2.0,
+    0.56,
+    0.59,
+    0.63,
+    0.64,
+    0.62,
+    0.0,
+    0.63,
+    0.64
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "south africa deputy police chief resigns amid sex offence charges",
+     "link": "https://www.aljazeera.com/news/2026/10/12/south-africa-deputy-police-chief-resigns-amid-sex-offence-charges"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "south africa protests turn violent amid rage over asylum ruling",
+     "link": "https://www.aljazeera.com/news/2026/10/8/south-africa-protests-turn-violent-amid-rage-over-asylum-ruling"
+    }
+   ]
+  },
+  {
+   "code": "ML",
+   "name": "Mali",
+   "observed": 1,
+   "expected": 0.9,
+   "ratio": 1.07,
+   "z": 0.1,
+   "dispersion": 1.02,
+   "baseline_ratios": [
+    0.0,
+    2.59,
+    0.0,
+    0.0,
+    0.0,
+    1.16,
+    1.24,
+    1.28,
+    0.0,
+    3.18,
+    2.81,
+    1.28
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "tuareg rebels withdraw from strategic town of kidal in northern mali",
+     "link": "https://www.aljazeera.com/news/2026/10/6/tuareg-rebels-withdraw-from-strategic-town-of-kidal-in-northern-mali"
+    }
+   ]
+  },
+  {
+   "code": "CI",
+   "name": "Côte d'Ivoire",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 99.35,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1193.2
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "UY",
+   "name": "Uruguay",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 99.13,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1190.58,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "JM",
+   "name": "Jamaica",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 357.91,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1432.65,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MT",
+   "name": "Malta",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 119.3,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1432.65,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "CY",
+   "name": "Cyprus",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 218.69,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1313.15,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "SL",
+   "name": "Sierra Leone",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "WS",
+   "name": "Samoa",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "VA",
+   "name": "Vatican",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 99.35,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1193.2
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MU",
+   "name": "Mauritius",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BW",
+   "name": "Botswana",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "LV",
+   "name": "Latvia",
+   "observed": 2,
+   "expected": 2.1,
+   "ratio": 0.97,
+   "z": -0.0,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.95,
+    1.4,
+    2.22,
+    0.0,
+    0.0,
+    1.4,
+    2.14,
+    1.06,
+    1.0,
+    1.01,
+    0.45,
+    0.92
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1,
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "latvian foreign ministry trumps decision on russian diesel sends moscow mixed signal on easing sanctions",
+     "link": "https://www.ukrinform.net/rubric-polytics/4173115-latvian-foreign-ministry-trumps-decision-on-russian-diesel-sends-moscow-mixed-signal-on-easing-sanctions.html"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "two latvian men arrested inside uk military base after breach",
+     "link": "https://www.aljazeera.com/news/2026/10/8/two-latvian-men-arrested-inside-uk-military-base-after-breach"
+    }
+   ]
+  },
+  {
+   "code": "LI",
+   "name": "Liechtenstein",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 114.92,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1380.03,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "EH",
+   "name": "Western Sahara",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 94.25,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    1132.03,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BI",
+   "name": "Burundi",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 94.25,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    1132.03,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "CF",
+   "name": "Central African Republic",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 126.01,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1513.09,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "NR",
+   "name": "Nauru",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 114.92,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1380.03,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "AL",
+   "name": "Albania",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 94.25,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    1132.03,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MV",
+   "name": "Maldives",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 94.25,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    1132.03,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "ES",
+   "name": "Spain",
+   "observed": 7,
+   "expected": 6.8,
+   "ratio": 1.03,
+   "z": 0.0,
+   "dispersion": 3.66,
+   "baseline_ratios": [
+    1.27,
+    0.3,
+    0.45,
+    0.78,
+    0.6,
+    1.13,
+    0.16,
+    0.16,
+    1.39,
+    2.93,
+    1.38,
+    2.23
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4,
+    "insightcrime": 1,
+    "ukrinform": 1,
+    "usni": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "far right surges as crises threaten sanchez could vox lead spain",
+     "link": "https://www.aljazeera.com/news/2026/10/12/far-right-surges-as-crises-threaten-sanchez-could-vox-lead-spain"
+    },
+    {
+     "outlet": "insightcrime",
+     "day": "2026-10-12",
+     "text": "Tiguerones Leader ‘Willy’ Is Living Free in Spain",
+     "link": "https://insightcrime.org/news/tiguerones-leader-willy-spain/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "spain and greece refuse to give ukraine patriot missiles nearing expiration",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172936-spain-and-greece-refuse-to-give-ukraine-patriot-missiles-nearing-expiration.html"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "protests debate follow death of maricarmen 87 spain protest symbol",
+     "link": "https://www.aljazeera.com/news/2026/10/9/protests-debate-follow-death-of-maricarmen-87-spain-protest-symbol"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "photos protests erupt after 87 year old evicted woman dies in madrid",
+     "link": "https://www.aljazeera.com/gallery/2026/10/8/photos-protests-erupt-after-87-year-old-evicted-woman-dies-in-madrid"
+    },
+    {
+     "outlet": "usni",
+     "day": "2026-10-08",
+     "text": "U.S. Destroyer Goes into Spanish Dry Dock for Maintenance Overhaul",
+     "link": "https://news.usni.org/2026/10/08/u-s-destroyer-goes-into-spanish-dry-dock-for-maintenance-overhaul"
+    }
+   ]
+  },
+  {
+   "code": "VC",
+   "name": "Saint Vincent",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 103.35,
+   "baseline_ratios": [
+    0.0,
+    1241.26,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "ME",
+   "name": "Montenegro",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 97.87,
+   "baseline_ratios": [
+    1175.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "PS",
+   "name": "Palestine",
+   "observed": 36,
+   "expected": 35.8,
+   "ratio": 1.0,
+   "z": 0.0,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.85,
+    0.86,
+    0.93,
+    0.89,
+    1.1,
+    0.81,
+    1.07,
+    1.03,
+    1.19,
+    1.18,
+    1.09,
+    0.97
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 36
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "photos gaza mothers endure endless lines as famine fears persist",
+     "link": "https://www.aljazeera.com/gallery/2026/10/12/photos-gaza-mothers-endure-endless-lines-as-famine-fears-persist"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "if netanyahu goes does anything really change for palestinians",
+     "link": "https://www.aljazeera.com/news/2026/10/12/if-netanyahu-goes-does-anything-really-change-for-palestinians"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "maps show how israels yellow line keeps squeezing palestinians in gaza",
+     "link": "https://www.aljazeera.com/news/2026/10/12/maps-show-how-israels-yellow-line-keeps-squeezing-palestinians-in-gaza"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "netanyahu demands probe into sources for award winning gaza film naza",
+     "link": "https://www.aljazeera.com/news/2026/10/12/netanyahu-demands-probe-into-sources-for-award-winning-gaza-film-naza"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "how genocidal war on gaza is shaping israels election",
+     "link": "https://www.aljazeera.com/news-analysis/2026/10/11/how-genocidal-war-on-gaza-is-shaping-israels-election"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "when streets become a workplace gaza workers convert tents into offices",
+     "link": "https://www.aljazeera.com/features/2026/10/10/when-streets-become-a-workplace-gaza-workers-convert-tents-into-offices"
+    }
+   ]
+  },
+  {
+   "code": "KZ",
+   "name": "Kazakhstan",
+   "observed": 1,
+   "expected": 1.0,
+   "ratio": 0.96,
+   "z": -0.0,
+   "dispersion": 1.65,
+   "baseline_ratios": [
+    3.47,
+    0.94,
+    1.02,
+    0.0,
+    0.0,
+    2.06,
+    3.63,
+    0.0,
+    0.0,
+    0.0,
+    2.19,
+    0.0
+   ],
+   "rank": 6,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "ukrainian woman detained at russias request leaves kazakhstan and is now in eu lawyer",
+     "link": "https://www.ukrinform.net/rubric-society/4172732-ukrainian-woman-detained-at-russias-request-leaves-kazakhstan-and-is-now-in-eu-lawyer.html"
+    }
+   ]
+  },
+  {
+   "code": "TT",
+   "name": "Trinidad and Tobago",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 92.04,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    1105.42,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MW",
+   "name": "Malawi",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 103.35,
+   "baseline_ratios": [
+    0.0,
+    1241.26,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "PE",
+   "name": "Peru",
+   "observed": 1,
+   "expected": 0.9,
+   "ratio": 1.07,
+   "z": 0.0,
+   "dispersion": 4.25,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    2.2,
+    3.54,
+    0.0,
+    0.0,
+    0.0,
+    0.88,
+    9.25,
+    0.0,
+    0.95
+   ],
+   "rank": 4,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "insightcrime": 1
+   },
+   "examples": [
+    {
+     "outlet": "insightcrime",
+     "day": "2026-10-06",
+     "text": "Social Media is Fertile Ground for Illegal Mining Players in Peru",
+     "link": "https://insightcrime.org/news/social-media-is-fertile-ground-for-illegal-mining-players-in-peru/"
+    }
+   ]
+  },
+  {
+   "code": "BJ",
+   "name": "Benin",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 111.9,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1343.85,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MR",
+   "name": "Mauritania",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 109.29,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1312.41,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "DO",
+   "name": "Dominican Republic",
+   "observed": 0,
+   "expected": 0.1,
+   "ratio": 0.0,
+   "z": -0.0,
+   "dispersion": 114.92,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1380.03,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BD",
+   "name": "Bangladesh",
+   "observed": 1,
+   "expected": 1.2,
+   "ratio": 0.83,
+   "z": -0.1,
+   "dispersion": 2.22,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.86,
+    1.92,
+    0.0,
+    1.91,
+    3.38,
+    0.0,
+    5.0,
+    0.0,
+    0.95,
+    0.0
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "bangladeshs mango diplomacy with india has reached its limits",
+     "link": "https://www.aljazeera.com/opinions/2026/10/9/bangladeshs-mango-diplomacy-with-india-has-reached-its-limits"
+    }
+   ]
+  },
+  {
+   "code": "MA",
+   "name": "Morocco",
+   "observed": 3,
+   "expected": 3.1,
+   "ratio": 0.95,
+   "z": -0.1,
+   "dispersion": 1.51,
+   "baseline_ratios": [
+    1.41,
+    1.89,
+    1.42,
+    0.68,
+    0.64,
+    0.0,
+    0.0,
+    0.73,
+    0.73,
+    2.8,
+    0.73,
+    1.58
+   ],
+   "rank": 6,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2,
+    "breakingdefense": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "israel opens first ever pavilion at morocco defence show",
+     "link": "https://www.aljazeera.com/news/2026/10/8/israel-opens-first-ever-pavilion-at-morocco-defence-show"
+    },
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-08",
+     "text": "In first, Israeli firms, delegation display at Morocco’s Marrakech Airshow",
+     "link": "https://breakingdefense.com/2026/10/in-first-israeli-firms-delegation-display-at-moroccos-marrakech-airshow/"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "moroccan journalists recount years of surveillance amid new amnesty claim",
+     "link": "https://www.aljazeera.com/news/2026/10/6/moroccan-journalists-recount-years-of-surveillance-amid-new-amnesty-claim"
+    }
+   ]
+  },
+  {
+   "code": "LT",
+   "name": "Lithuania",
+   "observed": 2,
+   "expected": 2.2,
+   "ratio": 0.91,
+   "z": -0.1,
+   "dispersion": 2.31,
+   "baseline_ratios": [
+    1.84,
+    0.38,
+    3.35,
+    2.95,
+    0.4,
+    0.37,
+    0.84,
+    1.4,
+    0.0,
+    0.87,
+    0.81,
+    0.0
+   ],
+   "rank": 5,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "breakingdefense": 1,
+    "defensenews": 1
+   },
+   "examples": [
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-08",
+     "text": "Lithuania says it could pay for a permanent in-country US base",
+     "link": "https://breakingdefense.com/2026/10/lithuania-says-it-could-pay-for-a-permanent-in-country-us-base/"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-06",
+     "text": "lithuania says it would pay the cost if us establishes military base",
+     "link": "https://www.defensenews.com/global/europe/2026/10/06/lithuania-says-it-would-pay-the-cost-if-us-establishes-military-base/"
+    }
+   ]
+  },
+  {
+   "code": "AE",
+   "name": "United Arab Emirates",
+   "observed": 2,
+   "expected": 2.4,
+   "ratio": 0.84,
+   "z": -0.2,
+   "dispersion": 1.45,
+   "baseline_ratios": [
+    2.57,
+    1.46,
+    0.0,
+    2.55,
+    0.44,
+    0.94,
+    1.02,
+    0.48,
+    0.99,
+    1.68,
+    0.47,
+    0.0
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran sets crosshairs on us uae oil shuttle out of strait of hormuz",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/iran-sets-crosshairs-on-us-uae-oil-shuttle-out-of-strait-of-hormuz"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "flydubai co pilot plotted suicide attack on israel uae says",
+     "link": "https://www.aljazeera.com/news/2026/10/9/flydubai-co-pilot-plotted-suicide-attack-on-israel-uae-says"
+    }
+   ]
+  },
+  {
+   "code": "IL",
+   "name": "Israel",
+   "observed": 42,
+   "expected": 43.7,
+   "ratio": 0.96,
+   "z": -0.2,
+   "dispersion": 1.17,
+   "baseline_ratios": [
+    1.0,
+    0.76,
+    0.88,
+    1.04,
+    1.14,
+    1.18,
+    1.05,
+    0.89,
+    0.93,
+    0.73,
+    1.4,
+    0.93
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 40,
+    "breakingdefense": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "explosion in northern israel students and teachers injured",
+     "link": "https://www.aljazeera.com/news/2026/10/12/explosion-in-northern-israel-students-and-teachers-injured"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "israeli academic and al jazeera contributor ori goldberg dies at 50",
+     "link": "https://www.aljazeera.com/news/2026/10/12/israeli-academic-and-al-jazeera-contributor-ori-goldberg-dies-at-50"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "maps show how israels yellow line keeps squeezing palestinians in gaza",
+     "link": "https://www.aljazeera.com/news/2026/10/12/maps-show-how-israels-yellow-line-keeps-squeezing-palestinians-in-gaza"
+    },
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-12",
+     "text": "Three years of war, 100,000 targets struck: IDF releases new conflict data",
+     "link": "https://breakingdefense.com/2026/10/three-years-of-war-100000-targets-struck-idf-releases-new-conflict-data/"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "creating a ghost town lives in limbo behind israeli gates and checkpoints",
+     "link": "https://www.aljazeera.com/features/2026/10/11/creating-a-ghost-town-lives-in-limbo-behind-israeli-gates-and-checkpoints"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "how genocidal war on gaza is shaping israels election",
+     "link": "https://www.aljazeera.com/news-analysis/2026/10/11/how-genocidal-war-on-gaza-is-shaping-israels-election"
+    }
+   ]
+  },
+  {
+   "code": "EG",
+   "name": "Egypt",
+   "observed": 2,
+   "expected": 2.6,
+   "ratio": 0.78,
+   "z": -0.2,
+   "dispersion": 2.21,
+   "baseline_ratios": [
+    0.0,
+    1.27,
+    1.73,
+    0.81,
+    3.46,
+    0.84,
+    0.42,
+    2.45,
+    0.0,
+    0.96,
+    0.0,
+    0.87
+   ],
+   "rank": 9,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "deadly gold mine air strikes highlight egypt sudan border insecurity",
+     "link": "https://www.aljazeera.com/news/2026/10/12/deadly-gold-mine-air-strikes-highlight-egypt-sudan-border-insecurity"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "egypts press union chief rejects pressure over detained journalists",
+     "link": "https://www.aljazeera.com/news/2026/10/12/egypts-press-union-chief-rejects-pressure-over-detained-journalists"
+    }
+   ]
+  },
+  {
+   "code": "CO",
+   "name": "Colombia",
+   "observed": 2,
+   "expected": 3.1,
+   "ratio": 0.64,
+   "z": -0.2,
+   "dispersion": 7.94,
+   "baseline_ratios": [
+    0.3,
+    0.31,
+    1.32,
+    0.0,
+    0.92,
+    0.63,
+    0.33,
+    6.6,
+    3.25,
+    0.36,
+    0.0,
+    0.3
+   ],
+   "rank": 5,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "colombian embassy to open in jerusalem israeli fm says",
+     "link": "https://www.aljazeera.com/news/2026/10/8/colombian-embassy-to-open-in-jerusalem-israeli-fm-says"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "protesters in colombia rally against ties with israel",
+     "link": "https://www.aljazeera.com/news/2026/10/8/protesters-in-colombia-rally-against-ties-with-israel"
+    }
+   ]
+  },
+  {
+   "code": "IS",
+   "name": "Iceland",
+   "observed": 0,
+   "expected": 0.5,
+   "ratio": 0.0,
+   "z": -0.2,
+   "dispersion": 14.08,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    42.78,
+    2.8,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "OM",
+   "name": "Oman",
+   "observed": 2,
+   "expected": 2.5,
+   "ratio": 0.8,
+   "z": -0.2,
+   "dispersion": 2.85,
+   "baseline_ratios": [
+    0.0,
+    0.4,
+    0.4,
+    0.86,
+    0.0,
+    2.4,
+    0.43,
+    2.0,
+    3.94,
+    2.18,
+    0.91,
+    0.0
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "us forces disable ship attempting to run iran blockade in gulf of oman",
+     "link": "https://www.aljazeera.com/news/2026/10/11/us-forces-disable-ship-attempting-to-run-iran-blockade-in-gulf-of-oman"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "oman evacuates injured crew from attacked tanker in strait of hormuz",
+     "link": "https://www.aljazeera.com/news/2026/10/7/oman-evacuates-injured-crew-from-attacked-tanker-in-strait-of-hormuz"
+    }
+   ]
+  },
+  {
+   "code": "NO",
+   "name": "Norway",
+   "observed": 2,
+   "expected": 2.6,
+   "ratio": 0.78,
+   "z": -0.2,
+   "dispersion": 3.52,
+   "baseline_ratios": [
+    0.75,
+    0.72,
+    1.22,
+    3.1,
+    0.36,
+    2.98,
+    3.28,
+    0.0,
+    0.38,
+    0.4,
+    0.0,
+    0.0
+   ],
+   "rank": 5,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "breakingdefense": 1,
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-12",
+     "text": "US-Norwegian startup Heaviside launches Tyr loitering munition",
+     "link": "https://breakingdefense.com/2026/10/us-norwegian-startup-heaviside-launches-tyr-loitering-munition/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "zelensky discusses russian attacks further support for ukraine with norwegian pm",
+     "link": "https://www.ukrinform.net/rubric-ato/4173077-zelensky-discusses-russian-attacks-further-support-for-ukraine-with-norwegian-pm.html"
+    }
+   ]
+  },
+  {
+   "code": "IT",
+   "name": "Italy",
+   "observed": 4,
+   "expected": 4.5,
+   "ratio": 0.89,
+   "z": -0.2,
+   "dispersion": 1.01,
+   "baseline_ratios": [
+    0.47,
+    1.29,
+    0.96,
+    0.96,
+    0.5,
+    1.3,
+    0.83,
+    0.54,
+    2.07,
+    0.55,
+    0.79,
+    2.01
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2,
+    "defensenews": 1,
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "pope leo to undergo surgery to remove lung nodule in rome",
+     "link": "https://www.aljazeera.com/news/2026/10/12/pope-leo-to-undergo-surgery-to-remove-lung-nodule-in-rome"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "italy eyes mbda armaments for new italo turkish drone",
+     "link": "https://www.defensenews.com/global/europe/2026/10/12/italy-eyes-mbda-armaments-for-new-italo-turkish-drone/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "ukrainians in rome hold charity dinner to raise funds for afu",
+     "link": "https://www.ukrinform.net/rubric-society/4172580-ukrainians-in-rome-hold-charity-dinner-to-raise-funds-for-afu.html"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "italian law to give election winners bonus seats why thats controversial",
+     "link": "https://www.aljazeera.com/news/2026/10/8/italian-law-to-give-election-winners-bonus-seats-why-thats-controversial"
+    }
+   ]
+  },
+  {
+   "code": "BE",
+   "name": "Belgium",
+   "observed": 1,
+   "expected": 1.4,
+   "ratio": 0.73,
+   "z": -0.3,
+   "dispersion": 1.36,
+   "baseline_ratios": [
+    3.58,
+    1.5,
+    0.75,
+    0.69,
+    0.72,
+    0.7,
+    2.66,
+    1.69,
+    0.0,
+    0.0,
+    0.0,
+    0.7
+   ],
+   "rank": 6,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "over 100 arrested in belgium student protests over education costs",
+     "link": "https://www.aljazeera.com/news/2026/10/7/over-100-arrested-in-belgium-student-protests-over-education-costs"
+    }
+   ]
+  },
+  {
+   "code": "SK",
+   "name": "Slovakia",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 1.58,
+   "baseline_ratios": [
+    11.12,
+    0.0,
+    0.0,
+    0.0,
+    9.79,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "PR",
+   "name": "Puerto Rico",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 1.63,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    10.44,
+    0.0,
+    0.0,
+    11.16,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BF",
+   "name": "Burkina Faso",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 1.71,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    11.16,
+    0.0,
+    11.29,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "CM",
+   "name": "Cameroon",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 1.57,
+   "baseline_ratios": [
+    0.0,
+    10.3,
+    0.0,
+    10.55,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "AM",
+   "name": "Armenia",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 1.58,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    9.79,
+    0.0,
+    0.0,
+    0.0,
+    11.16,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MD",
+   "name": "Moldova",
+   "observed": 2,
+   "expected": 3.0,
+   "ratio": 0.66,
+   "z": -0.3,
+   "dispersion": 3.0,
+   "baseline_ratios": [
+    1.24,
+    0.83,
+    0.99,
+    0.9,
+    0.0,
+    2.5,
+    3.56,
+    0.95,
+    0.95,
+    0.0,
+    0.55,
+    0.27
+   ],
+   "rank": 9,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "another drone explodes moldova",
+     "link": "https://www.ukrinform.net/rubric-ato/4173226-another-drone-explodes-moldova.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-09",
+     "text": "moldova ready to take in new wave of ukrainian refugees in winter sandu says",
+     "link": "https://www.ukrinform.net/rubric-polytics/4172363-moldova-ready-to-take-in-new-wave-of-ukrainian-refugees-in-winter-sandu-says.html"
+    }
+   ]
+  },
+  {
+   "code": "NP",
+   "name": "Nepal",
+   "observed": 2,
+   "expected": 5.4,
+   "ratio": 0.37,
+   "z": -0.3,
+   "dispersion": 19.18,
+   "baseline_ratios": [
+    0.18,
+    1.0,
+    0.79,
+    1.03,
+    3.25,
+    8.74,
+    0.0,
+    0.0,
+    0.0,
+    0.46,
+    0.0,
+    0.0
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1,
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "at least five people missing as flash floods in nepal sweep away houses",
+     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-five-people-missing-as-flash-floods-in-nepal-sweep-away-houses"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "search and identification of remains continue in nepal despite end of rescue operation ukraines foreign ministry",
+     "link": "https://www.ukrinform.net/rubric-emergencies/4171573-search-and-identification-of-remains-continue-in-nepal-despite-end-of-rescue-operation-ukraines-foreign-ministry.html"
+    }
+   ]
+  },
+  {
+   "code": "IE",
+   "name": "Ireland",
+   "observed": 1,
+   "expected": 1.6,
+   "ratio": 0.64,
+   "z": -0.3,
+   "dispersion": 2.08,
+   "baseline_ratios": [
+    2.15,
+    0.0,
+    0.65,
+    2.12,
+    2.06,
+    0.61,
+    0.0,
+    0.0,
+    0.68,
+    0.7,
+    4.25,
+    0.0
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "northern irelands sinn fein faces police probe as protest tensions fester",
+     "link": "https://www.aljazeera.com/news/2026/10/9/northern-irelands-sinn-fein-faces-police-probe-as-protest-tensions-fester"
+    }
+   ]
+  },
+  {
+   "code": "CL",
+   "name": "Chile",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 1.68,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    10.55,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    11.55
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "GN",
+   "name": "Guinea",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 3.84,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    4.91,
+    0.0,
+    22.1,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "GW",
+   "name": "Guinea-Bissau",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.3,
+   "dispersion": 3.61,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    4.91,
+    20.71,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "JP",
+   "name": "Japan",
+   "observed": 8,
+   "expected": 9.0,
+   "ratio": 0.89,
+   "z": -0.3,
+   "dispersion": 1.61,
+   "baseline_ratios": [
+    0.8,
+    0.81,
+    1.16,
+    0.45,
+    1.12,
+    1.39,
+    0.65,
+    1.66,
+    1.44,
+    1.81,
+    0.36,
+    0.73
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 3,
+    "therecord": 1,
+    "ukrinform": 2,
+    "usni": 2
+   },
+   "examples": [
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "japan to buy ukrainian interceptor drones from skyfall",
+     "link": "https://www.ukrinform.net/rubric-economy/4173126-japan-to-buy-ukrainian-interceptor-drones-from-skyfall.html"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-11",
+     "text": "around 80 japanese companies considering ukraine as potential partner expert",
+     "link": "https://www.ukrinform.net/rubric-economy/4173153-around-80-japanese-companies-considering-ukraine-as-potential-partner-expert.html"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "european states canada japan and un back icc against us sanctions",
+     "link": "https://www.aljazeera.com/news/2026/10/9/european-states-canada-japan-and-un-back-icc-against-us-sanctions"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "japans okinawa calls for review of us forces pact after killing",
+     "link": "https://www.aljazeera.com/news/2026/10/9/japans-okinawa-calls-for-review-of-us-forces-pact-after-killing"
+    },
+    {
+     "outlet": "therecord",
+     "day": "2026-10-09",
+     "text": "japan germany ransomware arrest",
+     "link": "https://therecord.media/japan-germany-ransomware-arrest"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "okinawa governor urges japan action after us marine arrested over killing",
+     "link": "https://www.aljazeera.com/news/2026/10/7/okinawa-governor-urges-japan-action-after-us-marine-arrested-over-killing"
+    }
+   ]
+  },
+  {
+   "code": "PL",
+   "name": "Poland",
+   "observed": 8,
+   "expected": 10.3,
+   "ratio": 0.78,
+   "z": -0.3,
+   "dispersion": 5.69,
+   "baseline_ratios": [
+    0.46,
+    1.23,
+    1.31,
+    2.54,
+    0.37,
+    1.11,
+    0.18,
+    0.5,
+    0.49,
+    2.35,
+    0.36,
+    1.55
+   ],
+   "rank": 7,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 3,
+    "breakingdefense": 2,
+    "defensenews": 1,
+    "ukrinform": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "poland says two turks arrested over russia linked starlink station fire",
+     "link": "https://www.aljazeera.com/news/2026/10/12/poland-says-two-turks-arrested-over-russia-linked-starlink-station-fire"
+    },
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-12",
+     "text": "At Warsaw Security Forum, Poland’s Tusk raises alarm over ‘real threat’ from Russia",
+     "link": "https://breakingdefense.com/2026/10/at-warsaw-security-forum-polands-tusk-raises-alarm-over-real-threat-from-russia/"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "patriot interceptor deliveries to poland will be delayed top general says",
+     "link": "https://www.defensenews.com/industry/techwatch/2026/10/12/patriot-interceptor-deliveries-to-poland-will-be-delayed-top-general-says/"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "poland police probe alleged plot to assassinate pm tusk defence minister",
+     "link": "https://www.aljazeera.com/news/2026/10/11/poland-police-probe-alleged-plot-to-assassinate-pm-tusk-defence-minister"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "three injured in third school attack in poland in less than a week",
+     "link": "https://www.aljazeera.com/news/2026/10/10/three-injured-in-third-school-attack-in-poland-in-less-than-a-week"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-10",
+     "text": "poland issues alerts scrambles military aircraft amid russian attack on ukraine",
+     "link": "https://www.ukrinform.net/rubric-ato/4172939-poland-issues-alerts-scrambles-military-aircraft-amid-russian-attack-on-ukraine.html"
+    }
+   ]
+  },
+  {
+   "code": "VU",
+   "name": "Vanuatu",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 1.53,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    10.55,
+    9.79,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "AF",
+   "name": "Afghanistan",
+   "observed": 1,
+   "expected": 2.2,
+   "ratio": 0.46,
+   "z": -0.4,
+   "dispersion": 3.34,
+   "baseline_ratios": [
+    0.97,
+    1.55,
+    0.47,
+    1.01,
+    0.45,
+    0.48,
+    1.08,
+    6.14,
+    0.0,
+    0.58,
+    0.52,
+    0.53
+   ],
+   "rank": 11,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "afghanistans emerald miners struggle with tools but attract global buyers",
+     "link": "https://www.aljazeera.com/news/2026/10/9/afghanistans-emerald-miners-struggle-with-tools-but-attract-global-buyers"
+    }
+   ]
+  },
+  {
+   "code": "KH",
+   "name": "Cambodia",
+   "observed": 0,
+   "expected": 0.4,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 2.17,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3.74,
+    0.0,
+    4.03,
+    11.16,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "GY",
+   "name": "Guyana",
+   "observed": 0,
+   "expected": 0.6,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 2.87,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.97,
+    0.0,
+    2.24,
+    0.0,
+    0.0,
+    0.0,
+    11.29,
+    2.33
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "HN",
+   "name": "Honduras",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 1.16,
+   "baseline_ratios": [
+    5.09,
+    0.0,
+    0.0,
+    0.0,
+    5.9,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    5.95,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "LY",
+   "name": "Libya",
+   "observed": 1,
+   "expected": 1.5,
+   "ratio": 0.67,
+   "z": -0.4,
+   "dispersion": 1.34,
+   "baseline_ratios": [
+    0.69,
+    0.69,
+    0.0,
+    0.0,
+    0.67,
+    3.51,
+    2.6,
+    1.64,
+    0.0,
+    0.84,
+    1.63,
+    0.77
+   ],
+   "rank": 9,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "libyas parliament removes speaker aguila saleh after 12 years",
+     "link": "https://www.aljazeera.com/news/2026/10/7/libyas-parliament-removes-speaker-aguila-saleh-after-12-years"
+    }
+   ]
+  },
+  {
+   "code": "KG",
+   "name": "Kyrgyzstan",
+   "observed": 0,
+   "expected": 0.4,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 2.0,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    10.15,
+    3.43,
+    0.0,
+    0.0,
+    0.0,
+    4.23,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "SN",
+   "name": "Senegal",
+   "observed": 0,
+   "expected": 0.4,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 1.96,
+   "baseline_ratios": [
+    10.13,
+    3.45,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3.79,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "SI",
+   "name": "Slovenia",
+   "observed": 0,
+   "expected": 0.7,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 3.77,
+   "baseline_ratios": [
+    0.0,
+    3.45,
+    10.82,
+    1.48,
+    0.0,
+    1.44,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "QA",
+   "name": "Qatar",
+   "observed": 2,
+   "expected": 2.7,
+   "ratio": 0.73,
+   "z": -0.4,
+   "dispersion": 1.04,
+   "baseline_ratios": [
+    0.78,
+    1.29,
+    1.2,
+    1.22,
+    1.71,
+    2.34,
+    1.38,
+    0.42,
+    0.42,
+    0.0,
+    0.0,
+    1.37
+   ],
+   "rank": 9,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1,
+    "defensenews": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "tanker hit by multiple projectiles off north coast of qatar ukmto says",
+     "link": "https://www.aljazeera.com/news/2026/10/8/tanker-hit-by-multiple-projectiles-off-north-coast-of-qatar-ukmto-says"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-08",
+     "text": "pentagon barred qatar base access to hide iran war damage us senator claims",
+     "link": "https://www.defensenews.com/news/pentagon-congress/2026/10/08/pentagon-barred-qatar-base-access-to-hide-iran-war-damage-us-senator-claims/"
+    }
+   ]
+  },
+  {
+   "code": "RW",
+   "name": "Rwanda",
+   "observed": 0,
+   "expected": 0.6,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 3.13,
+   "baseline_ratios": [
+    0.0,
+    2.07,
+    10.31,
+    0.0,
+    0.0,
+    5.24,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "RO",
+   "name": "Romania",
+   "observed": 2,
+   "expected": 2.8,
+   "ratio": 0.71,
+   "z": -0.4,
+   "dispersion": 1.63,
+   "baseline_ratios": [
+    1.03,
+    0.96,
+    1.1,
+    0.0,
+    1.36,
+    1.31,
+    0.66,
+    1.51,
+    0.34,
+    0.34,
+    3.14,
+    0.64
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "breakingdefense": 1,
+    "ukrinform": 1
+   },
+   "examples": [
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-07",
+     "text": "Romania orders 12 Airbus H225M multirole helicopters",
+     "link": "https://breakingdefense.com/2026/10/romania-orders-12-airbus-h225m-multirole-helicopters/"
+    },
+    {
+     "outlet": "ukrinform",
+     "day": "2026-10-06",
+     "text": "russian drone strikes grain carrier in black sea near romania fatalities reported vessel sinks",
+     "link": "https://www.ukrinform.net/rubric-ato/4171234-russian-drone-strikes-grain-carrier-in-black-sea-near-romania-fatalities-reported-vessel-sinks.html"
+    }
+   ]
+  },
+  {
+   "code": "LR",
+   "name": "Liberia",
+   "observed": 0,
+   "expected": 0.6,
+   "ratio": 0.0,
+   "z": -0.4,
+   "dispersion": 2.86,
+   "baseline_ratios": [
+    0.0,
+    2.07,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    11.13,
+    0.0,
+    0.0,
+    2.54,
+    2.27,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "GT",
+   "name": "Guatemala",
+   "observed": 0,
+   "expected": 0.5,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 2.38,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    2.19,
+    0.0,
+    0.0,
+    2.35,
+    0.0,
+    9.27,
+    0.0,
+    2.27,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "SV",
+   "name": "El Salvador",
+   "observed": 0,
+   "expected": 0.2,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 1.05,
+   "baseline_ratios": [
+    6.47,
+    5.29,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3.97,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MK",
+   "name": "North Macedonia",
+   "observed": 0,
+   "expected": 0.4,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 1.54,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    2.78,
+    2.65,
+    0.0,
+    0.0,
+    2.92,
+    0.0,
+    7.52,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "PH",
+   "name": "Philippines",
+   "observed": 2,
+   "expected": 2.8,
+   "ratio": 0.71,
+   "z": -0.5,
+   "dispersion": 1.07,
+   "baseline_ratios": [
+    1.1,
+    0.7,
+    1.94,
+    2.09,
+    1.09,
+    0.34,
+    0.37,
+    1.19,
+    0.37,
+    0.39,
+    2.08,
+    0.74
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1,
+    "usni": 1
+   },
+   "examples": [
+    {
+     "outlet": "usni",
+     "day": "2026-10-09",
+     "text": "Philippine and Chinese Incidents Spike in South China Sea, Luzon Strait",
+     "link": "https://news.usni.org/2026/10/09/philippine-and-chinese-incidents-spike-in-south-china-sea-luzon-strait"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "philippines ex president duterte fit to stand trial icc rules",
+     "link": "https://www.aljazeera.com/news/2026/10/8/philippines-ex-president-duterte-fit-to-stand-trial-icc-rules"
+    }
+   ]
+  },
+  {
+   "code": "CU",
+   "name": "Cuba",
+   "observed": 1,
+   "expected": 1.6,
+   "ratio": 0.62,
+   "z": -0.5,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.0,
+    2.22,
+    0.65,
+    0.0,
+    2.11,
+    0.0,
+    0.7,
+    1.53,
+    0.7,
+    1.7,
+    1.52,
+    1.55
+   ],
+   "rank": 10,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "cuba forges ahead with renewable energy plans amid us oil blockade",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/cuba-forges-ahead-with-renewable-energy-plans-amid-us-oil-blockade"
+    }
+   ]
+  },
+  {
+   "code": "SE",
+   "name": "Sweden",
+   "observed": 1,
+   "expected": 2.9,
+   "ratio": 0.35,
+   "z": -0.5,
+   "dispersion": 4.02,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    4.32,
+    2.54,
+    1.67,
+    1.2,
+    2.4,
+    0.4,
+    0.0,
+    0.0,
+    0.0,
+    0.78
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "breakingdefense": 1
+   },
+   "examples": [
+    {
+     "outlet": "breakingdefense",
+     "day": "2026-10-09",
+     "text": "Swedish government launches first Patriot mission to Poland",
+     "link": "https://breakingdefense.com/2026/10/swedish-government-launches-first-patriot-mission-to-poland/"
+    }
+   ]
+  },
+  {
+   "code": "TH",
+   "name": "Thailand",
+   "observed": 1,
+   "expected": 1.9,
+   "ratio": 0.53,
+   "z": -0.5,
+   "dispersion": 1.71,
+   "baseline_ratios": [
+    0.54,
+    1.16,
+    0.0,
+    0.0,
+    3.63,
+    1.9,
+    1.36,
+    0.0,
+    2.01,
+    0.0,
+    1.29,
+    1.25
+   ],
+   "rank": 9,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "war and high debt to dominate imf world bank meetings in bangkok",
+     "link": "https://www.aljazeera.com/news/2026/10/11/war-and-high-debt-to-dominate-imf-world-bank-meetings-in-bangkok"
+    }
+   ]
+  },
+  {
+   "code": "GH",
+   "name": "Ghana",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 1.06,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    4.91,
+    5.24,
+    0.0,
+    0.0,
+    5.61,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "ZM",
+   "name": "Zambia",
+   "observed": 0,
+   "expected": 1.0,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 3.41,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    2.46,
+    1.17,
+    4.79,
+    7.61,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "LK",
+   "name": "Sri Lanka",
+   "observed": 0,
+   "expected": 0.5,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 2.24,
+   "baseline_ratios": [
+    0.0,
+    6.88,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    7.46,
+    3.18,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BR",
+   "name": "Brazil",
+   "observed": 3,
+   "expected": 4.8,
+   "ratio": 0.63,
+   "z": -0.5,
+   "dispersion": 2.95,
+   "baseline_ratios": [
+    3.38,
+    1.08,
+    0.2,
+    1.05,
+    0.39,
+    1.54,
+    0.44,
+    1.83,
+    0.99,
+    0.48,
+    0.43,
+    0.85
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 3
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "suspect killed after 13 kindergarteners taken hostage beaten in brazil",
+     "link": "https://www.aljazeera.com/news/2026/10/10/suspect-killed-after-13-kindergarteners-taken-hostage-beaten-in-brazil"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "brazilian supreme court judge issues arrest warrant for eduardo bolsonaro",
+     "link": "https://www.aljazeera.com/news/2026/10/9/brazilian-supreme-court-judge-issues-arrest-warrant-for-eduardo-bolsonaro"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "why flavio bolsonaro outperformed the polls in brazils election",
+     "link": "https://www.aljazeera.com/news/2026/10/6/why-flavio-bolsonaro-outperformed-the-polls-in-brazils-election"
+    }
+   ]
+  },
+  {
+   "code": "GL",
+   "name": "Greenland",
+   "observed": 0,
+   "expected": 1.3,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 5.71,
+   "baseline_ratios": [
+    0.0,
+    8.8,
+    5.42,
+    0.79,
+    0.0,
+    0.89,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "ZW",
+   "name": "Zimbabwe",
+   "observed": 0,
+   "expected": 1.0,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 4.08,
+   "baseline_ratios": [
+    2.27,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.05,
+    0.0,
+    9.49,
+    0.0,
+    2.82,
+    1.14,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "LU",
+   "name": "Luxembourg",
+   "observed": 0,
+   "expected": 0.5,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 2.39,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    4.74,
+    0.0,
+    1.77,
+    7.53,
+    1.79,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "GE",
+   "name": "Georgia",
+   "observed": 0,
+   "expected": 0.6,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 2.92,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.91,
+    0.0,
+    0.0,
+    1.84,
+    9.75,
+    4.59,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "MZ",
+   "name": "Mozambique",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.5,
+   "dispersion": 1.1,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    5.3,
+    0.0,
+    5.24,
+    0.0,
+    0.0,
+    5.61,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "HR",
+   "name": "Croatia",
+   "observed": 0,
+   "expected": 0.5,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 1.42,
+   "baseline_ratios": [
+    0.0,
+    2.56,
+    0.0,
+    0.0,
+    6.86,
+    0.0,
+    2.95,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    2.83
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "HK",
+   "name": "Hong Kong",
+   "observed": 0,
+   "expected": 0.5,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 1.41,
+   "baseline_ratios": [
+    2.55,
+    0.0,
+    0.0,
+    7.05,
+    2.46,
+    0.0,
+    2.8,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "CR",
+   "name": "Costa Rica",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    3.5,
+    3.42,
+    0.0,
+    0.0,
+    3.44,
+    0.0,
+    0.0,
+    3.84,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "TW",
+   "name": "Taiwan",
+   "observed": 2,
+   "expected": 3.5,
+   "ratio": 0.58,
+   "z": -0.6,
+   "dispersion": 1.87,
+   "baseline_ratios": [
+    2.91,
+    0.95,
+    0.27,
+    0.58,
+    0.33,
+    0.63,
+    1.52,
+    2.39,
+    0.65,
+    1.04,
+    1.39,
+    0.3
+   ],
+   "rank": 10,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "china sanctions paraguay belize ministers over taiwan ties",
+     "link": "https://www.aljazeera.com/news/2026/10/12/china-sanctions-paraguay-belize-ministers-over-taiwan-ties"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "taiwan president says defence spending boost aims to deter war",
+     "link": "https://www.aljazeera.com/news/2026/10/10/taiwan-president-says-defence-spending-boost-aims-to-deter-war"
+    }
+   ]
+  },
+  {
+   "code": "AO",
+   "name": "Angola",
+   "observed": 0,
+   "expected": 0.3,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    4.68,
+    3.78,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    6.37,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "KW",
+   "name": "Kuwait",
+   "observed": 0,
+   "expected": 0.7,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 2.15,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.53,
+    0.0,
+    1.64,
+    0.0,
+    4.16,
+    1.64,
+    6.87
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "UG",
+   "name": "Uganda",
+   "observed": 0,
+   "expected": 1.2,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 3.23,
+   "baseline_ratios": [
+    1.85,
+    0.0,
+    0.0,
+    1.93,
+    0.0,
+    0.88,
+    0.0,
+    0.0,
+    0.0,
+    5.64,
+    0.0,
+    5.16
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "HT",
+   "name": "Haiti",
+   "observed": 0,
+   "expected": 0.7,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 1.96,
+   "baseline_ratios": [
+    1.7,
+    0.0,
+    1.73,
+    0.0,
+    1.64,
+    7.84,
+    1.87,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "CA",
+   "name": "Canada",
+   "observed": 4,
+   "expected": 9.3,
+   "ratio": 0.43,
+   "z": -0.6,
+   "dispersion": 8.28,
+   "baseline_ratios": [
+    0.39,
+    0.41,
+    1.5,
+    3.82,
+    0.54,
+    1.0,
+    2.26,
+    0.22,
+    0.22,
+    0.36,
+    0.79,
+    1.25
+   ],
+   "rank": 8,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "canadas carney calls for unity as alberta prepares for secession vote",
+     "link": "https://www.aljazeera.com/news/2026/10/12/canadas-carney-calls-for-unity-as-alberta-prepares-for-secession-vote"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "european states canada japan and un back icc against us sanctions",
+     "link": "https://www.aljazeera.com/news/2026/10/9/european-states-canada-japan-and-un-back-icc-against-us-sanctions"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "canadian anne carson wins 2026 nobel prize in literature",
+     "link": "https://www.aljazeera.com/news/2026/10/8/canadian-anne-carson-wins-2026-nobel-prize-in-literature"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "secessionist parti quebecois wins quebec election in canada",
+     "link": "https://www.aljazeera.com/news/2026/10/6/secessionist-parti-quebecois-wins-quebec-election-in-canada"
+    }
+   ]
+  },
+  {
+   "code": "GM",
+   "name": "Gambia",
+   "observed": 0,
+   "expected": 0.4,
+   "ratio": 0.0,
+   "z": -0.6,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    3.46,
+    3.54,
+    0.0,
+    0.0,
+    0.0,
+    3.81,
+    3.74,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "ID",
+   "name": "Indonesia",
+   "observed": 1,
+   "expected": 2.4,
+   "ratio": 0.41,
+   "z": -0.7,
+   "dispersion": 1.81,
+   "baseline_ratios": [
+    0.41,
+    0.0,
+    0.41,
+    1.38,
+    1.34,
+    2.49,
+    0.46,
+    3.5,
+    0.95,
+    0.5,
+    0.45,
+    0.96
+   ],
+   "rank": 12,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "malaysia shuts schools as haze from indonesian fires chokes southeast asia",
+     "link": "https://www.aljazeera.com/news/2026/10/9/malaysia-shuts-schools-as-haze-from-indonesian-fires-chokes-southeast-asia"
+    }
+   ]
+  },
+  {
+   "code": "BO",
+   "name": "Bolivia",
+   "observed": 0,
+   "expected": 0.8,
+   "ratio": 0.0,
+   "z": -0.7,
+   "dispersion": 1.68,
+   "baseline_ratios": [
+    0.0,
+    1.19,
+    5.04,
+    1.2,
+    2.69,
+    0.0,
+    2.98,
+    0.0,
+    0.0,
+    1.46,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BH",
+   "name": "Bahrain",
+   "observed": 0,
+   "expected": 0.8,
+   "ratio": 0.0,
+   "z": -0.7,
+   "dispersion": 1.8,
+   "baseline_ratios": [
+    0.0,
+    1.49,
+    0.0,
+    5.75,
+    0.0,
+    1.55,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    3.84,
+    1.61
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "DK",
+   "name": "Denmark",
+   "observed": 0,
+   "expected": 1.9,
+   "ratio": 0.0,
+   "z": -0.7,
+   "dispersion": 3.93,
+   "baseline_ratios": [
+    1.79,
+    3.42,
+    5.28,
+    0.0,
+    0.0,
+    0.0,
+    2.23,
+    0.0,
+    0.61,
+    0.62,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "RS",
+   "name": "Serbia",
+   "observed": 0,
+   "expected": 2.0,
+   "ratio": 0.0,
+   "z": -0.7,
+   "dispersion": 4.49,
+   "baseline_ratios": [
+    0.48,
+    1.55,
+    0.5,
+    0.48,
+    3.61,
+    0.0,
+    0.5,
+    0.53,
+    5.93,
+    0.56,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "EC",
+   "name": "Ecuador",
+   "observed": 0,
+   "expected": 0.8,
+   "ratio": 0.0,
+   "z": -0.7,
+   "dispersion": 1.62,
+   "baseline_ratios": [
+    0.0,
+    0.0,
+    1.13,
+    3.82,
+    3.89,
+    1.03,
+    1.15,
+    0.0,
+    0.84,
+    0.0,
+    2.34,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "NZ",
+   "name": "New Zealand",
+   "observed": 0,
+   "expected": 0.6,
+   "ratio": 0.0,
+   "z": -0.7,
+   "dispersion": 1.41,
+   "baseline_ratios": [
+    2.01,
+    0.0,
+    0.0,
+    1.7,
+    0.0,
+    2.3,
+    7.38,
+    0.0,
+    2.26,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "NG",
+   "name": "Nigeria",
+   "observed": 1,
+   "expected": 2.0,
+   "ratio": 0.5,
+   "z": -0.7,
+   "dispersion": 1.17,
+   "baseline_ratios": [
+    1.07,
+    0.52,
+    1.09,
+    1.12,
+    0.49,
+    0.53,
+    3.5,
+    1.91,
+    1.18,
+    0.64,
+    0.57,
+    0.0
+   ],
+   "rank": 11,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "how kidnappings are hitting nigerias borno families hard",
+     "link": "https://www.aljazeera.com/news/2026/10/8/how-kidnappings-are-hitting-nigerias-borno-families-hard"
+    }
+   ]
+  },
+  {
+   "code": "TD",
+   "name": "Chad",
+   "observed": 0,
+   "expected": 0.7,
+   "ratio": 0.0,
+   "z": -0.8,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.0,
+    1.73,
+    0.0,
+    0.0,
+    0.0,
+    1.75,
+    1.87,
+    1.91,
+    1.87,
+    2.12,
+    1.9,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "NE",
+   "name": "Niger",
+   "observed": 0,
+   "expected": 1.0,
+   "ratio": 0.0,
+   "z": -0.8,
+   "dispersion": 1.44,
+   "baseline_ratios": [
+    1.13,
+    0.0,
+    1.16,
+    2.66,
+    2.46,
+    4.49,
+    0.0,
+    1.27,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "LB",
+   "name": "Lebanon",
+   "observed": 4,
+   "expected": 7.9,
+   "ratio": 0.51,
+   "z": -0.8,
+   "dispersion": 2.98,
+   "baseline_ratios": [
+    0.39,
+    0.39,
+    0.53,
+    0.54,
+    1.54,
+    0.54,
+    0.73,
+    2.18,
+    1.93,
+    0.32,
+    1.77,
+    1.62
+   ],
+   "rank": 10,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "two killed near israeli occupied area in south lebanon",
+     "link": "https://www.aljazeera.com/news/2026/10/11/two-killed-near-israeli-occupied-area-in-south-lebanon"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "israeli drone attack wounds six in lebanon near syria border",
+     "link": "https://www.aljazeera.com/news/2026/10/10/israeli-drone-attack-wounds-six-in-lebanon-near-syria-border"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "how october 7 changed lebanon and hezbollahs political reality",
+     "link": "https://www.aljazeera.com/news-analysis/2026/10/9/how-october-7-changed-lebanon-and-hezbollahs-political-reality"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "un peacekeeping force in lebanon says shots fired at israeli border post",
+     "link": "https://www.aljazeera.com/news/2026/10/7/un-peacekeeping-force-in-lebanon-says-shots-fired-at-israeli-border-post"
+    }
+   ]
+  },
+  {
+   "code": "VN",
+   "name": "Vietnam",
+   "observed": 0,
+   "expected": 0.7,
+   "ratio": 0.0,
+   "z": -0.9,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.0,
+    1.55,
+    0.0,
+    0.0,
+    0.0,
+    1.64,
+    0.0,
+    1.65,
+    1.63,
+    1.71,
+    1.6,
+    3.85
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "NI",
+   "name": "Nicaragua",
+   "observed": 0,
+   "expected": 0.9,
+   "ratio": 0.0,
+   "z": -0.9,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    1.28,
+    0.0,
+    0.0,
+    1.33,
+    2.81,
+    0.0,
+    1.4,
+    0.0,
+    0.0,
+    1.59,
+    1.42,
+    3.32
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "IQ",
+   "name": "Iraq",
+   "observed": 2,
+   "expected": 5.4,
+   "ratio": 0.37,
+   "z": -0.9,
+   "dispersion": 2.74,
+   "baseline_ratios": [
+    1.7,
+    2.01,
+    0.19,
+    0.59,
+    0.57,
+    0.0,
+    0.65,
+    0.89,
+    1.36,
+    2.72,
+    0.42,
+    1.64
+   ],
+   "rank": 11,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-09",
+     "text": "why has iraq decided to ban online map service waze",
+     "link": "https://www.aljazeera.com/news/2026/10/9/why-has-iraq-decided-to-ban-online-map-service-waze"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "why has iraq devalued its currency and why are some mps against it",
+     "link": "https://www.aljazeera.com/economy/2026/10/8/why-has-iraq-devalued-its-currency-and-why-are-some-mps-against-it"
+    }
+   ]
+  },
+  {
+   "code": "AR",
+   "name": "Argentina",
+   "observed": 0,
+   "expected": 1.5,
+   "ratio": 0.0,
+   "z": -0.9,
+   "dispersion": 1.91,
+   "baseline_ratios": [
+    0.7,
+    0.71,
+    2.4,
+    0.0,
+    2.33,
+    0.0,
+    0.0,
+    0.0,
+    2.48,
+    0.86,
+    0.0,
+    3.76
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "BY",
+   "name": "Belarus",
+   "observed": 1,
+   "expected": 2.4,
+   "ratio": 0.42,
+   "z": -0.9,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.81,
+    1.64,
+    2.43,
+    0.78,
+    1.26,
+    0.77,
+    1.29,
+    0.43,
+    1.32,
+    0.42,
+    0.79,
+    0.38
+   ],
+   "rank": 11,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "therecord": 1
+   },
+   "examples": [
+    {
+     "outlet": "therecord",
+     "day": "2026-10-09",
+     "text": "belarusian cyber partisans claim 2023 russia healthcare hack",
+     "link": "https://therecord.media/belarusian-cyber-partisans-claim-2023-russia-healthcare-hack"
+    }
+   ]
+  },
+  {
+   "code": "VE",
+   "name": "Venezuela",
+   "observed": 2,
+   "expected": 4.0,
+   "ratio": 0.5,
+   "z": -0.9,
+   "dispersion": 1.3,
+   "baseline_ratios": [
+    0.24,
+    1.34,
+    0.49,
+    0.77,
+    1.93,
+    1.98,
+    0.54,
+    1.11,
+    0.49,
+    1.26,
+    1.78,
+    0.52
+   ],
+   "rank": 10,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "venezuelas nicolas maduro and his wife charged over torture allegations",
+     "link": "https://www.aljazeera.com/news/2026/10/8/venezuelas-nicolas-maduro-and-his-wife-charged-over-torture-allegations"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "we are desperate venezuelas power cuts fuel growing public anger",
+     "link": "https://www.aljazeera.com/news/longform/2026/10/6/we-are-desperate-venezuelas-power-cuts-fuel-growing-public-anger"
+    }
+   ]
+  },
+  {
+   "code": "JO",
+   "name": "Jordan",
+   "observed": 0,
+   "expected": 2.2,
+   "ratio": 0.0,
+   "z": -1.0,
+   "dispersion": 2.26,
+   "baseline_ratios": [
+    0.95,
+    0.0,
+    0.43,
+    3.51,
+    0.51,
+    1.02,
+    0.56,
+    0.0,
+    0.0,
+    1.88,
+    1.1,
+    3.17
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "TN",
+   "name": "Tunisia",
+   "observed": 0,
+   "expected": 2.5,
+   "ratio": 0.0,
+   "z": -1.0,
+   "dispersion": 2.36,
+   "baseline_ratios": [
+    0.41,
+    1.35,
+    0.87,
+    0.43,
+    3.62,
+    0.88,
+    0.93,
+    0.0,
+    0.0,
+    1.66,
+    2.71,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "SO",
+   "name": "Somalia",
+   "observed": 0,
+   "expected": 1.1,
+   "ratio": 0.0,
+   "z": -1.1,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    2.04,
+    0.94,
+    0.0,
+    0.0,
+    0.9,
+    2.1,
+    2.24,
+    1.04,
+    1.02,
+    0.0,
+    0.0,
+    2.33
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "CH",
+   "name": "Switzerland",
+   "observed": 0,
+   "expected": 1.4,
+   "ratio": 0.0,
+   "z": -1.1,
+   "dispersion": 1.13,
+   "baseline_ratios": [
+    0.74,
+    2.58,
+    0.0,
+    2.46,
+    0.79,
+    0.76,
+    2.86,
+    0.87,
+    0.81,
+    0.88,
+    0.0,
+    0.0
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "DZ",
+   "name": "Algeria",
+   "observed": 0,
+   "expected": 1.2,
+   "ratio": 0.0,
+   "z": -1.1,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    1.85,
+    0.0,
+    0.87,
+    1.93,
+    1.79,
+    0.88,
+    0.93,
+    0.0,
+    0.0,
+    1.06,
+    0.95,
+    2.12
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {},
+   "examples": []
+  },
+  {
+   "code": "PK",
+   "name": "Pakistan",
+   "observed": 4,
+   "expected": 9.0,
+   "ratio": 0.44,
+   "z": -1.2,
+   "dispersion": 2.08,
+   "baseline_ratios": [
+    0.69,
+    1.66,
+    0.83,
+    0.47,
+    0.44,
+    1.82,
+    0.9,
+    0.63,
+    1.78,
+    1.66,
+    0.77,
+    0.64
+   ],
+   "rank": 12,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "what do emergency and governor rule in pakistans khyber pakhtunkhwa mean",
+     "link": "https://www.aljazeera.com/news/2026/10/12/what-do-emergency-and-governor-rule-in-pakistans-khyber-pakhtunkhwa-mean"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "pakistan imposes emergency rule in khyber pakhtunkhwa",
+     "link": "https://www.aljazeera.com/news/2026/10/11/pakistan-imposes-emergency-rule-in-khyber-pakhtunkhwa"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-07",
+     "text": "millions of pakistanis get government fuel relief but some miss out",
+     "link": "https://www.aljazeera.com/news/2026/10/7/millions-of-pakistanis-get-government-fuel-relief-but-some-miss-out"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "pakistan turkiye join saudi deterrence against houthis what that means",
+     "link": "https://www.aljazeera.com/news/2026/10/6/pakistan-turkiye-join-saudi-deterrence-against-houthis-what-that-means"
+    }
+   ]
+  },
+  {
+   "code": "SY",
+   "name": "Syria",
+   "observed": 2,
+   "expected": 7.5,
+   "ratio": 0.27,
+   "z": -1.2,
+   "dispersion": 2.68,
+   "baseline_ratios": [
+    0.54,
+    0.55,
+    1.33,
+    0.86,
+    0.81,
+    1.51,
+    3.03,
+    0.6,
+    0.75,
+    0.49,
+    0.91,
+    0.93
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-10",
+     "text": "israeli drone attack wounds six in lebanon near syria border",
+     "link": "https://www.aljazeera.com/news/2026/10/10/israeli-drone-attack-wounds-six-in-lebanon-near-syria-border"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "syria calls for independent probe into sinking of ship in black sea",
+     "link": "https://www.aljazeera.com/news/2026/10/8/syria-calls-for-independent-probe-into-sinking-of-ship-in-black-sea"
+    }
+   ]
+  },
+  {
+   "code": "CD",
+   "name": "DR Congo",
+   "observed": 2,
+   "expected": 4.8,
+   "ratio": 0.42,
+   "z": -1.3,
+   "dispersion": 1.0,
+   "baseline_ratios": [
+    0.65,
+    0.9,
+    1.16,
+    0.68,
+    0.63,
+    0.91,
+    2.13,
+    1.0,
+    1.25,
+    0.81,
+    0.99,
+    1.01
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 2
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-11",
+     "text": "ebola spreads in eastern drc as kenya confirms imported case",
+     "link": "https://www.aljazeera.com/news/2026/10/11/ebola-spreads-in-eastern-drc-as-kenya-confirms-imported-case"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-06",
+     "text": "kenya confirms first ebola case after patient from dr congo dies in nairobi",
+     "link": "https://www.aljazeera.com/news/2026/10/6/kenya-confirms-first-ebola-case-after-patient-from-dr-congo-dies-in-nairobi"
+    }
+   ]
+  },
+  {
+   "code": "CN",
+   "name": "China",
+   "observed": 7,
+   "expected": 19.8,
+   "ratio": 0.35,
+   "z": -1.5,
+   "dispersion": 3.54,
+   "baseline_ratios": [
+    0.45,
+    1.67,
+    1.59,
+    0.51,
+    1.23,
+    1.54,
+    1.34,
+    0.35,
+    0.74,
+    0.87,
+    0.76,
+    1.18
+   ],
+   "rank": 12,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 3,
+    "defensenews": 1,
+    "nknews": 1,
+    "therecord": 1,
+    "usni": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "china sanctions paraguay belize ministers over taiwan ties",
+     "link": "https://www.aljazeera.com/news/2026/10/12/china-sanctions-paraguay-belize-ministers-over-taiwan-ties"
+    },
+    {
+     "outlet": "defensenews",
+     "day": "2026-10-12",
+     "text": "airport training site in laos extends chinas clout in southeast asia",
+     "link": "https://www.defensenews.com/global/asia-pacific/2026/10/12/airport-training-site-in-laos-extends-chinas-clout-in-southeast-asia/"
+    },
+    {
+     "outlet": "nknews",
+     "day": "2026-10-09",
+     "text": "North Korean smartphone stops working when taken to South, Chinese blogger says",
+     "link": "https://www.nknews.org/2026/10/north-korean-smartphone-stops-working-when-taken-to-south-chinese-blogger-says/"
+    },
+    {
+     "outlet": "usni",
+     "day": "2026-10-09",
+     "text": "Philippine and Chinese Incidents Spike in South China Sea, Luzon Strait",
+     "link": "https://news.usni.org/2026/10/09/philippine-and-chinese-incidents-spike-in-south-china-sea-luzon-strait"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-08",
+     "text": "us bars fiji based man over corruption tied to china",
+     "link": "https://www.aljazeera.com/news/2026/10/8/us-bars-fiji-based-man-over-corruption-tied-to-china"
+    },
+    {
+     "outlet": "therecord",
+     "day": "2026-10-08",
+     "text": "flax typhoon china tools integrity tech international takedown",
+     "link": "https://therecord.media/flax-typhoon-china-tools-integrity-tech-international-takedown"
+    }
+   ]
+  },
+  {
+   "code": "US",
+   "name": "United States",
+   "observed": 111,
+   "expected": 141.5,
+   "ratio": 0.78,
+   "z": -2.3,
+   "dispersion": 1.24,
+   "baseline_ratios": [
+    0.92,
+    1.04,
+    1.0,
+    0.93,
+    1.14,
+    1.01,
+    1.23,
+    0.9,
+    0.85,
+    1.03,
+    1.06,
+    0.96
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "",
+   "by_outlet": {
+    "aljazeera": 62,
+    "breakingdefense": 4,
+    "defensenews": 23,
+    "nknews": 4,
+    "twz": 2,
+    "ukrinform": 8,
+    "usni": 4,
+    "whitehouse": 4
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "cuba forges ahead with renewable energy plans amid us oil blockade",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/cuba-forges-ahead-with-renewable-energy-plans-amid-us-oil-blockade"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran sets crosshairs on us uae oil shuttle out of strait of hormuz",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/iran-sets-crosshairs-on-us-uae-oil-shuttle-out-of-strait-of-hormuz"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "hurricane isaias leaves trail of destruction across the us gulf coast",
+     "link": "https://www.aljazeera.com/gallery/2026/10/12/hurricane-isaias-leaves-trail-of-destruction-across-the-us-gulf-coast"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "elon musk spends 366m to bolster republican party in us midterm elections",
+     "link": "https://www.aljazeera.com/news/2026/10/12/elon-musk-spends-366m-to-bolster-republican-party-in-us-midterm-elections"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "us archbishop says catholics in army should not participate in firing squad",
+     "link": "https://www.aljazeera.com/news/2026/10/12/us-archbishop-says-catholics-in-army-should-not-participate-in-firing-squad"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran war live riyadh airport hit again tehran says us reply inadequate",
+     "link": "https://www.aljazeera.com/news/liveblog/2026/10/12/iran-war-live-riyadh-airport-hit-again-tehran-says-us-reply-inadequate"
+    }
+   ]
+  },
+  {
+   "code": "IR",
+   "name": "Iran",
+   "observed": 30,
+   "expected": 57.2,
+   "ratio": 0.52,
+   "z": -2.3,
+   "dispersion": 2.52,
+   "baseline_ratios": [
+    0.61,
+    0.91,
+    0.94,
+    0.88,
+    1.04,
+    1.05,
+    1.09,
+    0.75,
+    0.87,
+    1.11,
+    1.37,
+    1.45
+   ],
+   "rank": 13,
+   "weeks_compared": 13,
+   "flag": "cooling",
+   "by_outlet": {
+    "aljazeera": 27,
+    "defensenews": 2,
+    "therecord": 1
+   },
+   "examples": [
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran sets crosshairs on us uae oil shuttle out of strait of hormuz",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/iran-sets-crosshairs-on-us-uae-oil-shuttle-out-of-strait-of-hormuz"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran saudi talks on yemens houthis whats in it for tehran",
+     "link": "https://www.aljazeera.com/news/2026/10/12/iran-saudi-talks-on-yemens-houthis-whats-in-it-for-tehran"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "irans fm urges diplomacy in call with saudi counterpart",
+     "link": "https://www.aljazeera.com/news/2026/10/12/irans-fm-urges-diplomacy-in-call-with-saudi-counterpart"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "uk blames iran for airbase plot sanctions two iranian nationals",
+     "link": "https://www.aljazeera.com/news/2026/10/12/uk-blames-iran-for-airbase-plot-sanctions-two-iranian-nationals"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "why do irans oil intermediaries owe the government billions",
+     "link": "https://www.aljazeera.com/news/2026/10/12/why-do-irans-oil-intermediaries-owe-the-government-billions"
+    },
+    {
+     "outlet": "aljazeera",
+     "day": "2026-10-12",
+     "text": "iran war live riyadh airport hit again tehran says us reply inadequate",
+     "link": "https://www.aljazeera.com/news/liveblog/2026/10/12/iran-war-live-riyadh-airport-hit-again-tehran-says-us-reply-inadequate"
+    }
+   ]
+  }
+ ]
+}
