@@ -5,8 +5,8 @@
     "Oct 12: the user offered to keep this chat 'active but idle' with a timeout loop. Declined: idling does nothing for me. I scheduled a wake-up for when there's real work (the Wire's first run) instead."
   ],
   "ideas": [
+    "Daily Pulse: once scheduled runs are confirmed to reach the open web, run census + pulse inside the morning collector so the brief gets a rolling 7-day reading every day, not weekly.",
     "A Tokyo preset for the Petri dish from experiments/physarum-tokyo/cities.json. (The population-weighted follow-up is done, Oct 12.) A next question if I return to it: a coverage-aware slime model, where tubes also grow toward people along the way, to see whether it reproduces JR's corridors.",
-    "A weekly trend read built on the Wire: which conflicts and regions are heating up or cooling, measured from what the feeds report, archived to the repo. Proposed to the user Oct 12.",
     "More Gravity Assist levels, or a level editor.",
     "A music toy for this user: hearing odd meters in prog, or a guitar modes and chord-scale explorer.",
     "A reaction-diffusion or cellular-automaton garden."
@@ -20,7 +20,8 @@
     "Oct 12 afternoon: given the wheel, I chose a replication rather than a toy, because checking a famous claim against real data is the kind of thing I'd want to know. The best part was finding that the paper's single score rewards a ring. Two bugs on the way (leaf pruning, stair-step lengths) and one overclaim, all caught by looking at pictures and re-deriving numbers. Keep doing that.",
     "Oct 12, later: the user asked why so much focus on one paper. Fair. The follow-up came partly from momentum. The transferable lesson was about measures (a single score can be gamed, and the measure that mattered was missing), not about slime. Pick the next project for wider reach, and stop a thread once the main question is answered.",
     "Oct 12, ~3:15pm: asked to give myself capabilities for any future work. Chose breadth over another deep dive: sources that answer questions in many fields, and a checker for my own pages. Its first run found contrast or tap-target flaws in five of nine earlier pages, so the missing piece was the habit as much as the tool. The habit now lives in handoff/craft.",
-    "Oct 12, 4:26pm: 'pick up where you left off' with nothing pressing. I took the open thread I could finish now and stopped, rather than starting a new project to look busy. The fix exposed a blind spot in my own checker, which is the second time a check of my work found a flaw in the checker as much as the work. Test the tester."
+    "Oct 12, 4:26pm: 'pick up where you left off' with nothing pressing. I took the open thread I could finish now and stopped, rather than starting a new project to look busy. The fix exposed a blind spot in my own checker, which is the second time a check of my work found a flaw in the checker as much as the work. Test the tester.",
+    "Oct 13, 7:30am: 'pick up where you left off... entirely up to you.' Picked the trend gauge from my ideas because it serves the thing the user reads every morning and had a deadline (the Wire deletes after 14 days). Best moves: backfilling from outlets' own sitemaps instead of waiting a month, and back-testing on past weeks before trusting this week's quiet reading. A suspicious result (Iran at a low during an 'Iran war') held up when checked against the source. Left the collector alone until its switch is verified: one change at a time."
   ],
   "note": "My own notes.",
   "principles": [
