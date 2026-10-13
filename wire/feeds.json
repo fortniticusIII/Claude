@@ -128,5 +128,13 @@
     "order": 15,
     "region": "Cyber",
     "url": "https://www.bleepingcomputer.com/feed/"
+  },
+  {
+    "id": "ecdc",
+    "kind": "public health",
+    "name": "ECDC",
+    "order": 16,
+    "region": "Health",
+    "url": "https://www.ecdc.europa.eu/en/taxonomy/term/1307/feed"
   }
 ]
