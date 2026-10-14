@@ -1,0 +1,15 @@
+== time model: fast  ([(8, 3), (16, 5), (24, 7), (99, 10)], reset look 6s)
+  Perkeo Ghost    commit: 1.62% of runs, 65 h per naneinf | best resets: 0.65% of attempts, 39 h per naneinf, 15 min per attempt
+  Plasma Burglar  commit: 8.92% of runs, 21 h per naneinf | best resets: 5.74% of attempts, 22 h per naneinf, 75 min per attempt
+  Charm-reset Ghost          2434 resets (5.9 h) per Perkeo; wins 32.8% of those runs, 1.2 h per run -> 22 h per naneinf
+  Charm-reset + later resets 2434 resets (5.9 h) per Perkeo; wins 25.2% of those runs, 0.8 h per run -> 27 h per naneinf
+== time model: typical  ([(8, 4), (16, 7), (24, 10), (99, 14)], reset look 10s)
+  Perkeo Ghost    commit: 1.62% of runs, 90 h per naneinf | best resets: 0.65% of attempts, 53 h per naneinf, 20 min per attempt
+  Plasma Burglar  commit: 8.92% of runs, 29 h per naneinf | best resets: 5.33% of attempts, 31 h per naneinf, 98 min per attempt
+  Charm-reset Ghost          2434 resets (9.6 h) per Perkeo; wins 32.8% of those runs, 1.7 h per run -> 34 h per naneinf
+  Charm-reset + later resets 2434 resets (9.6 h) per Perkeo; wins 25.0% of those runs, 1.1 h per run -> 43 h per naneinf
+== time model: slow  ([(8, 5), (16, 9), (24, 14), (99, 20)], reset look 15s)
+  Perkeo Ghost    commit: 1.62% of runs, 115 h per naneinf | best resets: 0.65% of attempts, 66 h per naneinf, 26 min per attempt
+  Plasma Burglar  commit: 8.92% of runs, 39 h per naneinf | best resets: 5.51% of attempts, 40 h per naneinf, 134 min per attempt
+  Charm-reset Ghost          2434 resets (14.3 h) per Perkeo; wins 32.8% of those runs, 2.2 h per run -> 50 h per naneinf
+  Charm-reset + later resets 2434 resets (14.3 h) per Perkeo; wins 24.8% of those runs, 1.4 h per run -> 63 h per naneinf

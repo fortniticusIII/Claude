@@ -1,0 +1,137 @@
+{
+ "fast": {
+  "A": {
+   "plan": "Perkeo Ghost",
+   "commit_pct": 1.6199999999999999,
+   "commit_h": 65.48611111111111,
+   "reset_pct": 0.645,
+   "reset_h": 39.35413436692507,
+   "stop_rules": 530,
+   "attempts_min": 15.23005
+  },
+  "B": {
+   "plan": "Plasma Burglar",
+   "commit_pct": 8.924999999999999,
+   "commit_h": 21.023464052287583,
+   "reset_pct": 5.74,
+   "reset_h": 21.83980836236934,
+   "stop_rules": 184,
+   "attempts_min": 75.2163
+  },
+  "B_coarse": {
+   "plan": "Plasma (coarse)",
+   "commit_pct": 8.924999999999999,
+   "commit_h": 21.023464052287583,
+   "reset_pct": 6.7299999999999995,
+   "reset_h": 20.42517335314512,
+   "stop_rules": 33,
+   "attempts_min": 82.47685
+  },
+  "charm": {
+   "p_perkeo_per_reset": 0.00041086076218002925,
+   "resets_per_perkeo": 2433.9145814119483,
+   "hours_per_perkeo": 5.919520648619184,
+   "p_win_given_perkeo": 32.84,
+   "run_hours": 1.2204925,
+   "hours_per_win": 21.741818357549278
+  },
+  "charm_plus_resets": {
+   "p_perkeo_per_reset": 0.00041086076218002925,
+   "resets_per_perkeo": 2433.9145814119483,
+   "hours_per_perkeo": 5.919520648619184,
+   "p_win_given_perkeo": 32.53,
+   "run_hours": 1.1309425,
+   "hours_per_win": 21.673726248445078
+  }
+ },
+ "typical": {
+  "A": {
+   "plan": "Perkeo Ghost",
+   "commit_pct": 1.6199999999999999,
+   "commit_h": 90.1202160493827,
+   "reset_pct": 0.645,
+   "reset_h": 52.73010335917312,
+   "stop_rules": 532,
+   "attempts_min": 20.40655
+  },
+  "B": {
+   "plan": "Plasma Burglar",
+   "commit_pct": 8.924999999999999,
+   "commit_h": 29.3125116713352,
+   "reset_pct": 5.33,
+   "reset_h": 30.684631019387115,
+   "stop_rules": 184,
+   "attempts_min": 98.12945
+  },
+  "B_coarse": {
+   "plan": "Plasma (coarse)",
+   "commit_pct": 8.924999999999999,
+   "commit_h": 29.3125116713352,
+   "reset_pct": 6.65,
+   "reset_h": 28.28592731829574,
+   "stop_rules": 35,
+   "attempts_min": 112.86085
+  },
+  "charm": {
+   "p_perkeo_per_reset": 0.00041086076218002925,
+   "resets_per_perkeo": 2433.9145814119483,
+   "hours_per_perkeo": 9.555368356654316,
+   "p_win_given_perkeo": 32.84,
+   "run_hours": 1.6864983333333332,
+   "hours_per_win": 34.23223718023035
+  },
+  "charm_plus_resets": {
+   "p_perkeo_per_reset": 0.00041086076218002925,
+   "resets_per_perkeo": 2433.9145814119483,
+   "hours_per_perkeo": 9.555368356654316,
+   "p_win_given_perkeo": 32.555,
+   "run_hours": 1.5638575000000001,
+   "hours_per_win": 34.15520152558536
+  }
+ },
+ "slow": {
+  "A": {
+   "plan": "Perkeo Ghost",
+   "commit_pct": 1.6199999999999999,
+   "commit_h": 115.24315843621399,
+   "reset_pct": 0.645,
+   "reset_h": 66.18837209302326,
+   "stop_rules": 532,
+   "attempts_min": 25.6149
+  },
+  "B": {
+   "plan": "Plasma Burglar",
+   "commit_pct": 8.924999999999999,
+   "commit_h": 39.05906629318394,
+   "reset_pct": 5.515,
+   "reset_h": 40.45199456029012,
+   "stop_rules": 193,
+   "attempts_min": 133.85565
+  },
+  "B_coarse": {
+   "plan": "Plasma (coarse)",
+   "commit_pct": 8.924999999999999,
+   "commit_h": 39.05906629318394,
+   "reset_pct": 5.965,
+   "reset_h": 37.93533109807208,
+   "stop_rules": 37,
+   "attempts_min": 135.77055
+  },
+  "charm": {
+   "p_perkeo_per_reset": 0.00041086076218002925,
+   "resets_per_perkeo": 2433.9145814119483,
+   "hours_per_perkeo": 14.333052534981475,
+   "p_win_given_perkeo": 32.84,
+   "run_hours": 2.1874200000000004,
+   "hours_per_win": 50.30594559982179
+  },
+  "charm_plus_resets": {
+   "p_perkeo_per_reset": 0.00041086076218002925,
+   "resets_per_perkeo": 2433.9145814119483,
+   "hours_per_perkeo": 14.333052534981475,
+   "p_win_given_perkeo": 32.555,
+   "run_hours": 2.0176975,
+   "hours_per_win": 50.225003947109435
+  }
+ }
+}

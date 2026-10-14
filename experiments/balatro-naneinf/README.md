@@ -36,3 +36,22 @@ uniform draw, so unmodelled), all behind an opt-in profile toggle.
 
 Lean/rich, 20k runs: 1.0.1o A 0.39/3.52%, B 2.81/16.32%; 1.1 mixed A 0.29/3.29%, B 1.74/11.77%.
 The extra voucher set alone costs B ~1.7 points: it needs Antimatter, Retcon and Palette or Nacho Tong.
+
+## Reset strategies: hours per naneinf (`timing.py`, Oct 14, 2026)
+
+Time model (typical): 4 / 7 / 10 / 14 minutes per ante for antes 1-8 / 9-16 / 17-24 / 25+; a reset-and-look
+takes 10 s, skipping for a Charm Tag and opening its Mega Arcana 30 s. Reset rules found by optimal
+stopping (backward induction + Dinkelbach), fitted on half of 40k runs and scored on the other half.
+
+| Plan | Hours per naneinf (typical) | fast / slow model |
+|---|---|---|
+| Perkeo Ghost, play every run out | 90 | 65 / 115 |
+| Perkeo Ghost, best reset rule (reset unless Perkeo early) | 53 | 39 / 66 |
+| Perkeo Ghost, Charm Tag resets at ante 1 | 34 | 22 / 50 |
+| Plasma Burglar, play every run out | 29 | 21 / 39 |
+| Plasma Burglar, best reset rule | 28 | 20 / 38 |
+
+Charm resets: P(Perkeo) 0.041% per reset (~2,430 resets per Perkeo); a run that starts with Perkeo wins
+32.8%. 85% of the plan's time is resetting, so it beats the Plasma plan when a look takes under ~8 s,
+or when deep antes take 20+ minutes (results/timing_breakeven.json). Resetting barely helps the Plasma
+plan: its failures (no Baron+Mime by 17, slots/hands by 24-26) are not visible early.

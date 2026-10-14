@@ -158,6 +158,7 @@ class Run:
         self.first = {}           # first ante each milestone was reached
         self.ante = 1
         self.result = None
+        self.trace = []           # state at the end of each ante, for reset-policy analysis
 
     # ------------------------------------------------------------ derived state
     def slots(self):
@@ -559,6 +560,9 @@ class Run:
 
     # ------------------------------------------------------------ main loop
     def run(self):
+        if self.p.get('start_perkeo'):
+            self.own['Perkeo'] = 1
+            self.mark('Perkeo')
         hunt_tags = {'Rare', 'Buffoon', 'Uncommon'} | ({'Charm', 'Ethereal'} if self.s in ('A', 'H') else set())
         while self.ante <= 38:
             self.voucher_draw()
@@ -568,6 +572,8 @@ class Run:
                     self.result = ('naneinf', self.ante, 'Perkeo')
                     return self
                 tag = self.offered_tag() if blind != 'boss' else None
+                if self.p.get('start_perkeo') and self.ante == 1 and blind == 'small':
+                    continue          # this Small Blind was skipped for the Charm Tag
                 if blind == 'boss':
                     self.serp = self.serpent_available()
                 if blind == 'boss' and not self.immortal and self.ante >= 9:
@@ -589,6 +595,9 @@ class Run:
                     continue
                 self.round_played()
                 self.shop()
+            self.trace.append((self.ante, min(self.boost(), 4), int(self.engine()), self.own['Baron'] > 0,
+                               self.own['Mime'] > 0, self.own['Perkeo'] > 0, self.seed, self.slots() >= 7,
+                               'Retcon' in self.V, self.own['Showman'] > 0, self.cryptids))
             self.ante += 1
         self.result = ('dead', 39, self.why()) if not self.immortal else ('immortal', 39, '')
         return self
