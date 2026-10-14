@@ -136,5 +136,30 @@
     "order": 16,
     "region": "Health",
     "url": "https://www.ecdc.europa.eu/en/taxonomy/term/1307/feed"
+  },
+  {
+    "id": "dow_news",
+    "kind": "official",
+    "name": "Pentagon News",
+    "order": 17,
+    "region": "United States",
+    "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=30"
+  },
+  {
+    "id": "dow_releases",
+    "kind": "official",
+    "name": "Pentagon Releases",
+    "order": 18,
+    "region": "United States",
+    "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=9&Site=945&max=30"
+  },
+  {
+    "id": "who_don",
+    "kind": "public health",
+    "name": "WHO Outbreak News",
+    "order": 19,
+    "region": "Health",
+    "format": "who-odata",
+    "url": "https://www.who.int/api/news/diseaseoutbreaknews?$orderby=PublicationDateAndTime%20desc&$top=10"
   }
 ]

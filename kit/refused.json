@@ -4,5 +4,6 @@
  "sec.gov": "403 unless the User-Agent declares a contact email; I have none to give. Ask the user if EDGAR is needed. Tested 2026-10-12",
  "overpass-api.de": "resets the proxy tunnel, 2026-10-12; don't retry",
  "static.prd.euronews.com": "403 on the Africanews sitemap (africanews.com/sitemaps redirects here), 2026-10-13. The Africanews RSS feed itself works.",
- "web.archive.org": "resets the proxy tunnel from the shell, 2026-10-13 (archive.org/wayback/available answers, but snapshots live here); don't retry"
+ "web.archive.org": "resets the proxy tunnel from the shell, 2026-10-13 (archive.org/wayback/available answers, but snapshots live here); don't retry",
+ "state.gov": "403 to automated clients on its RSS feeds (press releases, feed index), tested 2026-10-14. The brief searches for State Department news instead."
 }

@@ -26,6 +26,8 @@ Feed doc fields used: url, name, region, optional keep_link / drop_link (lists o
 against the link; the older free-text 'skip' rules map onto these), and optional sitemap: a Google News
 sitemap URL read alongside the feed, for busy outlets whose feed holds fewer stories than they publish
 between runs (Al Jazeera: ~50 a day, 25 in its feed). Links are compared without their query string.
+Optional format: 'who-odata' for WHO's Disease Outbreak News, which WHO publishes as a public JSON (OData)
+API rather than RSS (added Oct 14, 2026).
 """
 import datetime as dt
 import email.utils
@@ -67,13 +69,26 @@ def parse_time(s):
     return t if t.tzinfo else t.replace(tzinfo=dt.timezone.utc)
 
 
+ABBREV = {"sgt", "gen", "lt", "col", "maj", "capt", "cpt", "adm", "cmdr", "cdr", "pvt", "pfc", "spc", "cpl", "ens",
+          "dr", "mr", "mrs", "ms", "st", "sen", "rep", "gov", "amb", "pres", "jr", "sr", "inc", "corp", "co", "ltd",
+          "no", "vs", "mt", "ft", "jan", "feb", "mar", "apr", "aug", "sep", "sept", "oct", "nov", "dec", "approx", "est"}
+
+
 def first_sentence(text, limit=200):
+    """The first sentence, not cut at 'U.S.', 'Sgt.' or 'Oct.' (found Oct 14, 2026: summaries stopped at
+    'Service members operating in the U.S.')."""
     text = re.sub(r"<[^>]+>", " ", html.unescape(text or ""))
     text = re.sub(r"\s+", " ", text).strip()
     if not text:
         return ""
-    m = re.match(r"(.+?[.!?])(\s|$)", text)
-    s = m.group(1) if m else text
+    s = text
+    for m in re.finditer(r"[.!?](?=\s+[\"'“‘(]?[A-Z0-9]|\s*$)", text):
+        word = re.search(r"([A-Za-z.]+)$", text[:m.start() + 1])
+        w = word.group(1) if word else ""
+        if m.group() == "." and (re.fullmatch(r"(?:[A-Za-z]\.)+", w) or w[:-1].lower() in ABBREV):
+            continue                      # an initialism (U.S., U.N.) or a title or month, not the end of a sentence
+        s = text[:m.end()]
+        break
     if len(s) > limit:
         s = s[:limit].rsplit(" ", 1)[0].rstrip(",;:") + "…"
     return s
@@ -127,6 +142,17 @@ def news_sitemap(raw):
             yield parse_time(when), title, loc, ""
 
 
+def who_odata(raw):
+    """(time, title, link, summary) for each item of WHO's Disease Outbreak News API
+    (https://www.who.int/api/news/diseaseoutbreaknews, newest first with $orderby and $top)."""
+    for v in json.loads(raw.decode("utf-8-sig")).get("value", []):
+        title = (v.get("OverrideTitle") if v.get("UseOverrideTitle") else "") or v.get("Title") or ""
+        slug = (v.get("UrlName") or v.get("DonId") or "").strip("/")
+        if slug:
+            yield (parse_time(v.get("PublicationDateAndTime") or v.get("PublicationDate")), html.unescape(title).strip(),
+                   f"https://www.who.int/emergencies/disease-outbreak-news/item/{slug}", v.get("Summary") or v.get("Overview") or "")
+
+
 def norm(link):
     """Link identity for dedupe: RSS links often carry tracking queries that sitemaps lack."""
     return link.split("?")[0].split("#")[0].rstrip("/")
@@ -162,7 +188,7 @@ def main(dump, out, now=None):
         keep, drop = rules(feed)
         try:
             raw = fetch(feed["url"])
-            got = list(entries(raw))
+            got = list(who_odata(raw) if feed.get("format") == "who-odata" else entries(raw))
         except urllib.error.HTTPError as e:
             if e.code in (403, 407):     # proxy or site refusal: policy, never route around
                 failed += 1; report.append(f"{fid}: refused ({e.code})")
