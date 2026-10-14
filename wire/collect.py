@@ -22,8 +22,10 @@ Usage (any session whose shell reaches the open web):
 Stored per story: t (ISO time with offset), title, link, and summary = the feed's own description cut to
 its first sentence, at most 200 characters. Never more of a story than that.
 
-Feed doc fields used: url, name, region, and optional keep_link / drop_link (lists of substrings matched
-against the link). The older free-text 'skip' rules map onto these.
+Feed doc fields used: url, name, region, optional keep_link / drop_link (lists of substrings matched
+against the link; the older free-text 'skip' rules map onto these), and optional sitemap: a Google News
+sitemap URL read alongside the feed, for busy outlets whose feed holds fewer stories than they publish
+between runs (Al Jazeera: ~50 a day, 25 in its feed). Links are compared without their query string.
 """
 import datetime as dt
 import email.utils
@@ -109,6 +111,27 @@ def entries(raw):
         yield parse_time(when), html.unescape((kids["title"].text or "") if "title" in kids else "").strip(), href, desc
 
 
+def news_sitemap(raw):
+    """(time, title, link, '') for each entry of a Google News sitemap (the last ~2 days, with titles)."""
+    root = ET.fromstring(raw)
+    for u in root.iter():
+        if u.tag.split("}")[-1] != "url":
+            continue
+        loc = title = when = ""
+        for el in u.iter():
+            tag = el.tag.split("}")[-1]
+            if tag == "loc" and not loc: loc = (el.text or "").strip()
+            elif tag == "title": title = html.unescape(el.text or "").strip()
+            elif tag == "publication_date": when = el.text or ""
+        if loc and title:
+            yield parse_time(when), title, loc, ""
+
+
+def norm(link):
+    """Link identity for dedupe: RSS links often carry tracking queries that sitemaps lack."""
+    return link.split("?")[0].split("#")[0].rstrip("/")
+
+
 def rules(feed):
     keep, drop = list(feed.get("keep_link", [])), list(feed.get("drop_link", []))
     skip = feed.get("skip", "")
@@ -130,7 +153,7 @@ def main(dump, out, now=None):
     meta_ver = versions.get("meta", {}).get("status")
     seen = {}
     for doc_id, (d, _) in items.items():
-        seen.setdefault(d.get("feed"), set()).update(i["link"] for i in d.get("items", []))
+        seen.setdefault(d.get("feed"), set()).update(norm(i["link"]) for i in d.get("items", []))
     os.makedirs(out, exist_ok=True)
     writes, needs_webfetch, report = [], [], []
     added = ok = failed = 0
@@ -151,6 +174,12 @@ def main(dump, out, now=None):
         except Exception as e:  # no egress, DNS, timeout, unparseable
             needs_webfetch.append(fid); report.append(f"{fid}: {type(e).__name__}, fall back to WebFetch")
             continue
+        n_rss = len(got)
+        if feed.get("sitemap"):            # optional Google News sitemap: complete for busy outlets whose feed holds few items
+            try:
+                got += list(news_sitemap(fetch(feed["sitemap"])))
+            except Exception as e:
+                report.append(f"{fid}: sitemap skipped ({type(e).__name__})")
         new = []
         for t, title, link, desc in got:
             if not link or not title or t is None or t < since or t > now + dt.timedelta(hours=1):
@@ -159,9 +188,9 @@ def main(dump, out, now=None):
                 continue
             if any(k in link for k in drop):
                 continue
-            if link in seen.get(fid, set()):
+            if norm(link) in seen.get(fid, set()):
                 continue
-            seen.setdefault(fid, set()).add(link)
+            seen.setdefault(fid, set()).add(norm(link))
             s = first_sentence(desc)
             if s.rstrip(".… ").lower() == title.rstrip(". ").lower():
                 s = ""
@@ -178,7 +207,7 @@ def main(dump, out, now=None):
             body = {"feed": fid, "source": feed.get("name", fid), "region": feed.get("region", ""), "day": today.isoformat(),
                     "run": stamp, "items": sorted(new + prev.get("items", []), key=lambda i: i["t"], reverse=True)}
             writes.append(("set", "items", doc_id, body, pver))
-        report.append(f"{fid}: {len(new)} new of {len(got)} in feed")
+        report.append(f"{fid}: {len(new)} new of {n_rss} in feed" + (f" + {len(got) - n_rss} in sitemap" if len(got) > n_rss else ""))
     status = {"last_run": stamp, "window_from": since.isoformat(timespec="minutes"), "added": added, "feeds_ok": ok,
               "feeds_failed": failed, "method": "direct",
               "note": "Parsed feeds directly." + (f" WebFetch fallback needed for: {', '.join(needs_webfetch)}." if needs_webfetch else "")}

@@ -30,3 +30,9 @@ The Wire is a database-backed page. A scheduled task reads every feed in `feeds.
 - Defense News returned items older than the window; the date filter in code catches it.
 - Al Jazeera mixes in sport and the Taipei Times mixes in lifestyle, hence their skip rules.
 - Long feeds stop at about 100,000 characters in WebFetch, which still covers the newest items.
+
+## Lessons from the first direct runs (Oct 14, 2026)
+
+- Direct parsing worked first time from a scheduled session (the open web is reachable there): 219 stories, 17 of 17 feeds, no fallback, 2.5 minutes.
+- Feeds only hold their newest N stories. Busy outlets publish more than that between morning runs: Al Jazeera ~50 a day with 25 in its feed, Ukrinform ~64 a day (p90 93) with 30, Meduza 30. Fixes: Al Jazeera's Google News sitemap is read alongside its feed (feed doc field `sitemap`), and the collector runs twice a day (6:16am and 6:16pm Eastern). Ukrinform can still overflow on its busiest days.
+- Defense News looked capped too, but the census showed every missed Oct 13 URL was a video, which its RSS never carries.
