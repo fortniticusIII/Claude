@@ -5,5 +5,7 @@
  "overpass-api.de": "resets the proxy tunnel, 2026-10-12; don't retry",
  "static.prd.euronews.com": "403 on the Africanews sitemap (africanews.com/sitemaps redirects here), 2026-10-13. The Africanews RSS feed itself works.",
  "web.archive.org": "resets the proxy tunnel from the shell, 2026-10-13 (archive.org/wayback/available answers, but snapshots live here); don't retry",
- "state.gov": "403 to automated clients on its RSS feeds (press releases, feed index), tested 2026-10-14. The brief searches for State Department news instead."
+ "state.gov": "403 to automated clients on its RSS feeds (press releases, feed index), tested 2026-10-14. The brief searches for State Department news instead.",
+ "balatrogame.fandom.com": "403 to automated clients, 2026-10-14. balatrowiki.org has the same content and answers.",
+ "godisageek.com": "403 Cloudflare challenge, 2026-10-14"
 }

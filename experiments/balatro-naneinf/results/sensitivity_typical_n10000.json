@@ -1,0 +1,1 @@
+[["B", {"diet_cola": false}, 0.0654], ["A", {"diet_cola": false}, 0.0165], ["A", {"max_ecto": 1}, 0.0152], ["B", {"smart_ecto": false}, 0.039], ["B", {"bridge": 16}, 0.1105], ["A", {"bridge": 16}, 0.0193], ["A", {"bridge": 16, "max_ecto": 1}, 0.0148]]
