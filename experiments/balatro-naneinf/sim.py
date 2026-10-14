@@ -110,7 +110,11 @@ PARAMS = dict(
     max_ecto=None,        # Ectoplasms a player will use (None: 2 on the Perkeo plan, 1 on Plasma, per the guide)
     skip_hunt=False,      # skip Small/Big blinds in antes 2-12 for useful tags
     sixth_sense_hit=0.5,  # chance a round's first hand can be a lone 6 (Sixth Sense)
-    diet_cola=True,       # buy and sell every Diet Cola seen for a Double Tag, cash them in on a key tag
+    diet_cola=True,
+    rares=20,             # joker pool sizes (1.0.1o: 61 common / 64 uncommon / 20 rare / 5 legendary)
+    uncommons=64,
+    legendaries=5,
+    extra_voucher_sets=0, # 1.1 adds at least one set (Lunker); effect unknown, treated as neutral       # buy and sell every Diet Cola seen for a Double Tag, cash them in on a key tag
 )
 
 
@@ -257,7 +261,8 @@ class Run:
     # ------------------------------------------------------------ vouchers
     def voucher_draw(self):
         pool = []
-        for b, u in VOUCHER_PAIRS:
+        extra = [(f'New tier 1 #{i}', f'New tier 2 #{i}') for i in range(self.p['extra_voucher_sets'])]
+        for b, u in VOUCHER_PAIRS + extra:
             if b not in self.V:
                 pool.append(b)
             elif u not in self.V:
@@ -292,9 +297,9 @@ class Run:
 
     def joker_p(self, j, pjoker):
         if j in RARE_KEYS:
-            avail = RARES if self.own['Showman'] else RARES - self.owned_rares()
+            avail = self.p['rares'] if self.own['Showman'] else self.p['rares'] - self.owned_rares()
             return pjoker * 0.05 / max(avail, 1)
-        avail = UNCOMMONS if self.own['Showman'] else UNCOMMONS - self.owned_uncs()
+        avail = self.p['uncommons'] if self.own['Showman'] else self.p['uncommons'] - self.owned_uncs()
         return pjoker * 0.25 / max(avail, 1)
 
     def random_joker(self, rarity_roll=None):
@@ -303,10 +308,10 @@ class Run:
         if r < 0.70:
             return None
         if r < 0.95:
-            avail = UNCOMMONS if self.own['Showman'] else UNCOMMONS - self.owned_uncs()
+            avail = self.p['uncommons'] if self.own['Showman'] else self.p['uncommons'] - self.owned_uncs()
             cands = [j for j in w if j in UNC_KEYS]
         else:
-            avail = RARES if self.own['Showman'] else RARES - self.owned_rares()
+            avail = self.p['rares'] if self.own['Showman'] else self.p['rares'] - self.owned_rares()
             cands = [j for j in w if j in RARE_KEYS]
         if cands and self.rng.random() < len(cands) / max(avail, 1):
             return self.rng.choice(cands)
@@ -340,7 +345,7 @@ class Run:
         for f in found[:choose]:
             if f == 'Soul':
                 self.mark('a Soul')
-                if self.s in ('A', 'H') and not self.own['Perkeo'] and self.rng.random() < 0.2:
+                if self.s in ('A', 'H') and not self.own['Perkeo'] and self.rng.random() < 1 / self.p['legendaries']:
                     self.own['Perkeo'] = 1
             elif f == 'Ectoplasm':
                 self.ecto_held += 1
@@ -386,7 +391,7 @@ class Run:
                 if j in self.wants():
                     self.gain(j)
         if self.p['diet_cola'] and shop_wants:
-            avail = UNCOMMONS if self.own['Showman'] else UNCOMMONS - self.owned_uncs()
+            avail = self.p['uncommons'] if self.own['Showman'] else self.p['uncommons'] - self.owned_uncs()
             self.doubles += geometric_count(self.rng, n, pjoker * 0.25 / avail, 50)
         # booster packs
         packs = []

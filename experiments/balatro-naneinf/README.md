@@ -18,3 +18,21 @@ Files: `sim.py` (model), `grid.py` (scenario grid, cached in results/), `summari
 (supply curves), `deaths.py` (outcome breakdown), `cond.py` (A given Perkeo), `sens.py` (robustness).
 Stand-ins, not measured: money for rerolls, the scoring of the pre-Baron engine, deck building on time,
 no misplays, bosses other than The Serpent ignored.
+
+## Version check and 1.1 projection (Oct 14, 2026, `v11.py`)
+
+Latest playable build is still 1.0.1o (Friends of Jimbo 4, Feb 24 2025): Steam's news feed has no patch
+since, and 1.1 exists only as LocalThunk's Sept 2026 Discord preview. The wiki odds above are 1.0.1o's.
+1.1 as previewed: at least 4 new jokers (rarities unknown), a tier 2 voucher "Lunker" (a 17th set),
+a voucher rule "N tier 1s of M incomplete sets -> N in M chance of a tier 2" (the same odds as today's
+uniform draw, so unmodelled), all behind an opt-in profile toggle.
+
+| Typical economy, 40k runs | Perkeo Ghost | Plasma Burglar |
+|---|---|---|
+| 1.0.1o (current) | 1.56% | 8.87% |
+| 1.1, new jokers common | 1.51% | 7.20% |
+| 1.1, 2 uncommon + 2 rare | 1.19% | 6.15% |
+| 1.1, all 4 rare | 1.08% | 5.53% |
+
+Lean/rich, 20k runs: 1.0.1o A 0.39/3.52%, B 2.81/16.32%; 1.1 mixed A 0.29/3.29%, B 1.74/11.77%.
+The extra voucher set alone costs B ~1.7 points: it needs Antimatter, Retcon and Palette or Nacho Tong.
