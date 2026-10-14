@@ -1,0 +1,407 @@
+<title>Aksak Metronome</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an instrument, not a page. The grouping formula and the pulse ring on top (what you hear),
+   the controls under it (what you change), then a short field guide to the meters. One column on phones,
+   ring beside controls on wide screens. */
+:root {
+  --bg: #e9ecf1;          /* cool slate paper */
+  --surface: #f6f7fa;
+  --fg: #171a22;          /* drum-case ink */
+  --muted: #59606f;
+  --line: #c9ced9;
+  --brass: #8a5d0b;       /* cymbal brass: the accent, group starts */
+  --down: #c2410c;        /* the downbeat: one per cycle */
+  --second: #22698c;      /* the second ring in a polymeter */
+  --display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111319; --surface: #191c24; --fg: #e7e9ef; --muted: #9ba1b0; --line: #2c303c;
+  --brass: #e0b04f; --down: #ff7a45; --second: #6cb6d8; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111319; --surface: #191c24; --fg: #e7e9ef; --muted: #9ba1b0; --line: #2c303c;
+  --brass: #e0b04f; --down: #ff7a45; --second: #6cb6d8; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; }
+.wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 28px; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+button { font: inherit; color: inherit; }
+
+header { display: grid; gap: 4px; }
+h1 { font: 800 clamp(44px, 12vw, 72px)/0.9 var(--display); letter-spacing: .01em; margin: 0; text-transform: uppercase; }
+.sub { margin: 0; color: var(--muted); max-width: 52ch; }
+
+.instrument { display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 820px) { .instrument { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); } }
+
+.stage { display: grid; gap: 10px; justify-items: center; }
+.formula { font: 800 clamp(40px, 11vw, 64px)/1 var(--display); letter-spacing: .02em; display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 2px 0; }
+.formula .g { padding-inline: 1px; }
+.formula .plus { color: var(--muted); font-weight: 700; }
+.formula .over { margin-left: 12px; font: 500 15px var(--mono); color: var(--muted); letter-spacing: 0; }
+.formula.b { font-size: clamp(26px, 7vw, 36px); color: var(--second); }
+.formula.b .plus { color: var(--second); opacity: .7; }
+.ringbox { width: 100%; max-width: 380px; aspect-ratio: 1; }
+canvas { width: 100%; height: 100%; display: block; }
+.say { margin: 0; font: 15px var(--mono); color: var(--muted); text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 10px; min-height: 1.6em; }
+.say .grp { display: inline-flex; gap: 3px; }
+.say span.syl { padding: 0 2px; border-radius: 3px; }
+.say span.syl.first { color: var(--fg); font-weight: 500; }
+.say span.syl.on { background: var(--brass); color: var(--surface); }
+.say span.syl.on.down { background: var(--down); }
+
+.panel { display: grid; gap: 20px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.label { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.block { display: grid; gap: 8px; }
+
+.play { min-width: 128px; padding: 14px 22px; border-radius: 999px; border: 0; background: var(--fg); color: var(--bg); font: 800 22px var(--display); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.play[aria-pressed="true"] { background: var(--down); color: var(--surface); }
+.tempo { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; min-width: 0; }
+input[type=range] { flex: 1; min-width: 0; accent-color: var(--brass); height: 32px; }
+.bpm { font: 500 20px var(--mono); font-variant-numeric: tabular-nums; min-width: 3.2ch; text-align: right; }
+.unit { font: 12px var(--mono); color: var(--muted); }
+.ghost { padding: 9px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-size: 14px; }
+.ghost:hover { border-color: var(--muted); }
+
+.groups { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { position: relative; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.chip .n { padding: 8px 14px; border: 0; background: none; font: 800 24px/1 var(--display); cursor: pointer; min-width: 44px; }
+.chip .x { min-width: 38px; padding: 8px 12px; border: 0; border-left: 1px solid var(--line); background: none; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; align-self: stretch; }
+.chip .x:hover { color: var(--down); }
+.chip.first .n { color: var(--down); }
+.groups.b .chip .n { color: var(--second); }
+.add { display: inline-flex; gap: 6px; }
+.add button { padding: 8px 12px; border-radius: 10px; border: 1px dashed var(--line); background: none; cursor: pointer; font: 500 15px var(--mono); color: var(--muted); }
+.add button:hover { color: var(--fg); border-color: var(--muted); }
+.hint { margin: 0; font-size: 14px; color: var(--muted); }
+
+.presets { display: flex; flex-wrap: wrap; gap: 8px; }
+.preset { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; text-align: left; display: grid; gap: 1px; }
+.preset b { font: 700 15px var(--body); }
+.preset span { font: 12px var(--mono); color: var(--muted); }
+.preset[aria-pressed="true"] { border-color: var(--brass); box-shadow: inset 0 0 0 1px var(--brass); }
+
+.toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 15px; }
+.toggle input { width: 20px; height: 20px; accent-color: var(--brass); }
+.second { display: grid; gap: 8px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); }
+.second .label { color: var(--second); }
+.align { font: 14px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.align b { color: var(--fg); font-weight: 500; }
+
+.guide { display: grid; gap: 18px; border-top: 1px solid var(--line); padding-top: 24px; }
+.guide h2 { font: 800 30px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; margin: 0; text-wrap: balance; }
+.guide h3 { font: 700 17px var(--body); margin: 0; }
+.cols { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cols > div { display: grid; gap: 6px; align-content: start; }
+.cols p { margin: 0; max-width: 62ch; color: var(--fg); }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 15px; }
+th, td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
+th { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+td.g { font: 500 15px var(--mono); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main class="wrap">
+  <header>
+    <h1>Aksak</h1>
+    <p class="sub">A metronome for uneven meters. Group the pulses into twos and threes and hear where the long step falls.</p>
+  </header>
+
+  <section class="instrument" aria-label="Metronome">
+    <div class="stage">
+      <div class="formula" id="formula" aria-live="polite"></div>
+      <div class="formula b" id="formulaB" hidden></div>
+      <div class="ringbox"><canvas id="ring" role="img" aria-label="Pulse ring"></canvas></div>
+      <p class="say" id="say" aria-label="Spoken count"></p>
+    </div>
+
+    <div class="panel">
+      <div class="row">
+        <button class="play" id="play" type="button" aria-pressed="false">Play</button>
+        <div class="tempo">
+          <input type="range" id="tempo" min="60" max="600" step="2" value="280" aria-label="Pulses per minute">
+          <span class="bpm" id="bpm">280</span><span class="unit">pulses<br>/min</span>
+        </div>
+        <button class="ghost" id="tap" type="button">Tap</button>
+      </div>
+
+      <div class="block">
+        <span class="label">Grouping</span>
+        <div class="groups" id="groups"></div>
+        <p class="hint">Tap a number to cycle it through 2, 3 and 4. The first group starts the cycle.</p>
+      </div>
+
+      <div class="block">
+        <span class="label">Meters to try</span>
+        <div class="presets" id="presets"></div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <label class="toggle"><input type="checkbox" id="sub" checked> Click every pulse</label>
+          <label class="toggle"><input type="checkbox" id="bOn"> Second ring</label>
+        </div>
+        <div class="second" id="second" hidden>
+          <span class="label">Second ring</span>
+          <div class="groups b" id="groupsB"></div>
+          <p class="align" id="align"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide" aria-labelledby="guide-h">
+    <h2 id="guide-h">Same pulses, different dance</h2>
+    <div class="cols">
+      <div>
+        <h3>Why the grouping matters</h3>
+        <p>Seven pulses can be counted 2+2+3, 3+2+2 or 2+3+2. The count is the same; the feel is not, because the ear hears each group start as a step and the long group as a stretched one. Turkish musicians call these uneven meters <em>aksak</em>, “limping.”</p>
+      </div>
+      <div>
+        <h3>Two rings at once</h3>
+        <p>Turn on the second ring and give it a different length. Both rings share the pulse but loop on their own, so they drift apart and land together again after the least common multiple of their lengths. Seven against four meets every 28 pulses.</p>
+      </div>
+      <div>
+        <h3>Practicing it</h3>
+        <p>Start slow enough to say the syllables out loud: ta-ka for a two, ta-ki-ta for a three. Then turn off “click every pulse” so only group starts sound. In seven, strict alternate picking puts every other cycle's first note on an upstroke; practice it that way and restarting each cycle on a downstroke.</p>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Grouping</th><th>Name</th><th>Where it's from</th></tr></thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const SYL = { 2: ['ta', 'ka'], 3: ['ta', 'ki', 'ta'], 4: ['ta', 'ka', 'di', 'mi'] };
+  const PRESETS = [
+    { name: 'Tresillo', a: [3, 3, 2], from: 'Afro-Cuban; eight pulses grouped unevenly' },
+    { name: 'Five', a: [3, 2], from: 'The plainest odd meter, written 5/8 or 5/4' },
+    { name: 'Ruchenitsa', a: [2, 2, 3], from: 'Bulgarian dance, usually written 7/16' },
+    { name: 'Lesnoto', a: [3, 2, 2], from: 'Macedonian dance in 7/8, long step first' },
+    { name: 'Daychovo', a: [2, 2, 2, 3], from: 'Bulgarian dance in 9/16; Turkish karşılama groups 9/8 the same way' },
+    { name: 'Kopanitsa', a: [2, 2, 3, 2, 2], from: 'Bulgarian dance in 11/16, long step in the middle' },
+    { name: 'Thirteen', a: [3, 3, 3, 2, 2], from: 'One of several ways to split 13' },
+    { name: 'Hemiola', a: [3, 3], b: [2, 2, 2], from: 'Two threes against three twos in the same six pulses' },
+    { name: 'Seven over four', a: [2, 2, 3], b: [2, 2], from: 'A polymeter: the rings meet every 28 pulses' },
+  ];
+
+  /* ---------- state ---------- */
+  let st = { a: [2, 2, 3], b: [2, 2], bOn: false, bpm: 280, sub: true };
+  try { const s = JSON.parse(localStorage.getItem('aksak-v1') || 'null'); if (s && Array.isArray(s.a)) st = { ...st, ...s }; } catch (_) {}
+  const save = () => { try { localStorage.setItem('aksak-v1', JSON.stringify(st)); } catch (_) {} };
+  const sum = g => g.reduce((x, y) => x + y, 0);
+  const gcd = (x, y) => y ? gcd(y, x % y) : x;
+  const starts = g => { const s = new Set(); let k = 0; for (const n of g) { s.add(k); k += n; } return s; };
+
+  /* ---------- rendering the controls ---------- */
+  function renderFormula() {
+    const f = (g, extra) => g.map((n, i) => `<span class="g">${n}</span>${i < g.length - 1 ? '<span class="plus">+</span>' : ''}`).join('') + extra;
+    $('formula').innerHTML = f(st.a, `<span class="over">${sum(st.a)} pulses</span>`);
+    $('formulaB').hidden = !st.bOn;
+    if (st.bOn) $('formulaB').innerHTML = f(st.b, '');
+  }
+  function renderGroups(id, key) {
+    const g = st[key];
+    $(id).innerHTML = g.map((n, i) => `<span class="chip${i === 0 && key === 'a' ? ' first' : ''}"><button class="n" type="button" data-i="${i}" aria-label="Group ${i + 1}: ${n} pulses, tap to change">${n}</button>${g.length > 1 ? `<button class="x" type="button" data-x="${i}" aria-label="Remove group ${i + 1}">×</button>` : ''}</span>`).join('')
+      + (sum(g) < 30 && g.length < 9 ? `<span class="add"><button type="button" data-add="2">+2</button><button type="button" data-add="3">+3</button></span>` : '');
+  }
+  function renderSay() {
+    let k = 0;
+    $('say').innerHTML = st.a.map(n => `<span class="grp">${SYL[n].map((s, j) => `<span class="syl${j === 0 ? ' first' : ''}" data-p="${k++}">${s}</span>`).join('')}</span>`).join('');
+  }
+  function renderPresets() {
+    const same = (x, y) => x && y && x.length === y.length && x.every((v, i) => v === y[i]);
+    $('presets').innerHTML = PRESETS.map((p, i) => {
+      const on = same(p.a, st.a) && (p.b ? st.bOn && same(p.b, st.b) : !st.bOn);
+      return `<button class="preset" type="button" data-p="${i}" aria-pressed="${on}"><b>${p.name}</b><span>${p.a.join('+')}${p.b ? ' against ' + p.b.join('+') : ''}</span></button>`;
+    }).join('');
+  }
+  function renderAlign() {
+    const A = sum(st.a), B = sum(st.b), l = A * B / gcd(A, B);
+    $('align').innerHTML = `${A} against ${B}: the rings meet every <b>${l}</b> pulses (${l / A} cycles of the first, ${l / B} of the second).`;
+  }
+  function renderAll() {
+    renderFormula(); renderGroups('groups', 'a'); renderGroups('groupsB', 'b'); renderSay(); renderPresets(); renderAlign();
+    $('second').hidden = !st.bOn; $('bOn').checked = st.bOn; $('sub').checked = st.sub;
+    $('tempo').value = st.bpm; $('bpm').textContent = st.bpm;
+    draw(); save();
+  }
+  $('table').innerHTML = PRESETS.map(p => `<tr><td class="g">${p.a.join('+')}${p.b ? ' / ' + p.b.join('+') : ''}</td><td>${p.name}</td><td>${p.from}</td></tr>`).join('');
+
+  function editGroups(key, e) {
+    const g = st[key], t = e.target.closest('button'); if (!t) return;
+    if (t.dataset.i != null) { const i = +t.dataset.i; g[i] = g[i] === 4 ? 2 : g[i] + 1; if (sum(g) > 32) g[i] = 2; }
+    else if (t.dataset.x != null) g.splice(+t.dataset.x, 1);
+    else if (t.dataset.add) g.push(+t.dataset.add);
+    restartCount(); renderAll();
+  }
+  $('groups').addEventListener('click', e => editGroups('a', e));
+  $('groupsB').addEventListener('click', e => editGroups('b', e));
+  $('presets').addEventListener('click', e => {
+    const b = e.target.closest('.preset'); if (!b) return;
+    const p = PRESETS[+b.dataset.p];
+    st.a = [...p.a]; st.bOn = !!p.b; if (p.b) st.b = [...p.b];
+    restartCount(); renderAll();
+  });
+  $('sub').addEventListener('change', e => { st.sub = e.target.checked; save(); });
+  $('bOn').addEventListener('change', e => { st.bOn = e.target.checked; restartCount(); renderAll(); });
+  $('tempo').addEventListener('input', e => { st.bpm = +e.target.value; $('bpm').textContent = st.bpm; save(); });
+
+  let taps = [];
+  $('tap').addEventListener('click', () => {
+    const now = performance.now();
+    taps = taps.filter(t => now - t < 2500); taps.push(now);
+    if (taps.length >= 3) {
+      const gaps = taps.slice(1).map((t, i) => t - taps[i]);
+      const bpm = Math.round(60000 / (gaps.reduce((x, y) => x + y, 0) / gaps.length) / 2) * 2;
+      st.bpm = Math.max(60, Math.min(600, bpm)); $('tempo').value = st.bpm; $('bpm').textContent = st.bpm; save();
+    }
+  });
+
+  /* ---------- audio: a look-ahead scheduler, so timing comes from the audio clock ---------- */
+  let ctx = null, master = null, timer = null, nextTime = 0, count = 0, playing = false, wake = null;
+  const queue = [];               // [{t, i}] pulses scheduled, for the display
+  function restartCount() { count = 0; if (ctx && playing) nextTime = Math.max(nextTime, ctx.currentTime + 0.05); }
+
+  function env(t, peak, decay) { const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, t + decay); g.connect(master); return g; }
+  function tone(t, type, f, peak, decay, f2) {
+    const o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + decay * 0.7);
+    o.connect(env(t, peak, decay)); o.start(t); o.stop(t + decay + 0.02);
+  }
+  const kick = t => { tone(t, 'sine', 150, 0.9, 0.22, 45); tone(t, 'triangle', 1500, 0.35, 0.05); };
+  const block = t => tone(t, 'triangle', 1180, 0.45, 0.06);
+  const tick = t => tone(t, 'sine', 2600, 0.12, 0.03);
+  const bell = (t, strong) => { tone(t, 'sine', 820, strong ? 0.32 : 0.18, 0.28); tone(t, 'sine', 1232, strong ? 0.16 : 0.09, 0.2); };
+
+  function schedulePulse(i, t) {
+    const A = sum(st.a), pa = i % A, sa = starts(st.a);
+    if (pa === 0) kick(t); else if (sa.has(pa)) block(t); else if (st.sub) tick(t);
+    if (st.bOn) { const B = sum(st.b), pb = i % B; if (pb === 0) bell(t, true); else if (starts(st.b).has(pb)) bell(t, false); }
+    queue.push({ t, i });
+    if (queue.length > 64) queue.splice(0, queue.length - 64);
+  }
+  function scheduler() {
+    const ahead = document.hidden ? 1.5 : 0.12;           // background tabs throttle timers; schedule further ahead there
+    while (nextTime < ctx.currentTime + ahead) { schedulePulse(count, nextTime); nextTime += 60 / st.bpm; count++; }
+  }
+  async function start() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const comp = ctx.createDynamicsCompressor(); comp.connect(ctx.destination);
+      master = ctx.createGain(); master.gain.value = 0.8; master.connect(comp);
+    }
+    if (ctx.state === 'suspended') await ctx.resume();
+    count = 0; queue.length = 0; nextTime = ctx.currentTime + 0.08; playing = true;
+    timer = setInterval(scheduler, 25); scheduler();
+    $('play').textContent = 'Stop'; $('play').setAttribute('aria-pressed', 'true');
+    try { wake = await navigator.wakeLock?.request('screen'); } catch (_) { wake = null; }
+    requestAnimationFrame(frame);
+  }
+  function stop() {
+    playing = false; clearInterval(timer); timer = null; queue.length = 0;
+    $('play').textContent = 'Play'; $('play').setAttribute('aria-pressed', 'false');
+    try { wake?.release(); } catch (_) {} wake = null;
+    current = -1; draw(); highlight(-1);
+  }
+  $('play').addEventListener('click', () => playing ? stop() : start());
+  document.addEventListener('keydown', e => { if (e.code === 'Space' && !e.target.closest('input, button')) { e.preventDefault(); playing ? stop() : start(); } });
+
+  /* ---------- the ring ---------- */
+  const canvas = $('ring'), g2 = canvas.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let colors = {}, current = -1, frac = 0;
+  function readColors() {
+    const cs = getComputedStyle(document.documentElement);
+    for (const k of ['fg', 'muted', 'line', 'brass', 'down', 'second', 'surface', 'display']) colors[k] = cs.getPropertyValue('--' + k).trim();
+  }
+  function size() {
+    const r = canvas.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+    g2.setTransform(dpr, 0, 0, dpr, 0, 0); return r.width;
+  }
+  function ringOf(groups, R, color, pos, isA) {
+    const N = sum(groups), ang = k => -Math.PI / 2 + 2 * Math.PI * k / N, cx = W / 2, cy = W / 2;
+    let k = 0;
+    for (const n of groups) {                       // one arc per group, spanning its own pulses; the gaps mark group edges
+      g2.beginPath(); g2.arc(cx, cy, R, ang(k), ang(k + n - 1));
+      g2.strokeStyle = color; g2.globalAlpha = 0.3; g2.lineWidth = isA ? 12 : 9; g2.lineCap = 'round'; g2.stroke(); g2.globalAlpha = 1;
+      k += n;
+    }
+    const sa = starts(groups);
+    for (let p = 0; p < N; p++) {
+      const a = ang(p), x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+      const down = p === 0, st0 = sa.has(p), on = p === pos;
+      const r = down ? (isA ? 11 : 9) : st0 ? (isA ? 8 : 7) : (isA ? 4.5 : 4);
+      g2.beginPath(); g2.arc(x, y, on ? r + 3 : r, 0, 2 * Math.PI);
+      g2.fillStyle = on ? (down && isA ? colors.down : color) : down && isA ? colors.down : st0 ? color : colors.muted;
+      g2.fill();
+    }
+  }
+  let W = 0;
+  function draw() {
+    if (!colors.fg) readColors();
+    W = size(); g2.clearRect(0, 0, W, W);
+    const R = W / 2 - 18, A = sum(st.a);
+    const posA = current >= 0 ? current % A : -1;
+    if (current >= 0) {                              // the hand
+      const p = reduce.matches ? posA : (current + frac) % A;
+      const a = -Math.PI / 2 + 2 * Math.PI * p / A;
+      g2.beginPath(); g2.moveTo(W / 2, W / 2); g2.lineTo(W / 2 + (R - 16) * Math.cos(a), W / 2 + (R - 16) * Math.sin(a));
+      g2.strokeStyle = colors.muted; g2.globalAlpha = 0.5; g2.lineWidth = 2; g2.lineCap = 'round'; g2.stroke(); g2.globalAlpha = 1;
+    }
+    ringOf(st.a, R, colors.brass, posA, true);
+    if (st.bOn) { const B = sum(st.b); ringOf(st.b, R * 0.6, colors.second, current >= 0 ? current % B : -1, false); }
+    // centre: the pulse count, or where the two rings stand
+    g2.fillStyle = colors.fg; g2.textAlign = 'center'; g2.textBaseline = 'middle';
+    const fam = colors.display || 'sans-serif';
+    if (!st.bOn) {
+      g2.font = `800 ${Math.round(W * 0.2)}px ${fam}`; g2.fillText(String(A), W / 2, W / 2 - W * 0.02);
+      g2.fillStyle = colors.muted; g2.font = `500 ${Math.max(11, Math.round(W * 0.035))}px "IBM Plex Mono", monospace`; g2.fillText('PULSES', W / 2, W / 2 + W * 0.1);
+    } else {
+      const B = sum(st.b), l = A * B / gcd(A, B), left = current >= 0 ? l - (current % l) : l;
+      g2.font = `800 ${Math.round(W * 0.11)}px ${fam}`; g2.fillText(String(left), W / 2, W / 2 - W * 0.015);
+      g2.fillStyle = colors.muted; g2.font = `500 ${Math.max(11, Math.round(W * 0.032))}px "IBM Plex Mono", monospace`; g2.fillText('PULSES TO MEET', W / 2, W / 2 + W * 0.065);
+    }
+  }
+  let lastHi = -2;
+  function highlight(p) {
+    if (p === lastHi) return; lastHi = p;
+    $('say').querySelectorAll('.syl.on').forEach(s => s.classList.remove('on', 'down'));
+    if (p < 0) return;
+    const s = $('say').querySelector(`.syl[data-p="${p}"]`); if (s) { s.classList.add('on'); if (p === 0) s.classList.add('down'); }
+  }
+  function frame() {
+    if (!playing) return;
+    const now = ctx.currentTime; let ev = null;
+    for (const q of queue) if (q.t <= now) ev = q; else break;
+    if (ev) {
+      current = ev.i; frac = Math.min(1, (now - ev.t) / (60 / st.bpm));
+      highlight(current % sum(st.a));
+    }
+    draw(); requestAnimationFrame(frame);
+  }
+
+  const themeChanged = () => { readColors(); draw(); };
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeChanged);
+  new MutationObserver(themeChanged).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  new ResizeObserver(() => draw()).observe(canvas);
+  document.fonts?.ready.then(draw);
+  renderAll();
+})();
+</script>
