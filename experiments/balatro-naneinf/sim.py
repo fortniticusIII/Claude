@@ -210,6 +210,10 @@ class Run:
                   'Omen Globe', 'Reroll Glut'):
             if v in self.V: self.mark(v)
         if self.slots() >= 7: self.mark('7 slots')
+        if self.s in ('B', 'H') and self.own['Burglar'] and self.engine() and self.burglar_attempt(float('inf')):
+            self.mark('Burglar finish pieces')
+            if 'Retcon' in self.V:
+                self.mark('Burglar finish pieces + Retcon')
 
     # ------------------------------------------------------------ wants
     def ecto_limit(self):
@@ -473,7 +477,18 @@ class Run:
         """Best log10 Mult the run can put up on one blind."""
         best = self.p['bridge'] if self.ante >= 9 else 99
         if not self.engine():
-            return best
+            # Baron alone or Mime alone still scores off held Red Seal (Steel) Kings; copies go on whichever is owned
+            cop = min(self.copiers(), max(self.k_cap(), 0))
+            if self.own['Baron']:
+                s_part = 2 * (1 + self.own['Baron'] + cop)
+            elif self.own['Mime']:
+                s_part = 2 + self.own['Mime'] + cop
+            else:
+                s_part = 2
+            held = self.hand_size() + extra_held - 1
+            if serpent:
+                held += 2 * (4 + ('Grabber' in self.V) + ('Nacho Tong' in self.V) + 3 + ('Wasteful' in self.V) + ('Recyclomancy' in self.V) - 1)
+            return max(best, held * LOG15 * s_part + BASEMULT_LOG)
         k = self.k_used()
         hs = self.hand_size() + extra_held
         held = hs - 1

@@ -55,3 +55,30 @@ Charm resets: P(Perkeo) 0.041% per reset (~2,430 resets per Perkeo); a run that 
 32.8%. 85% of the plan's time is resetting, so it beats the Plasma plan when a look takes under ~8 s,
 or when deep antes take 20+ minutes (results/timing_breakeven.json). Resetting barely helps the Plasma
 plan: its failures (no Baron+Mime by 17, slots/hands by 24-26) are not visible early.
+
+## The simulated Plasma player, a weaker early game, and how many seeds hold the pieces (`weak.py`)
+
+What the simulated player does: antes 1-8 are assumed won (their shops, packs, tags and vouchers count).
+From ante 9 each blind is scored: the best of a fixed pre-Baron engine ("bridge", log10 Mult) and the held
+Red Seal Steel King engine (Baron and/or Mime plus copies, exact arithmetic). It skips Small/Big blinds it
+can't beat; bosses are mandatory, using The Serpent when Retcon (or a Director's Cut reroll) allows. Shops:
+rerolls with the economy scenario's budget while hunting; buys Baron, Mime, Blueprint, Brainstorm (more with
+Showman, up to its slots), Showman, Invisible Joker, Burglar, Turtle Bean or DNA from ante 18; buys and sells
+Diet Cola for Double Tags and skips for Voucher/Rare tags with them; opens every Buffoon, Arcana and Spectral
+pack; one Ectoplasm (two if every slot already holds a copy). Vouchers: everything except Tarot Tycoon,
+Planet Merchant/Tycoon and Hieroglyph. Money is an input (gold-king economy is not simulated), and so is
+deck building.
+
+Since this change, Baron alone or Mime alone also scores off held kings (it raised B at bridge 12 from 9.0%
+to 10.1%; the earlier tables predate it). Typical economy, 20k runs:
+
+| Pre-Baron engine (log10 Mult) | dies without Baron at (Plasma) | Plasma Burglar | Perkeo Ghost |
+|---|---|---|---|
+| 3.5 | ante 11 | 5.83% | 0.78% |
+| 5 | ante 13 | 6.73% | |
+| 8 | ante 15 | 7.41% | |
+| 12 | ante 17 | 10.12% | 1.76% |
+
+Supply if the run never dies (every blind played): every Burglar-finish piece (Baron, Mime, 4 copies,
+Burglar, 7 slots, enough hands and hand size) by ante 24 / 26 / 31 in 19.6 / 28.7 / 47.7% of seeds;
+with Retcon as well, 11.9 / 19.8 / 39.8%.
