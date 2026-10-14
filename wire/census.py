@@ -19,6 +19,7 @@ into the publication week its sitemap file covers.
 from __future__ import annotations
 
 import datetime as dt
+from collections import Counter
 import gzip
 import json
 import os
@@ -74,13 +75,31 @@ def aljazeera(start: dt.date, end: dt.date):
             yield {"d": _path_day(loc), "link": loc}
 
 
+def _kyiv_week(stamp: str):
+    try:
+        t = dt.datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return t.astimezone(ZoneInfo("Europe/Kyiv")).isocalendar()[:2]
+
+
 def ukrinform(start: dt.date, end: dt.date):
+    """Weekly files /sitemap/YYYY/WW.xml exist only once a week is over; the week in progress is
+    /sitemap/currentweek.xml (found Oct 14, 2026: until then the census silently missed it)."""
     weeks, d = set(), start
     while d <= end:
         weeks.add(d.isocalendar()[:2]); d += dt.timedelta(days=1)
+    current = None
     for y, w in sorted(weeks):
         mon = dt.date.fromisocalendar(y, w, 1)
-        for loc, mod in _urls(_get(f"https://www.ukrinform.net/sitemap/{y}/{w:02d}.xml")):
+        rows = list(_urls(_get(f"https://www.ukrinform.net/sitemap/{y}/{w:02d}.xml")))
+        if not rows:                       # 404 page: this week isn't filed yet
+            if current is None:
+                current = list(_urls(_get("https://www.ukrinform.net/sitemap/currentweek.xml", ttl=600)))
+            held = Counter(_kyiv_week(m) for _, m in current if m).most_common(1)
+            if held and held[0][0] == (y, w):
+                rows = current
+        for loc, mod in rows:
             day = _eastern_day(mod) or mon.isoformat()
             day = min(max(day, mon.isoformat()), (mon + dt.timedelta(days=6)).isoformat())
             yield {"d": day, "link": loc}
