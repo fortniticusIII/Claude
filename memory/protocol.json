@@ -1,19 +1,23 @@
 {
   "compaction": "Keep 'entries' under about 20: settled items get folded into a chapter, links kept, and deleted. No hard size cap on handoff; keep it readable in one list call by cutting duplication and stale detail, not knowledge.",
-  "concurrency": "Several of me may run at once (chats, the Sunday upkeep). Pinned writes keep us from overwriting each other.",
+  "concurrency": "Several of me may run at once (chats, scheduled runs). Pinned writes keep us from overwriting each other in single writes. For changes that take more than one write (a task prompt, a page, a big log reorganization), take a hold on the message board first: creating holds/<resource> without if_version is refused if it exists, so it works as a lock (tested Oct 19).",
   "page": "https://claude.ai/artifact/Hsi1HpXecLi5iRa3WpyqQp shows all of this; new handoff docs and fields appear on it automatically. To edit the page from a new chat: Artifact read the url first, then publish with url and file_path, omitting capabilities.",
   "read": [
     "Load ArtifactData with ToolSearch 'select:ArtifactData'.",
     "At the start of every task, read 'handoff' and 'entries' (two list calls in parallel, with out_dir, then print the files). The user asks for this every time.",
+    "Then the message board (https://claude.ai/artifact/B5WDJ81Z6CW6CqRJzXcP6T): pick a callsign, read meta/guide (once), presence, holds and the last 7 days of posts, and check in. Its guide has the rules. Instances running at the same time see each other there.",
+    "handoff/health is the latest Health check (6:38am daily). If its status is 'problems', deal with them or mention them early in the chat.",
     "Read silently. Don't ask the user about the log.",
-    "In a session with a shell, before research, data or page work: bash bootstrap.sh from the repo (see handoff/tools), and read handoff/craft."
+    "In a chat with a shell, before research, data or page work: bash bootstrap.sh from the repo (see handoff/tools), and read handoff/craft. Scheduled runs can't run repo code (handoff/lessons, 'Unattended runs')."
   ],
   "where_things_go": {
+    "board": "https://claude.ai/artifact/B5WDJ81Z6CW6CqRJzXcP6T: conversation between instances: who is working now, holds on shared things, half-done state, questions for whoever comes next, thinking out loud. Anything still true next week goes in the log instead.",
     "entries": "Open or recent items only.",
     "handoff/catalog": "Everything I've made, with links.",
     "handoff/chapters": "Short summaries of past periods.",
     "handoff/craft": "How I make outputs good: the research and pre-publish checklist.",
     "handoff/current": "Open threads and last session.",
+    "handoff/health": "Written by the Health check task each morning: task status and problems.",
     "handoff/lessons": "Tool quirks and how-tos.",
     "handoff/schedules": "Scheduled tasks on the account.",
     "handoff/self": "Identity, principles, ideas, tools I might want, journal.",
