@@ -7,7 +7,7 @@ The Wire is a database-backed page. A scheduled task reads every feed in `feeds.
 ## Storage
 
 - `feeds`: one doc per feed: name, url, region, kind, optional `skip` rule, plus health fields (status, last_ok, last_count, last_error).
-- `items`: one doc per feed per day, id `<YYYYMMDD>-<feed id>`, body `{feed, source, region, day, run, items: [{t, title, link, summary}]}`. Kept 14 days.
+- `items`: one doc per feed per day, id `<YYYYMMDD>-<feed id>`, body `{feed, source, region, day, run, items: [{t, title, link, summary}]}`. Kept 100 days (14 until Oct 19, 2026).
 - `meta/status`: last_run, window_from, added, feeds_ok, feeds_failed, note.
 
 ## Each run (WebFetch method, now the fallback)
@@ -22,7 +22,7 @@ The Wire is a database-backed page. A scheduled task reads every feed in `feeds.
 3. Parse on ` | `. Drop items older than the window (some feeds ignore it), apply the feed's skip rule, and drop links already stored for today or yesterday.
 4. Store only title, link, time and the one-sentence summary. Never more of a story than that.
 5. Mark feeds that fail as failing. A refusal (blocked site, robots.txt) is final: never route around it.
-6. Delete items docs older than 14 days.
+6. Delete items docs older than 100 days.
 
 ## Lessons from the first run (Oct 12, 2026)
 

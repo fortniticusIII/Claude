@@ -1,12 +1,12 @@
-"""Long-term archive of what the Wire collected. The Wire deletes stories after 14 days; this keeps
+"""Long-term archive of what the Wire collected. The Wire keeps stories 100 days (14 until Oct 19, 2026); this keeps
 headline, link, time and feed (never summaries) in wire/archive/YYYY-MM.jsonl.gz, one line per story.
 
     1. ArtifactData list 'items' on the Wire with out_dir=DUMP (limit 1000; page with the cursor if more).
     2. python3 -m wire.archive DUMP/items
     3. Commit wire/archive/.
 
-Re-running over overlapping dumps is safe: lines are keyed by link. Run at least every 14 days (the
-Sunday upkeep does it weekly) or stories are lost. For six outlets with no history route (Africanews,
+Re-running over overlapping dumps is safe: lines are keyed by link. Run at least every 100 days (the
+Sunday upkeep does it weekly; the Daily Pulse builds the same copy locally each morning) or stories are lost. For six outlets with no history route (Africanews,
 BleepingComputer, JPost, Meduza, NPR World, Taipei Times) this archive is the only record, and the
 Pulse starts using them once four weeks have built up.
 """

@@ -267,7 +267,9 @@ input[type=search] { font: 15px var(--mono); width: 100%; min-width: 0; padding:
     const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
     if (!db) { $('pulse-body').innerHTML = ''; $('list').innerHTML = '<div class="empty">The wire can’t load in this view. Open the page while signed in to Claude.</div>'; $('status').innerHTML = ''; return; }
     const lost = () => { $('list').innerHTML = '<div class="empty">The wire stopped updating. Reload the page to reconnect.</div>'; };
-    db.collection('items').limit(1000).onSnapshot(snap => { setStories(snap.docs.map(d => d.data())); renderChips(); renderList(); renderStatus(); }, lost);
+    // The wire keeps 100 days of stories (for the Pulse); this page shows the last 14.
+    const since = new Date(Date.now() - 14 * 864e5).toISOString().slice(0, 10);
+    db.collection('items').where('day', '>=', since).limit(1000).onSnapshot(snap => { setStories(snap.docs.map(d => d.data())); renderChips(); renderList(); renderStatus(); }, lost);
     db.collection('feeds').limit(200).onSnapshot(snap => { feeds = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderFeeds(); renderStatus(); }, lost);
     db.doc('meta/status').onSnapshot(snap => { meta = snap.exists ? snap.data() : null; renderStatus(); }, lost);
     // Two readings: 'daily' (every morning) and 'latest' (the weekly one, Sundays). Show the fresher.

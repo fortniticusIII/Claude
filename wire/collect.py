@@ -5,6 +5,11 @@ Why (audit, Oct 13 2026): the WebFetch collector missed 80 of 213 stories that s
 (21 of 30) and the whole day's Taipei Times. WebFetch appears to serve stale copies of some feeds and
 summarises others unevenly. Parsing the XML gets every item with its exact time, title and link.
 
+Scheduled runs (since Oct 19, 2026): the Wire collector task does not clone this repo, because scheduled sessions
+refuse to run code cloned from GitHub ("Code from External"). Its prompt holds a stripped copy of this file
+(docstrings, comments and the feedparser branch removed) plus the copy's sha256. After editing this file,
+regenerate that copy, test it against a live dump, and update the task prompt with update_trigger.
+
 Usage (any session whose shell reaches the open web):
     1. ArtifactData list 'feeds' and query 'items' where day in [today, yesterday], both with
        out_dir=DUMP (files land in DUMP/feeds and DUMP/items). The dump files hold no versions, so
@@ -45,7 +50,7 @@ from zoneinfo import ZoneInfo
 EASTERN = ZoneInfo("America/New_York")
 UA = "TheWire/1.0 (personal news collector; +https://github.com/fortniticusIII/Claude)"
 WINDOW_HOURS = 30
-KEEP_DAYS = 14
+KEEP_DAYS = 100   # since Oct 19, 2026 (was 14): a missed weekly archive can no longer lose stories
 
 
 def load(folder, coll, versions):
