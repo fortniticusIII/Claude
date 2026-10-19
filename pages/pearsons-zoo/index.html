@@ -1,0 +1,365 @@
+<title>Pearson's Zoo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,500;0,700;1,500&family=Noto+Sans:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lab notebook page. The dish first (live, tappable), the rule that drives it, then the catalogue of Pearson's classes. The dish can also show the whole F-k plane at once, with each class's letter where it lives. */
+:root {
+  --paper: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #1b2340;
+  --mid: #6f8fc9;
+  --muted: #5a6378;
+  --line: #d6dbe5;
+  --accent: #b03a2e;
+  --display: "Noto Serif Display", Georgia, "Times New Roman", serif;
+  --body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0f1320; --surface: #161b2b; --ink: #e6f0ff; --mid: #4f78b8; --muted: #9aa6bf; --line: #283149; --accent: #ff8a7a; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #0f1320; --surface: #161b2b; --ink: #e6f0ff; --mid: #4f78b8; --muted: #9aa6bf; --line: #283149; --accent: #ff8a7a; color-scheme: dark; }
+
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 26px; }
+header { display: grid; gap: 10px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 10vw, 68px); line-height: .95; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 60ch; font-size: 17px; }
+h2 { font-family: var(--display); font-weight: 500; font-size: 26px; margin: 0; }
+p { margin: 0; max-width: 64ch; }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* the dish */
+.bench { display: grid; gap: 12px; }
+.dishbox { position: relative; width: 100%; max-width: 640px; aspect-ratio: 1; margin: 0 auto; }
+canvas#dish { width: 100%; height: 100%; display: block; border-radius: 50%; background: var(--paper); box-shadow: 0 0 0 1px var(--line), 0 0 0 10px var(--surface), 0 0 0 11px var(--line); touch-action: none; cursor: crosshair; }
+.dishbox.map canvas#dish { border-radius: 4px; box-shadow: 0 0 0 1px var(--line); }
+.labels { position: absolute; inset: 0; pointer-events: none; }
+.labels span { position: absolute; transform: translate(-50%, -50%); font: italic 500 20px var(--display); color: var(--accent); text-shadow: 0 0 3px var(--paper), 0 0 6px var(--paper); }
+.axis { position: absolute; font: 11px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.axis.x { bottom: -20px; transform: translateX(-50%); }
+.axis.y { left: -6px; transform: translate(-100%, -50%); }
+.dishbox.map { margin-bottom: 22px; margin-left: 40px; width: calc(100% - 40px); }
+.readout { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; justify-content: center; font: 13px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.readout b { color: var(--ink); font-weight: 500; }
+.readout .cls { font: italic 500 18px var(--display); color: var(--accent); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+button { font: 600 14px var(--body); padding: 10px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+button[aria-pressed="true"] { border-color: var(--ink); }
+label.speed { display: flex; align-items: center; gap: 8px; font: 13px var(--mono); color: var(--muted); }
+input[type=range] { width: 120px; accent-color: var(--accent); }
+.hint { text-align: center; font-size: 14px; color: var(--muted); margin: 0 auto; }
+
+/* the rule */
+.rule { display: grid; gap: 10px; }
+.eq { font: 15px var(--mono); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; overflow-x: auto; line-height: 1.9; white-space: nowrap; }
+.eq i { font-family: var(--display); font-size: 17px; }
+
+/* catalogue */
+.cat { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+.cls-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; text-align: left; font-weight: 400; padding: 12px 14px; }
+.cls-card .gl { grid-row: span 2; font: italic 500 34px/1 var(--display); color: var(--accent); }
+.cls-card .fk { font: 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.cls-card .d { grid-column: 2; font-size: 14px; line-height: 1.4; }
+.cls-card[aria-pressed="true"] { border-color: var(--accent); }
+.foot { font-size: 14px; color: var(--muted); display: grid; gap: 6px; }
+@media (max-width: 460px) { .dishbox.map { margin-left: 34px; width: calc(100% - 34px); } .labels span { font-size: 16px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Pearson's Zoo</h1>
+    <p class="lede">Two chemicals in a dish and one rule. Turn two dials, F and k, and the same rule grows spots, worms, mazes, spirals or nothing at all.</p>
+  </header>
+
+  <section class="bench" aria-label="The dish">
+    <div class="dishbox" id="dishbox">
+      <canvas id="dish" width="256" height="256" aria-label="Live Gray-Scott simulation"></canvas>
+      <div class="labels" id="labels" hidden></div>
+    </div>
+    <div class="readout" id="readout"></div>
+    <div class="controls">
+      <button type="button" id="mode" aria-pressed="false">Show the whole map</button>
+      <button type="button" id="play">Pause</button>
+      <button type="button" id="reseed">Reseed</button>
+      <label class="speed" for="speed">speed <input type="range" id="speed" min="1" max="48" value="12"></label>
+    </div>
+    <p class="hint" id="hint">Drag on the dish to drop in more V.</p>
+  </section>
+
+  <section class="rule" aria-labelledby="rule-h">
+    <h2 id="rule-h">The rule</h2>
+    <p>U is fed into the dish at rate F. Wherever two V meet a U, they turn it into a third V. V is drained away at rate F + k. Both spread out, U twice as fast as V. That is all of it: the Gray-Scott model.</p>
+    <div class="eq" role="math" aria-label="du/dt = Du times laplacian of u, minus u v squared, plus F times 1 minus u. dv/dt = Dv times laplacian of v, plus u v squared, minus F plus k times v.">
+      ∂<i>u</i>/∂<i>t</i> = D<sub>u</sub>∇²<i>u</i> − <i>uv</i>² + <i>F</i>(1 − <i>u</i>)<br>
+      ∂<i>v</i>/∂<i>t</i> = D<sub>v</sub>∇²<i>v</i> + <i>uv</i>² − (<i>F</i> + <i>k</i>)<i>v</i>
+    </div>
+    <p>In 1993 John Pearson swept F and k on a computer and sorted what grew into classes he named with Greek letters. Robert Munafo later simulated the whole plane and refined the list. Pick a class below to grow it from Pearson's starting square, or show the whole map: one simulation where k rises left to right and F rises bottom to top, so every class grows in its own neighbourhood at once.</p>
+  </section>
+
+  <section aria-labelledby="cat-h" style="display:grid;gap:12px">
+    <h2 id="cat-h">The classes</h2>
+    <div class="cat" id="cat"></div>
+  </section>
+
+  <div class="foot">
+    <p>Sources: J. E. Pearson, <a href="https://doi.org/10.1126/science.261.5118.189" target="_blank" rel="noopener">Complex Patterns in a Simple System</a>, Science 261 (1993); class parameters and descriptions after Robert Munafo, <a href="https://mrob.com/pub/comp/xmorphia/pearson-classes.html" target="_blank" rel="noopener">Pearson's classification</a>.</p>
+    <p>The dish wraps around at its edges. Diffusion 0.2097 and 0.105 per step on a square grid, the usual scaling for Munafo's map.</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const CLASSES = [
+    ['α', 'alpha', 0.010, 0.047, 'Wavelets and young spirals that keep splitting and wiping each other out.'],
+    ['β', 'beta', 0.014, 0.039, 'Chaos where empty patches tear open and fill back in.'],
+    ['γ', 'gamma', 0.022, 0.051, 'Branching worms that never settle.'],
+    ['δ', 'delta', 0.030, 0.055, 'Holes that line up into a hexagonal grid.'],
+    ['ε', 'epsilon', 0.018, 0.055, 'Restless spots: rings, splitting and dying out.'],
+    ['ζ', 'zeta', 0.022, 0.061, 'Calmer spots that split and mostly survive.'],
+    ['η', 'eta', 0.034, 0.063, 'Spots and worms that finally freeze in place.'],
+    ['θ', 'theta', 0.030, 0.057, 'Spots swell into rings, then join up as stripes.'],
+    ['ι', 'iota', 0.046, 0.0594, 'Holes that drift and bump like molecules.'],
+    ['κ', 'kappa', 0.050, 0.063, 'Stripes that branch into hedgerow mazes.'],
+    ['λ', 'lambda', 0.026, 0.061, 'Single spots that divide by mitosis until a grid fills the dish.'],
+    ['μ', 'mu', 0.046, 0.065, 'Worms that grow from both ends and line up in parallel.'],
+    ['ν', 'nu', 0.054, 0.067, 'Inert spots that never divide and slowly spread apart.'],
+    ['ξ', 'xi', 0.010, 0.041, 'Big turning spirals, like the Belousov-Zhabotinsky reaction.'],
+    ['π', 'pi', 0.062, 0.061, 'Moving holes and bits of structure that orbit and trade places.'],
+    ['ρ', 'rho', 0.090, 0.059, 'Soap bubbles: cells of empty dish walled by stripes.'],
+    ['σ', 'sigma', 0.090, 0.057, 'Inverse bubbles: filled cells walled by empty stripes.'],
+  ];
+  const MAP = { fmin: 0.0, fmax: 0.115, kmin: 0.035, kmax: 0.072 };
+  const DU = 0.2097, DV = 0.105;
+
+  let mode = 'single', cur = 10, F = CLASSES[10][2], K = CLASSES[10][3], running = true, steps = 12, total = 0, warm = 0;
+  let brush = null;
+
+  // theme colours for the renderer
+  function hex(v) { v = v.trim(); if (v[0] === '#') v = v.slice(1); if (v.length === 3) v = v.split('').map(c => c + c).join(''); const n = parseInt(v, 16); return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255]; }
+  let colors;
+  function readColors() { const s = getComputedStyle(document.documentElement); colors = { paper: hex(s.getPropertyValue('--paper')), mid: hex(s.getPropertyValue('--mid')), ink: hex(s.getPropertyValue('--ink')) }; }
+  readColors();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors);
+  new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  function seedField(n, isMap) {
+    const a = new Float32Array(n * n * 4);
+    for (let i = 0; i < n * n; i++) { a[i * 4] = 1 + (Math.random() - .5) * .02; a[i * 4 + 1] = (Math.random()) * .01; a[i * 4 + 3] = 1; }
+    const squares = isMap ? Math.round(n * n / 1800) : 6, s = isMap ? Math.max(4, n >> 6) : Math.max(6, n >> 4);
+    for (let q = 0; q < squares; q++) {
+      const cx = isMap ? Math.floor(Math.random() * (n - s)) : Math.floor(n / 2 - s / 2 + (q ? (Math.random() - .5) * n * .6 : 0));
+      const cy = isMap ? Math.floor(Math.random() * (n - s)) : Math.floor(n / 2 - s / 2 + (q ? (Math.random() - .5) * n * .6 : 0));
+      for (let y = cy; y < cy + s; y++) for (let x = cx; x < cx + s; x++) { const i = (y * n + x) * 4; a[i] = .5 + (Math.random() - .5) * .02; a[i + 1] = .25 + (Math.random() - .5) * .02; }
+    }
+    return a;
+  }
+
+  /* ---------- GPU path (WebGL2, float textures) ---------- */
+  function makeGPU(canvas) {
+    const gl = canvas.getContext('webgl2', { antialias: false, preserveDrawingBuffer: true });
+    if (!gl || !gl.getExtension('EXT_color_buffer_float')) return null;
+    const vs = `#version 300 es
+in vec2 p; out vec2 vUv; void main(){ vUv = p * .5 + .5; gl_Position = vec4(p, 0., 1.); }`;
+    const simFs = `#version 300 es
+precision highp float;
+uniform sampler2D S; uniform vec2 tx; uniform float F, K; uniform int mapMode; uniform vec4 fk; uniform vec3 brush;
+in vec2 vUv; out vec4 o;
+void main(){
+  vec2 c = texture(S, vUv).rg;
+  vec2 l = texture(S, vUv + vec2(tx.x, 0.)).rg + texture(S, vUv - vec2(tx.x, 0.)).rg
+         + texture(S, vUv + vec2(0., tx.y)).rg + texture(S, vUv - vec2(0., tx.y)).rg - 4. * c;
+  float f = F, k = K;
+  if (mapMode == 1) { f = mix(fk.x, fk.y, vUv.y); k = mix(fk.z, fk.w, vUv.x); }
+  float uvv = c.r * c.g * c.g;
+  vec2 n = clamp(c + vec2(${DU} * l.r - uvv + f * (1. - c.r), ${DV} * l.g + uvv - (f + k) * c.g), 0., 1.);
+  if (brush.z > 0.) { vec2 d = (vUv - brush.xy) / tx; if (dot(d, d) < brush.z * brush.z) n = vec2(.5, .25); }
+  o = vec4(n, 0., 1.);
+}`;
+    const showFs = `#version 300 es
+precision highp float;
+uniform sampler2D S; uniform vec3 paper, mid, ink; in vec2 vUv; out vec4 o;
+void main(){ float v = texture(S, vUv).g; float t = smoothstep(.04, .34, v);
+  vec3 c = mix(paper, mid, smoothstep(0., .55, t)); c = mix(c, ink, smoothstep(.55, 1., t)); o = vec4(c, 1.); }`;
+    function prog(fs) {
+      const p = gl.createProgram();
+      for (const [type, src] of [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]]) {
+        const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+        gl.attachShader(p, s);
+      }
+      gl.bindAttribLocation(p, 0, 'p'); gl.linkProgram(p);
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+      const u = {}; for (let i = 0; i < gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); i++) { const n = gl.getActiveUniform(p, i).name; u[n] = gl.getUniformLocation(p, n); }
+      return { p, u };
+    }
+    const sim = prog(simFs), show = prog(showFs);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    let n = 0, tex = [], fb = [], src = 0;
+    function reset(size, data, wrap) {
+      tex.forEach(t => gl.deleteTexture(t)); fb.forEach(f => gl.deleteFramebuffer(f)); tex = []; fb = [];
+      n = size; canvas.width = canvas.height = size;
+      for (let i = 0; i < 2; i++) {
+        const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, n, n, 0, gl.RGBA, gl.FLOAT, data);
+        for (const [p, v] of [[gl.TEXTURE_MIN_FILTER, gl.NEAREST], [gl.TEXTURE_MAG_FILTER, gl.NEAREST], [gl.TEXTURE_WRAP_S, wrap], [gl.TEXTURE_WRAP_T, wrap]]) gl.texParameteri(gl.TEXTURE_2D, p, v);
+        const f = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+        tex.push(t); fb.push(f);
+      }
+      src = 0;
+    }
+    return {
+      kind: 'gpu',
+      reset(size, isMap) { reset(size, seedField(size, isMap), isMap ? gl.CLAMP_TO_EDGE : gl.REPEAT); },
+      step(count, p) {
+        gl.useProgram(sim.p); gl.viewport(0, 0, n, n);
+        gl.uniform2f(sim.u.tx, 1 / n, 1 / n); gl.uniform1f(sim.u.F, p.F); gl.uniform1f(sim.u.K, p.K);
+        gl.uniform1i(sim.u.mapMode, p.map ? 1 : 0); gl.uniform4f(sim.u.fk, MAP.fmin, MAP.fmax, MAP.kmin, MAP.kmax); gl.uniform1i(sim.u.S, 0);
+        gl.activeTexture(gl.TEXTURE0);
+        for (let i = 0; i < count; i++) {
+          const b = i === 0 && p.brush ? p.brush : null;
+          gl.uniform3f(sim.u.brush, b ? b[0] : 0, b ? b[1] : 0, b ? b[2] : 0);
+          gl.bindTexture(gl.TEXTURE_2D, tex[src]); gl.bindFramebuffer(gl.FRAMEBUFFER, fb[1 - src]);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); src = 1 - src;
+        }
+      },
+      draw() {
+        gl.useProgram(show.p); gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, n, n);
+        gl.bindTexture(gl.TEXTURE_2D, tex[src]); gl.uniform1i(show.u.S, 0);
+        gl.uniform3fv(show.u.paper, colors.paper); gl.uniform3fv(show.u.mid, colors.mid); gl.uniform3fv(show.u.ink, colors.ink);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
+    };
+  }
+
+  /* ---------- CPU fallback (smaller grid) ---------- */
+  function makeCPU(canvas) {
+    const ctx = canvas.getContext('2d');
+    let n = 0, u, v, u2, v2, img, wrap = true;
+    return {
+      kind: 'cpu',
+      reset(size, isMap) {
+        n = size; canvas.width = canvas.height = n; wrap = !isMap;
+        const a = seedField(n, isMap); u = new Float32Array(n * n); v = new Float32Array(n * n);
+        for (let i = 0; i < n * n; i++) { u[i] = a[i * 4]; v[i] = a[i * 4 + 1]; }
+        u2 = new Float32Array(n * n); v2 = new Float32Array(n * n); img = ctx.createImageData(n, n);
+      },
+      step(count, p) {
+        for (let s = 0; s < count; s++) {
+          if (s === 0 && p.brush) { const [bx, by, r] = p.brush; for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const dx = x - bx * n, dy = (n - 1 - y) - by * n; if (dx * dx + dy * dy < r * r) { u[y * n + x] = .5; v[y * n + x] = .25; } } }
+          for (let y = 0; y < n; y++) {
+            const ym = wrap ? (y + n - 1) % n : Math.max(0, y - 1), yp = wrap ? (y + 1) % n : Math.min(n - 1, y + 1);
+            const f = p.map ? MAP.fmin + (MAP.fmax - MAP.fmin) * (1 - (y + .5) / n) : p.F;
+            for (let x = 0; x < n; x++) {
+              const xm = wrap ? (x + n - 1) % n : Math.max(0, x - 1), xp = wrap ? (x + 1) % n : Math.min(n - 1, x + 1);
+              const k = p.map ? MAP.kmin + (MAP.kmax - MAP.kmin) * ((x + .5) / n) : p.K;
+              const i = y * n + x, uu = u[i], vv = v[i], uvv = uu * vv * vv;
+              const lu = u[y * n + xm] + u[y * n + xp] + u[ym * n + x] + u[yp * n + x] - 4 * uu;
+              const lv = v[y * n + xm] + v[y * n + xp] + v[ym * n + x] + v[yp * n + x] - 4 * vv;
+              u2[i] = Math.min(1, Math.max(0, uu + DU * lu - uvv + f * (1 - uu)));
+              v2[i] = Math.min(1, Math.max(0, vv + DV * lv + uvv - (f + k) * vv));
+            }
+          }
+          [u, u2] = [u2, u]; [v, v2] = [v2, v];
+        }
+      },
+      draw() {
+        const d = img.data, sm = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+        for (let i = 0; i < n * n; i++) {
+          const t = sm(.04, .34, v[i]), t1 = sm(0, .55, t), t2 = sm(.55, 1, t);
+          for (let c = 0; c < 3; c++) { const a = colors.paper[c] + (colors.mid[c] - colors.paper[c]) * t1; d[i * 4 + c] = 255 * (a + (colors.ink[c] - a) * t2); }
+          d[i * 4 + 3] = 255;
+        }
+        ctx.putImageData(img, 0, 0);
+      }
+    };
+  }
+
+  const canvas = $('dish');
+  let eng = null;
+  try { eng = makeGPU(canvas); } catch (e) { eng = null; }
+  if (!eng) eng = makeCPU(canvas);
+  const SIZE = eng.kind === 'gpu' ? { single: 256, map: 512 } : { single: 128, map: 160 };
+  if (eng.kind === 'cpu') { steps = 4; $('speed').max = 12; $('speed').value = 4; }
+
+  function fmt(x) { return x.toFixed(x < .1 && String(x).length > 5 ? 4 : 3); }
+  function readout() {
+    if (mode === 'map') {
+      $('readout').innerHTML = `<span>k <b>${MAP.kmin.toFixed(3)}–${MAP.kmax.toFixed(3)}</b> left to right</span><span>F <b>${MAP.fmin.toFixed(3)}–${MAP.fmax.toFixed(3)}</b> bottom to top</span><span>step <b>${total.toLocaleString()}</b></span>`;
+      return;
+    }
+    const c = cur >= 0 ? CLASSES[cur] : null;
+    $('readout').innerHTML = (c ? `<span class="cls">${c[0]}</span>` : '<span class="cls">·</span>') +
+      `<span>F <b>${fmt(F)}</b></span><span>k <b>${fmt(K)}</b></span><span>step <b>${total.toLocaleString()}</b></span>`;
+  }
+
+  function placeLabels() {
+    const box = $('labels');
+    if (mode !== 'map') { box.hidden = true; return; }
+    const pos = (f, k) => [(k - MAP.kmin) / (MAP.kmax - MAP.kmin) * 100, (1 - (f - MAP.fmin) / (MAP.fmax - MAP.fmin)) * 100];
+    let html = CLASSES.map(c => { const [x, y] = pos(c[2], c[3]); return `<span style="left:${x}%;top:${y}%">${c[0]}</span>`; }).join('');
+    for (const k of [0.04, 0.05, 0.06, 0.07]) html += `<em class="axis x" style="left:${(k - MAP.kmin) / (MAP.kmax - MAP.kmin) * 100}%">k ${k.toFixed(2)}</em>`;
+    for (const f of [0, 0.03, 0.06, 0.09]) html += `<em class="axis y" style="top:${(1 - (f - MAP.fmin) / (MAP.fmax - MAP.fmin)) * 100}%">F ${f.toFixed(2)}</em>`;
+    box.innerHTML = html; box.hidden = false;
+  }
+
+  function start(newMode) {
+    mode = newMode; total = 0; warm = eng.kind === 'gpu' ? (mode === 'map' ? 2400 : 1200) : 0;
+    $('dishbox').classList.toggle('map', mode === 'map');
+    $('mode').textContent = mode === 'map' ? 'Back to one class' : 'Show the whole map';
+    $('mode').setAttribute('aria-pressed', String(mode === 'map'));
+    $('hint').textContent = mode === 'map' ? 'Tap anywhere on the map to grow that spot of the plane on its own.' : 'Drag on the dish to drop in more V.';
+    eng.reset(SIZE[mode], mode === 'map');
+    placeLabels(); readout(); renderCat();
+  }
+
+  function renderCat() {
+    $('cat').innerHTML = CLASSES.map((c, i) => `<button type="button" class="cls-card" data-i="${i}" aria-pressed="${mode === 'single' && i === cur}">
+      <span class="gl" aria-hidden="true">${c[0]}</span><span class="fk">${c[1]} · F ${fmt(c[2])} · k ${fmt(c[3])}</span><span class="d">${c[4]}</span></button>`).join('');
+  }
+
+  $('cat').addEventListener('click', e => {
+    const b = e.target.closest('.cls-card'); if (!b) return;
+    cur = +b.dataset.i; F = CLASSES[cur][2]; K = CLASSES[cur][3]; start('single');
+    $('dishbox').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+  });
+  $('mode').addEventListener('click', () => start(mode === 'map' ? 'single' : 'map'));
+  $('reseed').addEventListener('click', () => start(mode));
+  $('play').addEventListener('click', () => { running = !running; $('play').textContent = running ? 'Pause' : 'Play'; });
+  $('speed').addEventListener('input', e => { steps = +e.target.value; });
+
+  function where(e) { const r = canvas.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, 1 - (e.clientY - r.top) / r.height]; }
+  let down = false;
+  canvas.addEventListener('pointerdown', e => {
+    const [x, y] = where(e);
+    if (mode === 'map') {
+      K = MAP.kmin + x * (MAP.kmax - MAP.kmin); F = MAP.fmin + y * (MAP.fmax - MAP.fmin);
+      let best = -1, bd = 1e9; CLASSES.forEach((c, i) => { const d = ((c[2] - F) / .115) ** 2 + ((c[3] - K) / .037) ** 2; if (d < bd) { bd = d; best = i; } });
+      cur = bd < .0025 ? best : -1; start('single'); return;
+    }
+    down = true; canvas.setPointerCapture(e.pointerId); brush = [x, y, Math.max(3, SIZE.single / 40)];
+  });
+  canvas.addEventListener('pointermove', e => { if (down) { const [x, y] = where(e); brush = [x, y, Math.max(3, SIZE.single / 40)]; } });
+  for (const t of ['pointerup', 'pointercancel']) canvas.addEventListener(t, () => { down = false; });
+
+  let last = 0;
+  function frame(t) {
+    const p = { F, K, map: mode === 'map', brush };
+    if (warm > 0) { const c = Math.min(warm, eng.kind === 'gpu' ? 300 : 0); eng.step(c, p); warm -= c; total += c; p.brush = null; }
+    if (running) { eng.step(steps, p); total += steps; }
+    else if (brush) eng.step(1, p);
+    brush = null;
+    eng.draw();
+    if (t - last > 250) { readout(); last = t; }
+    requestAnimationFrame(frame);
+  }
+  start('single');
+  requestAnimationFrame(frame);
+})();
+</script>
